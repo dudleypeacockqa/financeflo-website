@@ -1,10 +1,15 @@
 /*
  * Design: Data Cartography — FinanceFlo.ai
- * Solutions: Service offerings — Sage Intacct, AI Development, Integration
+ * Solutions: Sage Intacct, AI Development, Pricing Tiers, Maintenance Pillars
+ * Consulting hybrid model: client hosts, we maintain
  */
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, BarChart3, Brain, Building2, Cloud, Cog, Database, LineChart, Lock, Repeat, Shield, TrendingUp, Zap } from "lucide-react";
+import {
+  ArrowRight, BarChart3, Brain, Building2, Cloud, Cog, Database,
+  LineChart, Lock, Repeat, Shield, TrendingUp, Zap, Eye,
+  GraduationCap, RefreshCw, CheckCircle2
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 const SAGE_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/tPdbnfOAsVngxSte.png";
@@ -27,6 +32,62 @@ const aiSolutions = [
   { icon: Cog, title: "Integration Bots", desc: "Custom AI agents that automate data flows between Sage Intacct and your existing systems (Whimbrel, CRM, etc.).", tag: "RPA" },
 ];
 
+const maintenancePillars = [
+  { icon: Eye, title: "System Health Monitoring & Alerting", desc: "Proactive monitoring of all integrations, API health, data pipeline integrity, and system performance." },
+  { icon: TrendingUp, title: "Performance & Cost Optimisation", desc: "Monthly review of API costs, query performance, model accuracy, and infrastructure efficiency." },
+  { icon: Shield, title: "Security & Compliance Management", desc: "Regular security audits, access reviews, compliance checks, and vulnerability assessments." },
+  { icon: RefreshCw, title: "Future-Proofing & Strategic Updates", desc: "Stay ahead with new Sage Intacct features, AI model retraining, and technology roadmap updates." },
+  { icon: GraduationCap, title: "User Adoption & Training", desc: "Ongoing training programmes, documentation updates, and change management support for your team." },
+];
+
+const pricingTiers = [
+  {
+    name: "AI Operations Audit",
+    price: "£5,000 – £15,000",
+    period: "one-time",
+    desc: "The essential starting point. We diagnose before we prescribe.",
+    features: [
+      "Current-state process map (where time/money leaks)",
+      "ROI stack (levers + numbers + assumptions)",
+      "Prioritised roadmap (quick wins + bigger plays)",
+      "Implementation plan (phases, owners, timeline)",
+      "Cost of Inaction calculation",
+    ],
+    cta: "Start With an Audit",
+    featured: true,
+  },
+  {
+    name: "Implementation",
+    price: "Scoped from audit",
+    period: "project-based",
+    desc: "Build and deploy. Time & materials or fixed-price based on audit findings.",
+    features: [
+      "Sage Intacct configuration & deployment",
+      "Data migration & validation",
+      "Custom AI solution development",
+      "Integration with existing systems",
+      "Team training & documentation",
+      "Full handoff with Loom walkthroughs",
+    ],
+    cta: "Get Scoped",
+  },
+  {
+    name: "Ongoing Retainer",
+    price: "From £8,000/mo",
+    period: "monthly",
+    desc: "You own the infrastructure. We keep it running and evolving.",
+    features: [
+      "All 5 maintenance pillars included",
+      "Defined monthly hours + scope",
+      "Priority support & availability windows",
+      "Monthly performance reports",
+      "Quarterly strategic reviews",
+      "New builds always separate (keeps expansion alive)",
+    ],
+    cta: "Discuss Retainer",
+  },
+];
+
 export default function Solutions() {
   return (
     <div className="min-h-screen pt-24">
@@ -40,8 +101,25 @@ export default function Solutions() {
               <span className="text-gradient-teal">Mid-Market Fit</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We combine Sage Intacct's best-in-class financial management platform with custom AI solutions tailored to your business. No generic implementations — every solution is designed around your specific workflows and goals.
+              We combine Sage Intacct's best-in-class financial management with custom AI solutions to remove the constraints blocking your next growth phase. No generic implementations — every solution is designed around your specific workflows and goals.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Delivery Model */}
+      <section className="py-12 border-b border-border/30 bg-navy-dark/50">
+        <div className="container">
+          <div className="glass-panel p-6 flex flex-col sm:flex-row items-start gap-6" style={{ borderRadius: "var(--radius-lg)" }}>
+            <div className="w-12 h-12 rounded-lg bg-teal/10 border border-teal/30 flex items-center justify-center shrink-0">
+              <Building2 className="w-6 h-6 text-teal" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-1" style={{ fontFamily: "var(--font-heading)" }}>Our Delivery Model: You Own It, We Maintain It</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                You own the infrastructure and pay hosting + API costs directly. We keep admin access for upgrades, fixes, and optimisation (contract-defined). Full handoff happens with documentation, Loom walkthroughs, and training. This means you're never locked in — but we stay embedded as your strategic technology partner.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -89,7 +167,7 @@ export default function Solutions() {
               <div className="glass-panel p-5 mt-6" style={{ borderRadius: "var(--radius)" }}>
                 <h4 className="font-semibold text-sm mb-2 text-amber" style={{ fontFamily: "var(--font-heading)" }}>Why Not Just Sage One?</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Sage One (Sage Business Cloud Accounting) is designed for small businesses with a single entity. When you manage multiple companies, need real-time consolidation, multi-currency support, and dimensional reporting, Sage Intacct is the clear choice. It scales with your group without the limitations.
+                  Sage One is designed for single-entity small businesses. When you manage multiple companies, need real-time consolidation, multi-currency support, dimensional reporting, and API-first architecture for AI integration — Sage Intacct is the clear choice.
                 </p>
               </div>
             </div>
@@ -106,7 +184,7 @@ export default function Solutions() {
               Custom AI Solutions
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Built on top of Sage Intacct, our AI solutions use machine learning, natural language processing, and reinforcement learning to transform your finance function from reactive to predictive.
+              Built on top of Sage Intacct, our AI solutions use machine learning, natural language processing, and reinforcement learning to transform your finance function from reactive to predictive. Every solution is applied <em>after</em> QDOAA optimisation.
             </p>
           </div>
 
@@ -133,6 +211,99 @@ export default function Solutions() {
         </div>
       </section>
 
+      {/* Maintenance Pillars */}
+      <section className="py-20 border-t border-border/30">
+        <div className="container">
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono text-amber uppercase tracking-widest">Ongoing Support</span>
+            <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+              5 Maintenance Pillars
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Our retainer model covers five critical pillars that keep your systems healthy, secure, and evolving. Maintenance isn't new builds — it's strategic stewardship.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {maintenancePillars.map((pillar, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className="glass-panel p-6"
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                <pillar.icon className="w-7 h-7 text-amber mb-4" />
+                <h4 className="font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>{pillar.title}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{pillar.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Tiers */}
+      <section className="py-20 border-t border-border/30">
+        <div className="container">
+          <div className="text-center mb-12">
+            <span className="text-xs font-mono text-teal uppercase tracking-widest">Pricing</span>
+            <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+              Transparent Engagement Models
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              We price like consultants, not vendors. The anchor is always: "What is this problem costing you?" Our pricing reflects the severity of your constraints, not just the complexity of the solution.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {pricingTiers.map((tier, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className={`glass-panel p-6 relative flex flex-col ${tier.featured ? "border-teal/40 glow-teal" : ""}`}
+                style={{ borderRadius: "var(--radius-lg)" }}
+              >
+                {tier.featured && (
+                  <div className="absolute -top-3 left-6 px-3 py-1 bg-teal text-navy-dark text-xs font-bold rounded-full">
+                    Start Here
+                  </div>
+                )}
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>{tier.name}</h3>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-2xl font-bold text-amber">{tier.price}</span>
+                    <span className="text-xs text-muted-foreground">{tier.period}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">{tier.desc}</p>
+                <ul className="space-y-2 mb-6 flex-1">
+                  {tier.features.map((feat, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-teal shrink-0 mt-0.5" />
+                      <span className="text-foreground">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/assessment">
+                  <Button
+                    className={`w-full gap-2 ${tier.featured ? "bg-teal text-navy-dark font-bold hover:bg-teal/90" : "bg-navy-light border border-border/50 text-foreground hover:bg-navy-light/80"}`}
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {tier.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Integration Note */}
       <section className="py-16 border-t border-border/30">
         <div className="container">
@@ -144,8 +315,8 @@ export default function Solutions() {
               Already using Whimbrel, Sage 200, or another platform? We don't replace what works — we integrate, enhance, and build AI layers on top. Your team keeps the tools they know while gaining powerful new capabilities.
             </p>
             <Link href="/assessment">
-              <Button className="bg-teal text-navy-dark font-semibold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-                Assess Your Integration Needs
+              <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
+                Diagnose Your Constraints
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

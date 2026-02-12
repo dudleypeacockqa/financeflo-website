@@ -1,65 +1,107 @@
 /*
  * Design: Data Cartography — FinanceFlo.ai
- * ADAPT Framework: Detailed methodology page with phase breakdowns
+ * ADAPT Framework: Detailed methodology page with QDOAA integration
  */
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, Search, Compass, Cog, FlaskConical, Rocket } from "lucide-react";
+import {
+  ArrowRight, Search, Compass, Zap, Rocket, TrendingUp,
+  CheckCircle2, Target, Clock, Shield, Users, Brain
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 const ADAPT_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/FEyzInVFNQbEObNl.png";
-const OVERVIEW_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/NekNNmenRaESBYYw.png";
 
 const phases = [
   {
     letter: "A",
     name: "Assess",
     icon: Search,
-    duration: "2–3 weeks",
-    tagline: "Understand where you are",
-    description: "We conduct a thorough assessment of your current financial systems, data maturity, team capabilities, and business objectives. This phase maps the terrain before we chart the course.",
-    deliverables: ["Current State Analysis Report", "Data Maturity Scorecard", "Stakeholder Interview Findings", "Gap Analysis & Opportunity Map"],
-    activities: ["Financial systems audit", "Data quality assessment", "Team capability mapping", "Process documentation", "Integration landscape review"],
+    duration: "2-3 weeks",
+    color: "text-teal",
+    bg: "bg-teal/10",
+    border: "border-teal/30",
+    desc: "We map your current-state processes, diagnose constraints, and calculate the real Cost of Inaction. This isn't a generic questionnaire — it's a deep operational audit.",
+    deliverables: [
+      "Current-state process map (where time and money leak)",
+      "Constraint diagnosis (capacity, knowledge, or process)",
+      "ROI stack with levers, numbers, and assumptions",
+      "Cost of Inaction calculation",
+      "Prioritised roadmap (quick wins + bigger plays)",
+    ],
+    qdoaa: "During Assess, we apply the first two steps of QDOAA: Question why each step exists, and Delete unnecessary steps. This typically eliminates 30-40% of processes before any technology is considered.",
   },
   {
     letter: "D",
     name: "Design",
     icon: Compass,
-    duration: "3–4 weeks",
-    tagline: "Chart the optimal path",
-    description: "Based on the assessment findings, we design the optimal Sage Intacct configuration, AI integration architecture, and transformation roadmap tailored to your specific needs.",
-    deliverables: ["Solution Architecture Document", "Sage Intacct Configuration Blueprint", "AI Integration Roadmap", "Change Management Plan"],
-    activities: ["Solution architecture design", "Sage Intacct configuration planning", "AI use case prioritisation", "Integration mapping", "Timeline and milestone planning"],
+    duration: "2-4 weeks",
+    color: "text-amber",
+    bg: "bg-amber/10",
+    border: "border-amber/30",
+    desc: "We architect the optimal solution — Sage Intacct configuration, AI integration points, data migration strategy, and change management plan. Every design decision is tied to a specific constraint.",
+    deliverables: [
+      "System architecture document",
+      "Sage Intacct configuration blueprint",
+      "AI solution specifications",
+      "Data migration plan with validation rules",
+      "Change management & training plan",
+    ],
+    qdoaa: "Design applies QDOAA step 3: Optimise. We refine the remaining processes to their most efficient form before adding any technology layer.",
   },
   {
     letter: "A",
     name: "Automate",
-    icon: Cog,
-    duration: "6–10 weeks",
-    tagline: "Build intelligent foundations",
-    description: "We implement Sage Intacct with your custom configuration, migrate data, and deploy the first wave of intelligent automation across your core financial processes.",
-    deliverables: ["Configured Sage Intacct Instance", "Data Migration Completion", "Automated Workflows", "Integration Connectors"],
-    activities: ["Sage Intacct implementation", "Historical data migration", "Workflow automation setup", "System integration build", "User acceptance testing"],
+    icon: Zap,
+    duration: "4-12 weeks",
+    color: "text-teal",
+    bg: "bg-teal/10",
+    border: "border-teal/30",
+    desc: "We build and deploy. Sage Intacct goes live, AI solutions are developed, integrations are connected, and your team is trained. This is where constraints start disappearing.",
+    deliverables: [
+      "Sage Intacct deployment (multi-entity, multi-currency)",
+      "Custom AI solution development and testing",
+      "System integrations (Whimbrel, CRM, banking, etc.)",
+      "Data migration and validation",
+      "Team training with Loom walkthroughs",
+    ],
+    qdoaa: "Automate applies QDOAA steps 4 and 5: Accelerate (make faster without adding people) and then Automate with AI. This ensures AI is applied to optimised processes, not broken ones.",
   },
   {
     letter: "P",
     name: "Pilot",
-    icon: FlaskConical,
-    duration: "4–6 weeks",
-    tagline: "Prove value with quick wins",
-    description: "We deploy targeted AI solutions with measurable KPIs. This phase focuses on demonstrating ROI quickly — typically starting with the highest-impact, lowest-risk use cases.",
-    deliverables: ["AI Pilot Deployment", "KPI Dashboard", "ROI Measurement Report", "User Training Completion"],
-    activities: ["AI model deployment", "Performance monitoring", "User training and adoption", "KPI tracking and reporting", "Iterative refinement"],
+    icon: Rocket,
+    duration: "4-8 weeks",
+    color: "text-amber",
+    bg: "bg-amber/10",
+    border: "border-amber/30",
+    desc: "We deploy targeted AI solutions with measurable KPIs. Start with one high-impact use case, prove ROI, then expand. This de-risks the entire transformation.",
+    deliverables: [
+      "Pilot deployment with defined success metrics",
+      "Weekly performance monitoring and reporting",
+      "User feedback collection and iteration",
+      "ROI validation against audit projections",
+      "Go/no-go decision framework for scaling",
+    ],
+    qdoaa: "The Pilot phase validates that QDOAA was applied correctly. If the pilot doesn't hit projected ROI, we revisit the earlier steps before scaling.",
   },
   {
     letter: "T",
     name: "Transform",
-    icon: Rocket,
+    icon: TrendingUp,
     duration: "Ongoing",
-    tagline: "Scale and evolve continuously",
-    description: "With proven results from the pilot, we scale AI across the organisation. This phase establishes continuous learning loops and positions your finance function as a strategic AI-powered asset.",
-    deliverables: ["Scaled AI Solutions", "Continuous Improvement Framework", "Advanced Analytics Suite", "Strategic Roadmap Updates"],
-    activities: ["Enterprise-wide AI rollout", "Advanced model training", "Predictive analytics deployment", "Continuous optimisation", "Quarterly strategic reviews"],
+    color: "text-teal",
+    bg: "bg-teal/10",
+    border: "border-teal/30",
+    desc: "Scale AI across the organisation. Transition to our retainer model for ongoing optimisation, monitoring, and strategic evolution. You own the infrastructure — we keep it running.",
+    deliverables: [
+      "Full-scale deployment across all entities",
+      "Ongoing retainer with 5 maintenance pillars",
+      "Quarterly strategic reviews and roadmap updates",
+      "Continuous AI model retraining and optimisation",
+      "New capability development (separate from maintenance)",
+    ],
+    qdoaa: "Transform is where QDOAA becomes a continuous practice. Your team applies the framework to every new process, ensuring AI is always solving the right problems.",
   },
 ];
 
@@ -76,20 +118,47 @@ export default function ADAPTFramework() {
                 The ADAPT{" "}
                 <span className="text-gradient-teal">Framework</span>
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                A proven five-phase methodology that transforms your finance function from legacy systems to AI-powered intelligence — without disrupting your business operations.
+              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+                A proven five-phase methodology that takes your finance function from legacy systems to AI-powered intelligence — without disrupting your business.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                ADAPT stands for <strong className="text-foreground">Assess, Design, Automate, Pilot, Transform</strong>. Each phase builds on the previous, creating a structured, low-risk path to financial transformation.
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                ADAPT integrates our QDOAA optimisation framework at every phase, ensuring AI is applied to the right problems in the right order. The result: smaller, cheaper, more effective implementations that your team actually adopts.
               </p>
+              <Link href="/assessment">
+                <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
+                  Start Your Assessment
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
             <div>
               <img
                 src={ADAPT_IMG}
-                alt="ADAPT Framework"
+                alt="ADAPT Framework Visualization"
                 className="w-full rounded-lg object-contain glow-teal"
-                style={{ maxHeight: "400px" }}
+                style={{ maxHeight: "450px" }}
               />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* QDOAA Integration */}
+      <section className="py-12 border-b border-border/30 bg-navy-dark/50">
+        <div className="container">
+          <div className="glass-panel p-6" style={{ borderRadius: "var(--radius-lg)" }}>
+            <div className="flex flex-col sm:flex-row items-start gap-6">
+              <div className="w-12 h-12 rounded-lg bg-amber/10 border border-amber/30 flex items-center justify-center shrink-0">
+                <Brain className="w-6 h-6 text-amber" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                  Built on QDOAA: Question → Delete → Optimise → Accelerate → Automate
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Every phase of ADAPT applies the QDOAA framework. Before we add any technology, we question why each step exists, delete what's unnecessary, optimise what remains, and accelerate without adding people. <strong className="text-foreground">Only then do we automate with AI.</strong> This is why our implementations succeed where others fail — we don't automate broken processes.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -99,106 +168,111 @@ export default function ADAPTFramework() {
       <section className="py-20">
         <div className="container">
           <div className="space-y-16">
-            {phases.map((phase, i) => {
-              const PhaseIcon = phase.icon;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-                >
-                  {/* Phase indicator */}
-                  <div className="lg:col-span-2 flex lg:flex-col items-center lg:items-start gap-4">
-                    <div className="w-16 h-16 rounded-lg bg-teal/10 border border-teal/30 flex items-center justify-center shrink-0">
-                      <span className="text-2xl font-bold text-teal font-mono">{phase.letter}</span>
+            {phases.map((phase, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="glass-panel p-8"
+                style={{ borderRadius: "var(--radius-lg)" }}
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Phase Header */}
+                  <div className="lg:col-span-1">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className={`w-14 h-14 rounded-lg ${phase.bg} ${phase.border} border flex items-center justify-center`}>
+                        <span className={`text-2xl font-bold font-mono ${phase.color}`}>{phase.letter}</span>
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>{phase.name}</h3>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                          <Clock className="w-3 h-3" />
+                          {phase.duration}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>{phase.name}</h3>
-                      <span className="text-xs font-mono text-muted-foreground">{phase.duration}</span>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="lg:col-span-6">
-                    <p className="text-sm text-teal font-semibold mb-2 italic">{phase.tagline}</p>
-                    <p className="text-muted-foreground leading-relaxed mb-6">{phase.description}</p>
-                    <div>
-                      <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-                        <PhaseIcon className="w-4 h-4 text-teal" /> Key Activities
-                      </h4>
-                      <ul className="space-y-2">
-                        {phase.activities.map((activity, j) => (
-                          <li key={j} className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="w-1.5 h-1.5 rounded-full bg-teal/60 shrink-0" />
-                            {activity}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{phase.desc}</p>
                   </div>
 
                   {/* Deliverables */}
-                  <div className="lg:col-span-4">
-                    <div className="glass-panel p-5" style={{ borderRadius: "var(--radius)" }}>
-                      <h4 className="text-sm font-semibold text-amber mb-3" style={{ fontFamily: "var(--font-heading)" }}>Deliverables</h4>
-                      <ul className="space-y-2">
-                        {phase.deliverables.map((del, j) => (
-                          <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber/60 shrink-0 mt-1.5" />
-                            {del}
-                          </li>
-                        ))}
-                      </ul>
+                  <div className="lg:col-span-1">
+                    <h4 className="text-sm font-semibold text-foreground mb-3" style={{ fontFamily: "var(--font-heading)" }}>Deliverables</h4>
+                    <ul className="space-y-2">
+                      {phase.deliverables.map((d, j) => (
+                        <li key={j} className="flex items-start gap-2 text-sm">
+                          <CheckCircle2 className={`w-4 h-4 ${phase.color} shrink-0 mt-0.5`} />
+                          <span className="text-muted-foreground">{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* QDOAA Integration */}
+                  <div className="lg:col-span-1">
+                    <div className={`p-4 rounded-lg ${phase.bg} ${phase.border} border`}>
+                      <h4 className="text-sm font-semibold text-foreground mb-2" style={{ fontFamily: "var(--font-heading)" }}>QDOAA in This Phase</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{phase.qdoaa}</p>
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Overview Image */}
-      <section className="py-16 border-t border-border/30">
-        <div className="container text-center">
-          <h2 className="text-2xl font-bold mb-8" style={{ fontFamily: "var(--font-heading)" }}>
-            Framework Overview
-          </h2>
-          <img
-            src={OVERVIEW_IMG}
-            alt="ADAPT Framework Overview"
-            className="w-full max-w-4xl mx-auto rounded-lg object-contain"
-          />
+      {/* Why ADAPT Works */}
+      <section className="py-20 border-t border-border/30">
+        <div className="container">
+          <div className="text-center mb-12">
+            <span className="text-xs font-mono text-teal uppercase tracking-widest">Results</span>
+            <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+              Why ADAPT Works
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Target, title: "Constraint-First", desc: "We diagnose before we prescribe. Every intervention targets a specific bottleneck." },
+              { icon: Shield, title: "De-Risked", desc: "Start with an audit, prove value with a pilot, then scale. No massive upfront commitments." },
+              { icon: Users, title: "Team-Centric", desc: "Your team helps design the solution. Change management is built in, not bolted on." },
+              { icon: TrendingUp, title: "ROI-Validated", desc: "Every phase has measurable KPIs. If the numbers don't work, we adjust before scaling." },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className="glass-panel p-6 text-center"
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                <item.icon className="w-8 h-8 text-teal mx-auto mb-3" />
+                <h4 className="font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>{item.title}</h4>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 border-t border-border/30">
-        <div className="container">
-          <div className="glass-panel p-8 text-center glow-teal" style={{ borderRadius: "var(--radius-lg)" }}>
-            <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
-              Start Your ADAPT Journey
-            </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-              Take our AI Readiness Assessment to discover which ADAPT phase is right for your organisation, and receive a personalised transformation roadmap.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/assessment">
-                <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
-                  Take the Assessment
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-              <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
-                  Book a Strategy Call
-                </Button>
-              </a>
-            </div>
-          </div>
+      <section className="py-20 border-t border-border/30">
+        <div className="container text-center">
+          <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+            Ready to Start Your ADAPT Journey?
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+            Take our 5-minute Constraint Diagnosis to identify where your business model breaks at scale and receive a personalised ADAPT roadmap.
+          </p>
+          <Link href="/assessment">
+            <Button size="lg" className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber text-base px-8" style={{ fontFamily: "var(--font-heading)" }}>
+              Diagnose Your Constraints
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

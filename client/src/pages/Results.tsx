@@ -1,55 +1,104 @@
 /*
  * Design: Data Cartography — FinanceFlo.ai
- * Results: Personalised AI readiness score with recommendations
+ * Results: Constraint diagnosis, Cost of Inaction calculator, ROI projections,
+ * tiered engagement recommendations, and proposal generation
  */
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { ArrowRight, Download, CheckCircle2, AlertTriangle, Zap } from "lucide-react";
+import {
+  ArrowRight, Download, CheckCircle2, AlertTriangle, Zap,
+  DollarSign, TrendingUp, Clock, Shield, Users, Target,
+  Calendar, Phone
+} from "lucide-react";
 import { motion } from "framer-motion";
+
+interface ProspectScore {
+  pain: number;
+  budget: number;
+  authority: number;
+  timing: number;
+}
 
 interface AssessmentData {
   score: number;
   totalScore: number;
   maxScore: number;
-  answers: Record<string, { value: string; score: number }>;
-  contact: { name: string; email: string; company: string; phone: string; role: string };
+  answers: Record<string, { value: string; score: number; constraintType?: string }>;
+  contact: { name: string; email: string; company: string; phone: string; role: string; employees: string };
+  primaryConstraint: string;
+  annualCostOfInaction: number;
+  prospectScore: ProspectScore;
   timestamp: string;
 }
 
 function getReadinessLevel(score: number) {
-  if (score >= 75) return { level: "Advanced", color: "text-teal", bg: "bg-teal/10", border: "border-teal/30", icon: CheckCircle2, desc: "Your organisation shows strong readiness for AI-powered financial transformation. You have solid foundations in place." };
-  if (score >= 50) return { level: "Developing", color: "text-amber", bg: "bg-amber/10", border: "border-amber/30", icon: Zap, desc: "You have good foundations but significant opportunities to accelerate your AI journey with the right partner." };
-  return { level: "Emerging", color: "text-orange-400", bg: "bg-orange-400/10", border: "border-orange-400/30", icon: AlertTriangle, desc: "Your organisation is at the beginning of the AI journey. This is actually the ideal time to build the right foundations." };
+  if (score >= 75) return { level: "Advanced", color: "text-teal", bg: "bg-teal/10", border: "border-teal/30", icon: CheckCircle2, desc: "Your organisation shows strong readiness for AI-powered financial transformation. You have solid foundations — the opportunity is to accelerate and scale." };
+  if (score >= 50) return { level: "Developing", color: "text-amber", bg: "bg-amber/10", border: "border-amber/30", icon: Zap, desc: "You have good foundations but significant constraints are limiting growth. The right intervention now prevents compounding costs." };
+  return { level: "Emerging", color: "text-orange-400", bg: "bg-orange-400/10", border: "border-orange-400/30", icon: AlertTriangle, desc: "Your organisation has critical constraints that are actively costing money. This is actually the ideal time to build the right foundations before problems compound." };
 }
 
-function getRecommendations(answers: Record<string, { value: string; score: number }>) {
-  const recs: { title: string; desc: string; priority: string }[] = [];
+function getConstraintLabel(type: string) {
+  switch (type) {
+    case "capacity": return { label: "Capacity Constraint", desc: "Volume is too high — your team is drowning. You need throughput increase without hiring.", icon: Users };
+    case "knowledge": return { label: "Knowledge Constraint", desc: "Inconsistent answers, tribal knowledge, no single source of truth. You need systematised intelligence.", icon: Target };
+    case "process": return { label: "Process Constraint", desc: "Bad handoffs, messy workflows, bottlenecks between departments. You need streamlined operations.", icon: Clock };
+    default: return { label: "Operational Constraint", desc: "Multiple constraint types identified. A comprehensive audit will prioritise the highest-impact interventions.", icon: Shield };
+  }
+}
 
-  if (answers.current_system?.score <= 2) {
-    recs.push({ title: "Upgrade to Sage Intacct", desc: "Your current system lacks the multi-company, real-time capabilities needed for AI integration. Sage Intacct provides the foundation.", priority: "High" });
-  }
-  if (answers.consolidation?.score <= 2) {
-    recs.push({ title: "Automate Multi-Entity Consolidation", desc: "Manual consolidation is consuming valuable time. Sage Intacct can reduce this from days to minutes with real-time consolidation.", priority: "High" });
-  }
-  if (answers.ai_readiness?.score <= 2) {
-    recs.push({ title: "Start with an AI Readiness Workshop", desc: "Begin your AI journey with a structured assessment. Our ADAPT Framework provides a clear, low-risk path to AI adoption.", priority: "Medium" });
-  }
-  if (answers.data_quality?.score <= 2) {
-    recs.push({ title: "Implement Data Governance", desc: "Clean, centralised data is the foundation for any AI initiative. Start with data quality improvement before AI deployment.", priority: "High" });
-  }
-  if (answers.pain_level?.score <= 2) {
-    recs.push({ title: "Accelerate Month-End Close", desc: "AI-powered automation can reduce your close cycle by 40-60%. Start with automated reconciliation and journal entry posting.", priority: "High" });
-  }
-  if (answers.company_size?.score >= 3) {
-    recs.push({ title: "Multi-Company Intelligence Layer", desc: "With your group structure, an AI-powered consolidation and inter-company transaction engine would deliver immediate ROI.", priority: "Medium" });
-  }
+function getROILevers(answers: Record<string, { value: string; score: number; constraintType?: string }>, annualCost: number) {
+  const levers: { icon: typeof DollarSign; title: string; value: string; desc: string }[] = [];
 
-  if (recs.length === 0) {
-    recs.push({ title: "Advanced AI Integration", desc: "Your foundations are strong. Focus on predictive analytics, cash flow forecasting, and custom ML models for your specific industry.", priority: "Medium" });
+  if (answers.bottleneck_area?.value === "close" || answers.bottleneck_area?.value === "interco") {
+    levers.push({ icon: Clock, title: "Time Saved", value: `£${Math.round(annualCost * 0.35).toLocaleString()}/yr`, desc: "Reduce month-end close by 40-60% through automated reconciliation, consolidation, and journal entry posting." });
   }
+  if (answers.data_quality?.score && answers.data_quality.score <= 2) {
+    levers.push({ icon: Shield, title: "Error Reduction", value: `£${Math.round(annualCost * 0.25).toLocaleString()}/yr`, desc: "Eliminate manual data entry errors, improve audit compliance, and reduce rework across entities." });
+  }
+  if (answers.scale_break?.score && answers.scale_break.score >= 3) {
+    levers.push({ icon: Users, title: "Throughput Increase", value: `£${Math.round(annualCost * 0.30).toLocaleString()}/yr`, desc: "Handle 2-3x transaction volume without proportional headcount increase. Scale capacity, not cost." });
+  }
+  levers.push({ icon: TrendingUp, title: "Revenue Optimisation", value: `£${Math.round(annualCost * 0.15).toLocaleString()}/yr`, desc: "Faster reporting enables better decision-making. Predictive analytics identifies revenue opportunities earlier." });
+  levers.push({ icon: DollarSign, title: "Risk Avoidance", value: `£${Math.round(annualCost * 0.10).toLocaleString()}/yr`, desc: "Protect existing revenue through compliance automation, fraud detection, and audit-ready financial controls." });
 
-  return recs;
+  return levers;
+}
+
+function getEngagementTier(score: number, prospectScore: ProspectScore) {
+  const totalProspect = prospectScore.pain + prospectScore.budget + prospectScore.authority + prospectScore.timing;
+
+  if (totalProspect >= 12 && score < 60) {
+    return {
+      tier: "Full Transformation",
+      tagline: "Audit → Implementation → Ongoing Retainer",
+      desc: "Your constraint severity and readiness profile indicate maximum ROI from a comprehensive engagement. Start with an AI Operations Audit, move to implementation, and transition to ongoing optimisation.",
+      phases: [
+        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Current-state process map, ROI stack, prioritised roadmap, implementation plan" },
+        { name: "Phase 2: Implementation", duration: "8-16 weeks", price: "Scoped from audit", desc: "Sage Intacct deployment, AI automation, data migration, team training" },
+        { name: "Phase 3: Ongoing Retainer", duration: "Monthly", price: "From £8,000/mo", desc: "System health monitoring, performance optimisation, security management, strategic updates" },
+      ],
+    };
+  }
+  if (totalProspect >= 8) {
+    return {
+      tier: "Strategic Engagement",
+      tagline: "Audit + Quick Wins Implementation",
+      desc: "Your profile shows strong potential for quick wins. Start with an audit to identify the highest-impact, lowest-risk interventions, then implement the top 2-3 opportunities.",
+      phases: [
+        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Constraint diagnosis, ROI calculation, prioritised roadmap" },
+        { name: "Phase 2: Quick Wins Sprint", duration: "4-8 weeks", price: "Scoped from audit", desc: "Implement top 2-3 highest-ROI automations identified in audit" },
+      ],
+    };
+  }
+  return {
+    tier: "Discovery Engagement",
+    tagline: "AI Operations Audit + ROI Roadmap",
+    desc: "The ideal starting point. A focused audit that maps your current constraints, calculates the real cost of inaction, and delivers a prioritised transformation roadmap.",
+    phases: [
+      { name: "AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Current-state process map, ROI stack with assumptions, prioritised roadmap, implementation plan" },
+    ],
+  };
 }
 
 export default function Results() {
@@ -68,108 +117,243 @@ export default function Results() {
   if (!data) return null;
 
   const readiness = getReadinessLevel(data.score);
-  const recommendations = getRecommendations(data.answers);
+  const constraint = getConstraintLabel(data.primaryConstraint);
+  const roiLevers = getROILevers(data.answers, data.annualCostOfInaction);
+  const engagement = getEngagementTier(data.score, data.prospectScore);
   const ReadinessIcon = readiness.icon;
+  const ConstraintIcon = constraint.icon;
+
+  const totalROI = roiLevers.reduce((sum, l) => {
+    const numStr = l.value.replace(/[^0-9]/g, "");
+    return sum + parseInt(numStr || "0");
+  }, 0);
 
   return (
     <div className="min-h-screen pt-24 pb-16">
-      <div className="container max-w-4xl mx-auto">
+      <div className="container max-w-5xl mx-auto">
         {/* Score Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <span className="text-xs font-mono text-teal uppercase tracking-widest">Assessment Complete</span>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+          <span className="text-xs font-mono text-teal uppercase tracking-widest">Constraint Diagnosis Complete</span>
           <h1 className="text-3xl sm:text-4xl font-bold mt-3 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-            {data.contact.company}'s AI Readiness Score
+            {data.contact.company}'s Transformation Roadmap
           </h1>
-          <p className="text-muted-foreground">Prepared for {data.contact.name}, {data.contact.role}</p>
+          <p className="text-muted-foreground">Prepared for {data.contact.name}{data.contact.role ? `, ${data.contact.role}` : ""}</p>
         </motion.div>
 
-        {/* Score Circle */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="flex justify-center mb-12"
-        >
-          <div className={`relative w-48 h-48 rounded-full ${readiness.bg} ${readiness.border} border-2 flex flex-col items-center justify-center`}>
-            <span className={`text-5xl font-bold font-mono ${readiness.color}`}>{data.score}%</span>
-            <span className={`text-sm font-semibold mt-1 ${readiness.color}`}>{readiness.level}</span>
-          </div>
-        </motion.div>
+        {/* Score + Constraint Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+          {/* Score Circle */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="glass-panel p-8 flex flex-col items-center justify-center"
+            style={{ borderRadius: "var(--radius-lg)" }}
+          >
+            <div className={`relative w-40 h-40 rounded-full ${readiness.bg} ${readiness.border} border-2 flex flex-col items-center justify-center mb-4`}>
+              <span className={`text-4xl font-bold font-mono ${readiness.color}`}>{data.score}%</span>
+              <span className={`text-sm font-semibold mt-1 ${readiness.color}`}>{readiness.level}</span>
+            </div>
+            <div className="flex items-start gap-3 text-center">
+              <div>
+                <h3 className="font-semibold mb-1" style={{ fontFamily: "var(--font-heading)" }}>AI Readiness: {readiness.level}</h3>
+                <p className="text-sm text-muted-foreground">{readiness.desc}</p>
+              </div>
+            </div>
+          </motion.div>
 
-        {/* Summary */}
+          {/* Primary Constraint */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="glass-panel p-8"
+            style={{ borderRadius: "var(--radius-lg)" }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-amber/10 border border-amber/30 flex items-center justify-center">
+                <ConstraintIcon className="w-6 h-6 text-amber" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-amber uppercase tracking-wider">Primary Constraint</span>
+                <h3 className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>{constraint.label}</h3>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">{constraint.desc}</p>
+
+            {/* QDOAA Framework hint */}
+            <div className="p-4 bg-navy-light/50 rounded-lg border border-border/30">
+              <h4 className="text-xs font-mono text-teal uppercase tracking-wider mb-2">Our Approach: QDOAA</h4>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Before applying AI, we follow the <strong className="text-foreground">QDOAA Framework</strong>: Question why each step exists → Delete unnecessary steps → Optimise what remains → Accelerate without adding people → <em>Then</em> Automate with AI. This ensures AI is applied to the right problems.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Cost of Inaction */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className={`glass-panel p-6 mb-8 flex items-start gap-4`}
+          className="glass-panel p-8 mb-12 glow-amber"
           style={{ borderRadius: "var(--radius-lg)" }}
         >
-          <ReadinessIcon className={`w-6 h-6 ${readiness.color} shrink-0 mt-0.5`} />
-          <div>
-            <h3 className="font-semibold mb-1" style={{ fontFamily: "var(--font-heading)" }}>
-              {readiness.level} Readiness
-            </h3>
-            <p className="text-sm text-muted-foreground">{readiness.desc}</p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div>
+              <span className="text-xs font-mono text-amber uppercase tracking-widest">Cost of Inaction</span>
+              <h2 className="text-2xl font-bold mt-1" style={{ fontFamily: "var(--font-heading)" }}>
+                Estimated Annual Cost of Doing Nothing
+              </h2>
+              <p className="text-sm text-muted-foreground mt-2">
+                Based on your revenue band, constraint severity, and current system maturity, maintaining the status quo costs your organisation approximately:
+              </p>
+            </div>
+            <div className="text-right shrink-0">
+              <span className="text-4xl sm:text-5xl font-bold text-amber font-mono">
+                £{data.annualCostOfInaction.toLocaleString()}
+              </span>
+              <p className="text-sm text-muted-foreground mt-1">per year</p>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border/30">
+            <p className="text-xs text-muted-foreground">
+              This estimate includes: wasted salary on manual processes, lost revenue from delayed reporting, compliance risk exposure, and opportunity cost of not scaling. Actual figures will be validated during the AI Operations Audit.
+            </p>
           </div>
         </motion.div>
 
-        {/* Recommendations */}
+        {/* ROI Levers */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="mb-12"
         >
-          <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "var(--font-heading)" }}>
-            Your Personalised Recommendations
-          </h2>
-          <div className="space-y-4">
-            {recommendations.map((rec, i) => (
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <span className="text-xs font-mono text-teal uppercase tracking-widest">ROI Projection</span>
+              <h2 className="text-2xl font-bold mt-1" style={{ fontFamily: "var(--font-heading)" }}>
+                5 Value Levers for {data.contact.company}
+              </h2>
+            </div>
+            <div className="text-right">
+              <span className="text-xs text-muted-foreground">Total Projected Annual ROI</span>
+              <p className="text-2xl font-bold text-teal font-mono">£{totalROI.toLocaleString()}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {roiLevers.map((lever, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="glass-panel p-5 flex items-start gap-4"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + i * 0.08 }}
+                className="glass-panel p-5"
                 style={{ borderRadius: "var(--radius)" }}
               >
-                <div className={`px-2 py-1 text-xs font-mono rounded ${
-                  rec.priority === "High" ? "bg-amber/20 text-amber" : "bg-teal/20 text-teal"
-                }`}>
-                  {rec.priority}
+                <div className="flex items-center justify-between mb-3">
+                  <lever.icon className="w-5 h-5 text-teal" />
+                  <span className="text-lg font-bold text-teal font-mono">{lever.value}</span>
                 </div>
-                <div>
-                  <h4 className="font-semibold mb-1" style={{ fontFamily: "var(--font-heading)" }}>{rec.title}</h4>
-                  <p className="text-sm text-muted-foreground">{rec.desc}</p>
-                </div>
+                <h4 className="font-semibold text-sm mb-1" style={{ fontFamily: "var(--font-heading)" }}>{lever.title}</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">{lever.desc}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* ADAPT Framework CTA */}
+        {/* Recommended Engagement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="glass-panel p-8 mb-12"
+          style={{ borderRadius: "var(--radius-lg)" }}
+        >
+          <span className="text-xs font-mono text-teal uppercase tracking-widest">Recommended Engagement</span>
+          <h2 className="text-2xl font-bold mt-1 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+            {engagement.tier}
+          </h2>
+          <p className="text-sm text-amber font-medium mb-4">{engagement.tagline}</p>
+          <p className="text-sm text-muted-foreground mb-6">{engagement.desc}</p>
+
+          <div className="space-y-4">
+            {engagement.phases.map((phase, i) => (
+              <div key={i} className="p-4 bg-navy-light/50 rounded-lg border border-border/30 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-teal/10 border border-teal/30 flex items-center justify-center shrink-0">
+                  <span className="text-teal font-bold font-mono text-sm">{i + 1}</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-sm" style={{ fontFamily: "var(--font-heading)" }}>{phase.name}</h4>
+                  <p className="text-xs text-muted-foreground">{phase.desc}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Calendar className="w-3 h-3" />
+                    {phase.duration}
+                  </div>
+                  <span className="text-sm font-semibold text-amber">{phase.price}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Prospect Score (internal — shown transparently) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
+          className="glass-panel p-6 mb-12"
+          style={{ borderRadius: "var(--radius)" }}
+        >
+          <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+            Your Readiness Profile
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { label: "Pain Severity", score: data.prospectScore.pain, max: 3 },
+              { label: "Budget Readiness", score: data.prospectScore.budget, max: 4 },
+              { label: "Decision Authority", score: data.prospectScore.authority, max: 4 },
+              { label: "Timing Urgency", score: data.prospectScore.timing, max: 4 },
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <div className="text-xs text-muted-foreground mb-2">{item.label}</div>
+                <div className="flex justify-center gap-1">
+                  {Array.from({ length: item.max }).map((_, j) => (
+                    <div
+                      key={j}
+                      className={`w-3 h-3 rounded-full ${j < item.score ? "bg-teal" : "bg-navy-light border border-border/30"}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
           className="glass-panel p-8 text-center glow-teal"
           style={{ borderRadius: "var(--radius-lg)" }}
         >
           <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
-            Ready to Start Your Transformation?
+            Ready to Eliminate Your Constraints?
           </h3>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Book a free 30-minute strategy call with Dudley Peacock to discuss your results and explore how the ADAPT Framework can accelerate your AI journey.
+            Book a free 30-minute strategy call with Dudley Peacock to validate these findings and discuss the best path forward for {data.contact.company}.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer">
               <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
+                <Phone className="w-4 h-4" />
                 Book a Strategy Call
-                <ArrowRight className="w-4 h-4" />
               </Button>
             </a>
             <Link href="/lead-magnet">
@@ -179,6 +363,9 @@ export default function Results() {
               </Button>
             </Link>
           </div>
+          <p className="text-xs text-muted-foreground mt-6">
+            A copy of this assessment has been saved. Your personalised report will be emailed to {data.contact.email}.
+          </p>
         </motion.div>
       </div>
     </div>
