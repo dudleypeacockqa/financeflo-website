@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 
-const COVER_IMG = "/images/connected-intelligence-cover.png";
+const COVER_IMG = "/images/connected-intelligence-cover.jpg";
 const AMAZON_URL =
   "https://www.amazon.co.uk/Connected-Intelligence-Unlocks-Full-Potential-ebook/dp/B0F9SLV7DP";
 
