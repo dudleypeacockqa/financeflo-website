@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Target, Brain, Shield, Users, TrendingUp, Zap } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import CTASection from "@/components/sections/CTASection";
+import { teamMembers } from "@/data/team";
+import TeamCard from "@/components/sections/TeamCard";
 
 const values = [
   { icon: Target, title: "Constraint-First Thinking", description: "We diagnose before we prescribe. Every engagement starts with understanding where your business model breaks at scale." },
@@ -11,13 +13,6 @@ const values = [
   { icon: Users, title: "Co-Design, Not Cave-Building", description: "Your team helps design the solution. This builds ownership and creates 5x adoption rates." },
   { icon: TrendingUp, title: "Prove Value Early", description: "Every engagement starts small and proves ROI before scaling. No multi-year contracts. No massive upfront commitments." },
   { icon: Zap, title: "You Own It, We Maintain It", description: "Full handoff with documentation. You're never locked in — but we stay embedded as your strategic partner." },
-];
-
-const team = [
-  { name: "Dudley Peacock", role: "Founder & Principal Consultant", initials: "DP" },
-  { name: "Team Member", role: "Senior ERP Consultant", initials: "TM" },
-  { name: "Team Member", role: "AI Solutions Architect", initials: "TM" },
-  { name: "Team Member", role: "Integration Specialist", initials: "TM" },
 ];
 
 const timeline = [
@@ -94,26 +89,13 @@ export default function About() {
             <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               The People Behind FinanceFlo
             </h2>
+            <p className="text-muted-foreground">
+              Our diverse team of ERP specialists, AI experts, and business consultants work together to deliver transformational results for mid-market companies.
+            </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {team.map((member, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="glass-panel p-6 text-center"
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                <div className="w-16 h-16 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-teal" style={{ fontFamily: "var(--font-heading)" }}>
-                    {member.initials}
-                  </span>
-                </div>
-                <h4 className="font-semibold text-sm" style={{ fontFamily: "var(--font-heading)" }}>{member.name}</h4>
-                <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
-              </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {teamMembers.map((member, i) => (
+              <TeamCard key={member.name} member={member} index={i} />
             ))}
           </div>
         </div>
