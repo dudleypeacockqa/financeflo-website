@@ -56,11 +56,22 @@ export const navItems: NavItem[] = [
     label: "Industries",
     dropdown: [
       {
-        heading: "Sectors We Serve",
+        heading: "Industries",
         links: [
           { label: "Construction", href: "/industries/construction", description: "Job costing, project accounting & compliance" },
-          { label: "Financial Services", href: "/industries/financial-services", description: "Multi-entity consolidation & regulatory reporting" },
           { label: "Healthcare", href: "/industries/healthcare", description: "Grant management & fund accounting" },
+          { label: "Family Office", href: "/industries/family-office", description: "Wealth reporting & multi-entity consolidation" },
+          { label: "Capital Markets", href: "/industries/capital-markets", description: "Trade reconciliation & risk analytics" },
+          { label: "Subscription Business", href: "/industries/subscription-business", description: "Recurring revenue & SaaS metrics" },
+        ],
+      },
+      {
+        heading: "\u00A0",
+        links: [
+          { label: "Financial Services", href: "/industries/financial-services", description: "Multi-entity consolidation & regulatory reporting" },
+          { label: "Investment Banking", href: "/industries/investment-banking", description: "Deal accounting & fee tracking" },
+          { label: "Insurance", href: "/industries/insurance", description: "Claims reserving & Solvency II compliance" },
+          { label: "Professional Services", href: "/industries/professional-services", description: "Time & billing, project profitability" },
           { label: "E-Commerce", href: "/industries/ecommerce", description: "Omnichannel finance & inventory" },
         ],
       },
@@ -121,6 +132,12 @@ export const footerColumns = [
       { label: "Financial Services", href: "/industries/financial-services" },
       { label: "Healthcare", href: "/industries/healthcare" },
       { label: "E-Commerce", href: "/industries/ecommerce" },
+      { label: "Family Office", href: "/industries/family-office" },
+      { label: "Capital Markets", href: "/industries/capital-markets" },
+      { label: "Subscription Business", href: "/industries/subscription-business" },
+      { label: "Investment Banking", href: "/industries/investment-banking" },
+      { label: "Insurance", href: "/industries/insurance" },
+      { label: "Professional Services", href: "/industries/professional-services" },
     ],
   },
   {

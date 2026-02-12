@@ -421,12 +421,18 @@ export default function Home() {
               Industries We Serve
             </h2>
           </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
               { name: "Construction", href: "/industries/construction", desc: "Job costing & project accounting" },
               { name: "Financial Services", href: "/industries/financial-services", desc: "Multi-entity & regulatory" },
               { name: "Healthcare", href: "/industries/healthcare", desc: "Fund accounting & grants" },
               { name: "E-Commerce", href: "/industries/ecommerce", desc: "Omnichannel finance" },
+              { name: "Family Office", href: "/industries/family-office", desc: "Wealth reporting & consolidation" },
+              { name: "Capital Markets", href: "/industries/capital-markets", desc: "Trade reconciliation & risk" },
+              { name: "Subscription Business", href: "/industries/subscription-business", desc: "Recurring revenue & SaaS" },
+              { name: "Investment Banking", href: "/industries/investment-banking", desc: "Deal accounting & compliance" },
+              { name: "Insurance", href: "/industries/insurance", desc: "Claims reserving & Solvency II" },
+              { name: "Professional Services", href: "/industries/professional-services", desc: "Time & billing, utilisation" },
             ].map((ind, i) => (
               <motion.div
                 key={i}

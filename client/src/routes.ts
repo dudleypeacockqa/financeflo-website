@@ -32,6 +32,12 @@ export const routes: RouteConfig[] = [
   { path: "/industries/financial-services", component: lazy(() => import("./pages/industries/FinancialServices")) },
   { path: "/industries/healthcare", component: lazy(() => import("./pages/industries/Healthcare")) },
   { path: "/industries/ecommerce", component: lazy(() => import("./pages/industries/Ecommerce")) },
+  { path: "/industries/family-office", component: lazy(() => import("./pages/industries/FamilyOffice")) },
+  { path: "/industries/capital-markets", component: lazy(() => import("./pages/industries/CapitalMarkets")) },
+  { path: "/industries/subscription-business", component: lazy(() => import("./pages/industries/SubscriptionBusiness")) },
+  { path: "/industries/investment-banking", component: lazy(() => import("./pages/industries/InvestmentBanking")) },
+  { path: "/industries/insurance", component: lazy(() => import("./pages/industries/Insurance")) },
+  { path: "/industries/professional-services", component: lazy(() => import("./pages/industries/ProfessionalServices")) },
   // Company
   { path: "/about", component: lazy(() => import("./pages/company/About")) },
   { path: "/contact", component: lazy(() => import("./pages/company/Contact")) },
