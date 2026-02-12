@@ -9,9 +9,11 @@
  *   UK: nicolalazzari.ai, itjobswatch.co.uk, insightfulai.co.uk
  *   EU: riseworks.io, cleveroad.com, houseblend.io
  *   ZA: payscale.com, consultancy.africa, salaryexpert.com
+ *   US: nicolalazzari.ai, orientsoftware.com
+ *   CA: consulting.ca, jobbank.gc.ca
  */
 
-export type Region = "UK" | "EU" | "ZA";
+export type Region = "UK" | "EU" | "ZA" | "US" | "CA";
 
 export interface RegionConfig {
   region: Region;
@@ -90,13 +92,47 @@ export const REGION_CONFIGS: Record<Region, RegionConfig> = {
     marketAuditRange: "R45,000–R175,000",
     marketRetainerRange: "R30,000–R75,000/month",
   },
+  US: {
+    region: "US",
+    label: "United States",
+    currency: "USD",
+    currencySymbol: "$",
+    locale: "en-US",
+    taxLabel: "excl. Sales Tax",
+    hourlyConsultant: 150,
+    hourlySeniorConsultant: 225,
+    auditRange: [7_500, 20_000],
+    retainerRange: [7_500, 12_500],
+    marketContext:
+      "US AI consulting rates range $150–$500/hr for finance-sector specialists, with strategy projects from $7.5k–$20k and agency retainers from $7.5k–$25k/month (Sources: nicolalazzari.ai, orientsoftware.com, 2026).",
+    marketHourlyRange: "$150–$500/hr",
+    marketAuditRange: "$7,500–$20,000",
+    marketRetainerRange: "$7,500–$25,000/month",
+  },
+  CA: {
+    region: "CA",
+    label: "Canada",
+    currency: "CAD",
+    currencySymbol: "C$",
+    locale: "en-CA",
+    taxLabel: "excl. GST/HST",
+    hourlyConsultant: 185,
+    hourlySeniorConsultant: 275,
+    auditRange: [10_000, 25_000],
+    retainerRange: [10_000, 15_000],
+    marketContext:
+      "Canadian AI consulting rates range C$135–C$725/hr, with North American finance-sector premiums of 20–30%. Strategy projects from C$10k–C$25k and retainers from C$10k–C$25k/month (Sources: consulting.ca, jobbank.gc.ca, 2026).",
+    marketHourlyRange: "C$135–C$725/hr",
+    marketAuditRange: "C$10,000–C$25,000",
+    marketRetainerRange: "C$10,000–C$25,000/month",
+  },
 };
 
 /** Default region when none is detected */
 export const DEFAULT_REGION: Region = "UK";
 
 /** All supported regions for dropdowns */
-export const REGIONS: Region[] = ["UK", "EU", "ZA"];
+export const REGIONS: Region[] = ["UK", "EU", "ZA", "US", "CA"];
 
 /**
  * Format a currency value for display

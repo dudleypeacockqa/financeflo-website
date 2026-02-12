@@ -43,6 +43,8 @@ const questions: QuizQuestion[] = [
       { label: "United Kingdom", value: "UK", score: 0 },
       { label: "Europe (EU / EEA)", value: "EU", score: 0 },
       { label: "South Africa", value: "ZA", score: 0 },
+      { label: "United States", value: "US", score: 0 },
+      { label: "Canada", value: "CA", score: 0 },
     ],
   },
   // --- SECTION 1: Company Profile & Scale ---
@@ -206,6 +208,22 @@ export default function Assessment() {
       ];
     }
     if (region === "EU") {
+      return [
+        { label: `Under ${s}2M`, value: "under_2m", score: 1 },
+        { label: `${s}2M – ${s}10M`, value: "2m_10m", score: 2 },
+        { label: `${s}10M – ${s}50M`, value: "10m_50m", score: 3 },
+        { label: `${s}50M+`, value: "50m_plus", score: 4 },
+      ];
+    }
+    if (region === "US") {
+      return [
+        { label: `Under ${s}2M`, value: "under_2m", score: 1 },
+        { label: `${s}2M – ${s}10M`, value: "2m_10m", score: 2 },
+        { label: `${s}10M – ${s}50M`, value: "10m_50m", score: 3 },
+        { label: `${s}50M+`, value: "50m_plus", score: 4 },
+      ];
+    }
+    if (region === "CA") {
       return [
         { label: `Under ${s}2M`, value: "under_2m", score: 1 },
         { label: `${s}2M – ${s}10M`, value: "2m_10m", score: 2 },

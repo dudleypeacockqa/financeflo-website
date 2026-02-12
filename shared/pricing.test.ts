@@ -14,7 +14,7 @@ import {
 
 describe("REGION_CONFIGS", () => {
   it("has configs for all supported regions", () => {
-    expect(REGIONS).toEqual(["UK", "EU", "ZA"]);
+    expect(REGIONS).toEqual(["UK", "EU", "ZA", "US", "CA"]);
     for (const r of REGIONS) {
       expect(REGION_CONFIGS[r]).toBeDefined();
       expect(REGION_CONFIGS[r].region).toBe(r);
@@ -58,6 +58,30 @@ describe("REGION_CONFIGS", () => {
     expect(za.retainerRange).toEqual([30_000, 75_000]);
   });
 
+  it("US config has correct currency and rates", () => {
+    const us = REGION_CONFIGS.US;
+    expect(us.currency).toBe("USD");
+    expect(us.currencySymbol).toBe("$");
+    expect(us.locale).toBe("en-US");
+    expect(us.taxLabel).toBe("excl. Sales Tax");
+    expect(us.hourlyConsultant).toBe(150);
+    expect(us.hourlySeniorConsultant).toBe(225);
+    expect(us.auditRange).toEqual([7_500, 20_000]);
+    expect(us.retainerRange).toEqual([7_500, 12_500]);
+  });
+
+  it("CA config has correct currency and rates", () => {
+    const ca = REGION_CONFIGS.CA;
+    expect(ca.currency).toBe("CAD");
+    expect(ca.currencySymbol).toBe("C$");
+    expect(ca.locale).toBe("en-CA");
+    expect(ca.taxLabel).toBe("excl. GST/HST");
+    expect(ca.hourlyConsultant).toBe(185);
+    expect(ca.hourlySeniorConsultant).toBe(275);
+    expect(ca.auditRange).toEqual([10_000, 25_000]);
+    expect(ca.retainerRange).toEqual([10_000, 15_000]);
+  });
+
   it("all configs have non-empty market context strings", () => {
     for (const r of REGIONS) {
       const c = REGION_CONFIGS[r];
@@ -92,6 +116,19 @@ describe("formatCurrency", () => {
     expect(result).toContain("45");
     // Should include Rand sign or ZAR indicator
     expect(result).toMatch(/R|ZAR/);
+  });
+
+  it("formats USD correctly", () => {
+    const result = formatCurrency(7500, "US");
+    expect(result).toContain("7");
+    expect(result).toContain("500");
+    expect(result).toMatch(/\$|USD/);
+  });
+
+  it("formats CAD correctly", () => {
+    const result = formatCurrency(10000, "CA");
+    expect(result).toContain("10");
+    expect(result).toMatch(/\$|CAD/);
   });
 
   it("compact mode abbreviates large numbers", () => {
@@ -180,6 +217,22 @@ describe("getEngagementTiers", () => {
     expect(retainer.price).toMatch(/€|EUR/);
     expect(retainer.price).toContain("5");
     expect(retainer.price).toContain("7");
+  });
+
+  it("US audit tier uses USD pricing", () => {
+    const tiers = getEngagementTiers("US");
+    const audit = tiers[0];
+    expect(audit.price).toMatch(/\$|USD/);
+    expect(audit.price).toContain("7");
+    expect(audit.price).toContain("20");
+  });
+
+  it("CA retainer tier uses CAD pricing", () => {
+    const tiers = getEngagementTiers("CA");
+    const retainer = tiers[2];
+    expect(retainer.price).toMatch(/\$|CAD/);
+    expect(retainer.price).toContain("10");
+    expect(retainer.price).toContain("15");
   });
 
   it("Quick Wins Sprint is always scoped from audit", () => {

@@ -46,7 +46,7 @@ interface ProposalContent {
  */
 function detectRegion(assessment: Assessment): Region {
   const answers = assessment.answers as Record<string, string> | null;
-  if (answers?.region && ["UK", "EU", "ZA"].includes(answers.region)) {
+  if (answers?.region && ["UK", "EU", "ZA", "US", "CA"].includes(answers.region)) {
     return answers.region as Region;
   }
   return "UK";

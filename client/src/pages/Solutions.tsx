@@ -48,10 +48,25 @@ const maintenancePillars = [
   { icon: GraduationCap, title: "User Adoption & Training", desc: "Ongoing training programmes, documentation updates, and change management support for your team." },
 ];
 
+const CANADA_TIMEZONES = [
+  "America/Toronto", "America/Vancouver", "America/Montreal",
+  "America/Winnipeg", "America/Edmonton", "America/Halifax",
+  "America/St_Johns", "America/Regina",
+];
+
+const US_TIMEZONES = [
+  "America/New_York", "America/Chicago", "America/Denver",
+  "America/Los_Angeles", "America/Phoenix", "America/Anchorage",
+  "America/Adak", "Pacific/Honolulu", "America/Detroit",
+  "America/Indiana", "America/Boise",
+];
+
 function detectDefaultRegion(): Region {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
     if (tz.startsWith("Africa/Johannesburg") || tz.startsWith("Africa/Cape") || tz.startsWith("Africa/Harare")) return "ZA";
+    if (CANADA_TIMEZONES.some((ct) => tz.startsWith(ct))) return "CA";
+    if (US_TIMEZONES.some((ut) => tz.startsWith(ut))) return "US";
     if (tz.startsWith("Europe/London") || tz.startsWith("Europe/Belfast")) return "UK";
     if (tz.startsWith("Europe/")) return "EU";
   } catch {
@@ -192,6 +207,49 @@ export default function Solutions() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ERP Solutions Overview */}
+      <section className="py-20 border-t border-border/30">
+        <div className="container">
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono text-teal uppercase tracking-widest">ERP Portfolio</span>
+            <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+              Choose the Right ERP for Your Business
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              We implement and optimise multiple ERP platforms. The right choice depends on your size, complexity, industry, and growth trajectory — not vendor hype.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: "Sage Intacct", desc: "AICPA-preferred cloud financial management for mid-market", href: "/erp/sage-intacct", tag: "AICPA Preferred" },
+              { name: "Acumatica", desc: "Flexible cloud ERP with unlimited users and industry editions", href: "/erp/acumatica", tag: "Unlimited Users" },
+              { name: "Odoo", desc: "Open-source modular suite with 80+ integrated business apps", href: "/erp/odoo", tag: "Open Source" },
+              { name: "Sage X3", desc: "Enterprise ERP for complex multi-legislation global operations", href: "/erp/sage-x3", tag: "Enterprise" },
+            ].map((erp, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className="glass-panel p-6 group hover:border-teal/30 transition-colors flex flex-col"
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                <span className="text-xs font-mono text-teal/70 px-2 py-0.5 border border-teal/20 rounded self-start mb-3">{erp.tag}</span>
+                <h4 className="font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>{erp.name}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">{erp.desc}</p>
+                <Link href={erp.href}>
+                  <Button variant="outline" size="sm" className="border-teal/40 text-teal hover:bg-teal/10 gap-2 w-full">
+                    Learn More <ArrowRight className="w-3 h-3" />
+                  </Button>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
