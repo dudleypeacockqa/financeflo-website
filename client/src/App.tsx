@@ -1,38 +1,25 @@
+import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import Assessment from "./pages/Assessment";
-import Solutions from "./pages/Solutions";
-import ADAPTFramework from "./pages/ADAPTFramework";
-import LeadMagnet from "./pages/LeadMagnet";
-import Results from "./pages/Results";
-import Delivery from "./pages/Delivery";
-import Workshop from "./pages/Workshop";
-import Admin from "./pages/Admin";
-import AdminLogin from "./pages/AdminLogin";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PageSkeleton from "./components/PageSkeleton";
+import { routes } from "./routes";
+
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/assessment" component={Assessment} />
-      <Route path="/solutions" component={Solutions} />
-      <Route path="/adapt-framework" component={ADAPTFramework} />
-      <Route path="/lead-magnet" component={LeadMagnet} />
-      <Route path="/results" component={Results} />
-      <Route path="/delivery" component={Delivery} />
-      <Route path="/workshop" component={Workshop} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/admin/login" component={AdminLogin} />
-      <Route path="/404" component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageSkeleton />}>
+      <Switch>
+        {routes.map((r) => (
+          <Route key={r.path} path={r.path} component={r.component} />
+        ))}
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

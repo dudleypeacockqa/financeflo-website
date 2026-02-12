@@ -32,23 +32,23 @@ Create a `.env` file with these variables:
 DATABASE_URL=mysql://user:password@host:port/database?ssl={"rejectUnauthorized":true}
 
 # Authentication (Manus OAuth)
-JWT_SECRET=your-jwt-secret
-VITE_APP_ID=your-app-id
+JWT_SECRET=replace-with-long-random-secret
+VITE_APP_ID=replace-with-app-id
 OAUTH_SERVER_URL=https://api.manus.im
 VITE_OAUTH_PORTAL_URL=https://login.manus.im
 
 # Owner info
-OWNER_OPEN_ID=your-open-id
-OWNER_NAME=your-name
+OWNER_OPEN_ID=replace-with-owner-open-id
+OWNER_NAME=replace-with-owner-name
 
 # Built-in APIs (LLM, Storage, etc.)
-BUILT_IN_FORGE_API_URL=your-forge-api-url
-BUILT_IN_FORGE_API_KEY=your-forge-api-key
-VITE_FRONTEND_FORGE_API_KEY=your-frontend-forge-key
-VITE_FRONTEND_FORGE_API_URL=your-frontend-forge-url
+BUILT_IN_FORGE_API_URL=https://api.example.com
+BUILT_IN_FORGE_API_KEY=replace-with-forge-api-key
+VITE_FRONTEND_FORGE_API_KEY=replace-with-frontend-forge-api-key
+VITE_FRONTEND_FORGE_API_URL=https://api.example.com
 
 # GoHighLevel Webhook (optional)
-GHL_WEBHOOK_URL=your-ghl-webhook-url
+GHL_WEBHOOK_URL=https://example.com/webhook
 
 # App branding
 VITE_APP_TITLE=FinanceFlo.ai
@@ -121,7 +121,7 @@ pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm test         # Run vitest tests (50+ tests)
 pnpm db:push      # Push database schema changes
-pnpm lint         # Run ESLint
+pnpm check        # Run TypeScript checks (no emit)
 pnpm format       # Run Prettier
 ```
 
