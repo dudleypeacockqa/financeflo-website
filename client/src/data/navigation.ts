@@ -77,6 +77,7 @@ export const navItems: NavItem[] = [
           { label: "Case Studies", href: "/case-studies", description: "Real-world transformation results" },
           { label: "Blog", href: "/blog", description: "Insights on AI & finance" },
           { label: "AI in Finance Report", href: "/lead-magnet", description: "Free downloadable report" },
+          { label: "Free Book", href: "/free-book", description: "Get 'Connected Intelligence' free" },
         ],
       },
       {
@@ -129,6 +130,7 @@ export const footerColumns = [
       { label: "Blog", href: "/blog" },
       { label: "ROI Calculator", href: "/roi-calculator" },
       { label: "AI in Finance Report", href: "/lead-magnet" },
+      { label: "Free Book", href: "/free-book" },
       { label: "Workshop", href: "/workshop" },
     ],
   },

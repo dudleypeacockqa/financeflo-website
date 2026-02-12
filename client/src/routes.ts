@@ -12,6 +12,7 @@ export const routes: RouteConfig[] = [
   { path: "/assessment", component: lazy(() => import("./pages/Assessment")) },
   { path: "/results", component: lazy(() => import("./pages/Results")) },
   { path: "/lead-magnet", component: lazy(() => import("./pages/LeadMagnet")) },
+  { path: "/free-book", component: lazy(() => import("./pages/FreeBook")) },
   { path: "/delivery", component: lazy(() => import("./pages/Delivery")) },
   { path: "/workshop", component: lazy(() => import("./pages/Workshop")) },
   { path: "/admin/login", component: lazy(() => import("./pages/AdminLogin")) },
