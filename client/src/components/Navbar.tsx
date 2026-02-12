@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/solutions", label: "Solutions" },
   { href: "/adapt-framework", label: "ADAPT Framework" },
   { href: "/delivery", label: "How We Deliver" },
+  { href: "/workshop", label: "Workshop" },
   { href: "/lead-magnet", label: "Resources" },
 ];
 

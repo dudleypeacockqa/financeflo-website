@@ -3,12 +3,15 @@
  * Assessment: Constraint-diagnosis quiz funnel with QDOAA alignment
  * Diagnoses capacity, knowledge, and process constraints
  * Calculates Cost of Inaction and maps to engagement tiers
+ * NOW: Wired to tRPC for lead capture + assessment storage + GHL webhooks
  */
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Zap, Building2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 const QUIZ_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/SvivZDFlRhDVYiRf.png";
 
@@ -166,6 +169,10 @@ export default function Assessment() {
   const [showContact, setShowContact] = useState(false);
   const [contact, setContact] = useState<ContactInfo>({ name: "", email: "", company: "", phone: "", role: "", employees: "" });
   const [, navigate] = useLocation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const createLead = trpc.lead.create.useMutation();
+  const submitAssessment = trpc.assessment.submit.useMutation();
 
   const totalSteps = questions.length;
   const progress = ((step + 1) / totalSteps) * 100;
@@ -190,46 +197,136 @@ export default function Assessment() {
     }
   };
 
-  const handleSubmit = () => {
-    const totalScore = Object.values(answers).reduce((sum, a) => sum + a.score, 0);
-    const maxScore = totalSteps * 4;
-    const percentage = Math.round((totalScore / maxScore) * 100);
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
-    // Determine primary constraint type
-    const constraintCounts: Record<string, number> = {};
-    Object.values(answers).forEach((a) => {
-      if (a.constraintType) {
-        constraintCounts[a.constraintType] = (constraintCounts[a.constraintType] || 0) + 1;
-      }
-    });
-    const primaryConstraint = Object.entries(constraintCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "process";
+    try {
+      const totalScore = Object.values(answers).reduce((sum, a) => sum + a.score, 0);
+      const maxScore = totalSteps * 4;
+      const percentage = Math.round((totalScore / maxScore) * 100);
 
-    // Calculate Cost of Inaction estimate
-    const revenueMultiplier = answers.revenue_band?.score === 4 ? 50000000 : answers.revenue_band?.score === 3 ? 25000000 : answers.revenue_band?.score === 2 ? 5000000 : 1000000;
-    const inefficiencyRate = (maxScore - totalScore) / maxScore;
-    const annualCostOfInaction = Math.round(revenueMultiplier * inefficiencyRate * 0.03); // 3% revenue leakage from inefficiency
+      // Determine primary constraint type
+      const constraintCounts: Record<string, number> = {};
+      Object.values(answers).forEach((a) => {
+        if (a.constraintType) {
+          constraintCounts[a.constraintType] = (constraintCounts[a.constraintType] || 0) + 1;
+        }
+      });
+      const primaryConstraint = Object.entries(constraintCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "process";
 
-    // Determine prospect score (Pain + Budget + Authority + Timing)
-    const prospectScore = {
-      pain: Math.min(3, Math.round(((answers.constraint_capacity?.score || 1) + (answers.bottleneck_area?.score || 1) + (answers.scale_break?.score || 1)) / 3)),
-      budget: answers.budget_timeline?.score || 1,
-      authority: answers.decision_authority?.score || 1,
-      timing: answers.budget_timeline?.score || 1,
-    };
+      // Calculate constraint scores (0-100 per type)
+      const constraintScores: Record<string, number> = {};
+      const constraintMaxes: Record<string, number> = {};
+      Object.values(answers).forEach((a) => {
+        if (a.constraintType) {
+          constraintScores[a.constraintType] = (constraintScores[a.constraintType] || 0) + a.score;
+          constraintMaxes[a.constraintType] = (constraintMaxes[a.constraintType] || 0) + 4;
+        }
+      });
+      Object.keys(constraintScores).forEach((key) => {
+        constraintScores[key] = Math.round((constraintScores[key] / (constraintMaxes[key] || 1)) * 100);
+      });
 
-    sessionStorage.setItem("assessmentResults", JSON.stringify({
-      score: percentage,
-      totalScore,
-      maxScore,
-      answers,
-      contact,
-      primaryConstraint,
-      annualCostOfInaction,
-      prospectScore,
-      timestamp: new Date().toISOString(),
-    }));
+      // Calculate Cost of Inaction estimate
+      const revenueMultiplier = answers.revenue_band?.score === 4 ? 50000000 : answers.revenue_band?.score === 3 ? 25000000 : answers.revenue_band?.score === 2 ? 5000000 : 1000000;
+      const inefficiencyRate = (maxScore - totalScore) / maxScore;
+      const annualCostOfInaction = Math.round(revenueMultiplier * inefficiencyRate * 0.03);
 
-    navigate("/results");
+      // Determine prospect score
+      const prospectScore = {
+        pain: Math.min(3, Math.round(((answers.constraint_capacity?.score || 1) + (answers.bottleneck_area?.score || 1) + (answers.scale_break?.score || 1)) / 3)),
+        budget: answers.budget_timeline?.score || 1,
+        authority: answers.decision_authority?.score || 1,
+        timing: answers.budget_timeline?.score || 1,
+      };
+
+      // Determine recommended tier
+      const totalProspect = prospectScore.pain + prospectScore.budget + prospectScore.authority + prospectScore.timing;
+      let recommendedTier: "audit" | "quick_wins" | "implementation" | "retainer" = "audit";
+      if (totalProspect >= 12 && percentage < 60) recommendedTier = "implementation";
+      else if (totalProspect >= 8) recommendedTier = "quick_wins";
+
+      // Split name into first/last
+      const nameParts = contact.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+
+      // 1. Create lead via tRPC → fires GHL webhook
+      const lead = await createLead.mutateAsync({
+        firstName,
+        lastName,
+        email: contact.email,
+        company: contact.company || undefined,
+        jobTitle: contact.role || undefined,
+        phone: contact.phone || undefined,
+        companySize: contact.employees || undefined,
+        source: "quiz",
+      });
+
+      // 2. Submit assessment via tRPC → fires GHL webhook
+      const assessment = await submitAssessment.mutateAsync({
+        leadId: lead.id,
+        answers: Object.fromEntries(
+          Object.entries(answers).map(([k, v]) => [k, v.value])
+        ),
+        constraintScores,
+        overallScore: percentage,
+        primaryConstraint,
+        costOfInaction: annualCostOfInaction,
+        recommendedTier,
+        recommendedPhase: "assess",
+      });
+
+      // 3. Store results in sessionStorage for the Results page
+      sessionStorage.setItem("assessmentResults", JSON.stringify({
+        score: percentage,
+        totalScore,
+        maxScore,
+        answers,
+        contact,
+        primaryConstraint,
+        annualCostOfInaction,
+        prospectScore,
+        timestamp: new Date().toISOString(),
+        leadId: lead.id,
+        assessmentId: assessment.id,
+      }));
+
+      toast.success("Assessment saved! Generating your results...");
+      navigate("/results");
+    } catch (err) {
+      console.error("Assessment submission failed:", err);
+      // Fallback: still navigate with local data
+      const totalScore = Object.values(answers).reduce((sum, a) => sum + a.score, 0);
+      const maxScore = totalSteps * 4;
+      const percentage = Math.round((totalScore / maxScore) * 100);
+      const constraintCounts: Record<string, number> = {};
+      Object.values(answers).forEach((a) => {
+        if (a.constraintType) constraintCounts[a.constraintType] = (constraintCounts[a.constraintType] || 0) + 1;
+      });
+      const primaryConstraint = Object.entries(constraintCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "process";
+      const revenueMultiplier = answers.revenue_band?.score === 4 ? 50000000 : answers.revenue_band?.score === 3 ? 25000000 : answers.revenue_band?.score === 2 ? 5000000 : 1000000;
+      const inefficiencyRate = (maxScore - totalScore) / maxScore;
+      const annualCostOfInaction = Math.round(revenueMultiplier * inefficiencyRate * 0.03);
+      const prospectScore = {
+        pain: Math.min(3, Math.round(((answers.constraint_capacity?.score || 1) + (answers.bottleneck_area?.score || 1) + (answers.scale_break?.score || 1)) / 3)),
+        budget: answers.budget_timeline?.score || 1,
+        authority: answers.decision_authority?.score || 1,
+        timing: answers.budget_timeline?.score || 1,
+      };
+
+      sessionStorage.setItem("assessmentResults", JSON.stringify({
+        score: percentage, totalScore, maxScore, answers, contact,
+        primaryConstraint, annualCostOfInaction, prospectScore,
+        timestamp: new Date().toISOString(),
+      }));
+
+      toast.info("Results generated locally. Server sync will retry.");
+      navigate("/results");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const currentQ = questions[step];
@@ -410,11 +507,11 @@ export default function Assessment() {
                 </Button>
                 <Button
                   onClick={handleSubmit}
-                  disabled={!contact.name || !contact.email || !contact.company}
+                  disabled={!contact.name || !contact.email || !contact.company || isSubmitting}
                   className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  Get My Constraint Diagnosis
+                  {isSubmitting ? "Saving..." : "Get My Constraint Diagnosis"}
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>

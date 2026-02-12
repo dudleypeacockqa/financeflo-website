@@ -3,6 +3,7 @@
  * Home: Constraint-based messaging, growth capacity framing, ADAPT + QDOAA
  * Dark navy canvas, teal accents, amber CTAs, asymmetric layout
  */
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, BarChart3, Brain, Building2, Shield, TrendingUp, Zap, Users, Clock, Target, CheckCircle2 } from "lucide-react";
@@ -54,6 +55,10 @@ const engagementTiers = [
 ];
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
+
   return (
     <div className="min-h-screen">
       {/* ===== HERO ===== */}

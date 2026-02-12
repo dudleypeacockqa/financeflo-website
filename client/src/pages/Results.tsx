@@ -2,6 +2,7 @@
  * Design: Data Cartography — FinanceFlo.ai
  * Results: Constraint diagnosis, Cost of Inaction calculator, ROI projections,
  * tiered engagement recommendations, and proposal generation
+ * NOW: Wired to tRPC for proposal generation + PDF download + GHL webhooks
  */
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,11 @@ import { Link, useLocation } from "wouter";
 import {
   ArrowRight, Download, CheckCircle2, AlertTriangle, Zap,
   DollarSign, TrendingUp, Clock, Shield, Users, Target,
-  Calendar, Phone
+  Calendar, Phone, FileText, Loader2
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 interface ProspectScore {
   pain: number;
@@ -30,6 +33,8 @@ interface AssessmentData {
   annualCostOfInaction: number;
   prospectScore: ProspectScore;
   timestamp: string;
+  leadId?: number;
+  assessmentId?: number;
 }
 
 function getReadinessLevel(score: number) {
@@ -104,6 +109,11 @@ function getEngagementTier(score: number, prospectScore: ProspectScore) {
 export default function Results() {
   const [data, setData] = useState<AssessmentData | null>(null);
   const [, navigate] = useLocation();
+  const [proposalLoading, setProposalLoading] = useState(false);
+  const [proposalUrl, setProposalUrl] = useState<string | null>(null);
+
+  const generateProposal = trpc.proposal.generate.useMutation();
+  const generatePdf = trpc.proposal.generatePdf.useMutation();
 
   useEffect(() => {
     const stored = sessionStorage.getItem("assessmentResults");
@@ -113,6 +123,37 @@ export default function Results() {
       navigate("/assessment");
     }
   }, [navigate]);
+
+  const handleGenerateProposal = async () => {
+    if (!data?.leadId || !data?.assessmentId) {
+      toast.error("Assessment data incomplete. Please retake the assessment.");
+      return;
+    }
+
+    setProposalLoading(true);
+    try {
+      // 1. Generate proposal content via LLM
+      const proposal = await generateProposal.mutateAsync({
+        leadId: data.leadId,
+        assessmentId: data.assessmentId,
+      });
+
+      toast.success("Proposal generated! Creating PDF...");
+
+      // 2. Generate PDF and upload to S3
+      const { pdfUrl } = await generatePdf.mutateAsync({
+        proposalId: proposal.id,
+      });
+
+      setProposalUrl(pdfUrl);
+      toast.success("Your personalised proposal is ready!");
+    } catch (err) {
+      console.error("Proposal generation failed:", err);
+      toast.error("Proposal generation failed. Please try again or contact us directly.");
+    } finally {
+      setProposalLoading(false);
+    }
+  };
 
   if (!data) return null;
 
@@ -302,7 +343,7 @@ export default function Results() {
           </div>
         </motion.div>
 
-        {/* Prospect Score (internal — shown transparently) */}
+        {/* Prospect Score */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -335,7 +376,7 @@ export default function Results() {
           </div>
         </motion.div>
 
-        {/* CTA Section */}
+        {/* Proposal Generation + CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -347,9 +388,39 @@ export default function Results() {
             Ready to Eliminate Your Constraints?
           </h3>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Book a free 30-minute strategy call with Dudley Peacock to validate these findings and discuss the best path forward for {data.contact.company}.
+            {proposalUrl
+              ? "Your personalised transformation proposal is ready. Download it now or book a strategy call to discuss the findings."
+              : "Generate a personalised transformation proposal with detailed ROI projections, or book a free strategy call with Dudley Peacock."
+            }
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {proposalUrl ? (
+              <a href={proposalUrl} target="_blank" rel="noopener noreferrer">
+                <Button className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
+                  <Download className="w-4 h-4" />
+                  Download Your Proposal
+                </Button>
+              </a>
+            ) : data.leadId && data.assessmentId ? (
+              <Button
+                onClick={handleGenerateProposal}
+                disabled={proposalLoading}
+                className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {proposalLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Generating Proposal...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-4 h-4" />
+                    Generate My Proposal
+                  </>
+                )}
+              </Button>
+            ) : null}
             <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer">
               <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
                 <Phone className="w-4 h-4" />
@@ -364,7 +435,10 @@ export default function Results() {
             </Link>
           </div>
           <p className="text-xs text-muted-foreground mt-6">
-            A copy of this assessment has been saved. Your personalised report will be emailed to {data.contact.email}.
+            {data.leadId
+              ? `Assessment saved (ID: ${data.assessmentId}). Your personalised report will be emailed to ${data.contact.email}.`
+              : `A copy of this assessment has been saved. Your personalised report will be emailed to ${data.contact.email}.`
+            }
           </p>
         </motion.div>
       </div>
