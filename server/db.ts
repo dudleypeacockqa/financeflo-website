@@ -204,6 +204,32 @@ export async function updateWorkshopStatus(regId: number, status: "registered" |
   await db.update(workshopRegistrations).set({ status }).where(eq(workshopRegistrations.id, regId));
 }
 
+// ─── ADMIN LIST HELPERS ────────────────────────────────────────────────────
+
+export async function listAssessments(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(assessments).orderBy(desc(assessments.createdAt)).limit(limit);
+}
+
+export async function listProposals(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(proposals).orderBy(desc(proposals.createdAt)).limit(limit);
+}
+
+export async function listWorkshopRegistrations(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(workshopRegistrations).orderBy(desc(workshopRegistrations.createdAt)).limit(limit);
+}
+
+export async function listWebhookEvents(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(webhookEvents).orderBy(desc(webhookEvents.createdAt)).limit(limit);
+}
+
 // ─── WEBHOOK EVENT HELPERS ──────────────────────────────────────────────────
 
 export async function logWebhookEvent(event: InsertWebhookEvent) {

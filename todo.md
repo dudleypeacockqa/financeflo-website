@@ -25,7 +25,11 @@
 - [x] Update proposal generator with region-based pricing
 - [x] Update PDF generator with region-based pricing
 - [x] Write/update tests for region pricing logic (50 tests passing)
-- [ ] Prepare downloadable transfer package for Cursor IDE
+- [x] Prepare downloadable transfer package for Cursor IDE
 - [x] Update PRD with ATLAS-VM framework, region pricing, and all new features
 - [x] Create .claude.md file for Cursor/Claude Code integration
-- [ ] Commit and push all changes to GitHub
+- [x] Commit and push all changes to GitHub
+- [x] Build admin dashboard with leads, assessments, proposals tables and status management
+- [x] Verify and fix GHL webhook integration (4 event types: lead_created, assessment_completed, proposal_generated, workshop_registered)
+- [x] Update re-usable financeflo-sales-proposal skill with ATLAS-VM, GOTCHA, region pricing, and latest context
+- [x] Create downloadable transfer package for Cursor IDE (327KB zip)

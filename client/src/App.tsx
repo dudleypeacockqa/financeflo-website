@@ -12,6 +12,7 @@ import LeadMagnet from "./pages/LeadMagnet";
 import Results from "./pages/Results";
 import Delivery from "./pages/Delivery";
 import Workshop from "./pages/Workshop";
+import Admin from "./pages/Admin";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 function Router() {
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/results" component={Results} />
       <Route path="/delivery" component={Delivery} />
       <Route path="/workshop" component={Workshop} />
+      <Route path="/admin" component={Admin} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
