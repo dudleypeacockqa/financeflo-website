@@ -10,6 +10,7 @@ import Solutions from "./pages/Solutions";
 import ADAPTFramework from "./pages/ADAPTFramework";
 import LeadMagnet from "./pages/LeadMagnet";
 import Results from "./pages/Results";
+import Delivery from "./pages/Delivery";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/adapt-framework" component={ADAPTFramework} />
       <Route path="/lead-magnet" component={LeadMagnet} />
       <Route path="/results" component={Results} />
+      <Route path="/delivery" component={Delivery} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

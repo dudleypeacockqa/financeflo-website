@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/solutions", label: "Solutions" },
   { href: "/adapt-framework", label: "ADAPT Framework" },
+  { href: "/delivery", label: "How We Deliver" },
   { href: "/lead-magnet", label: "Resources" },
 ];
 
