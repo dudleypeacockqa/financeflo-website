@@ -4,7 +4,7 @@
  * Branded for FinanceFlo.ai (NOT WSI). Constraint-based messaging.
  * Features: Registration form, agenda, speaker bio, countdown, social proof
  */
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import {
@@ -118,6 +118,7 @@ const faqs = [
 /* ──────────────────────────── COMPONENT ──────────────────────────── */
 
 export default function Workshop() {
+  useEffect(() => { document.title = "Workshop | FinanceFlo.ai"; }, []);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

@@ -3,6 +3,7 @@
  * Home: Constraint-based messaging, growth capacity framing, ADAPT + QDOAA
  * Dark navy canvas, teal accents, amber CTAs, asymmetric layout
  */
+import { useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -58,6 +59,10 @@ export default function Home() {
   // The userAuth hooks provides authentication state
   // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
   let { user, loading, error, isAuthenticated, logout } = useAuth();
+
+  useEffect(() => {
+    document.title = "FinanceFlo.ai — AI-Powered Financial Transformation";
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -396,6 +401,46 @@ export default function Home() {
                 <h3 className="text-xl font-bold mt-2 mb-1" style={{ fontFamily: "var(--font-heading)" }}>{tier.name}</h3>
                 <p className="text-lg font-semibold text-amber mb-3">{tier.price}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{tier.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== INDUSTRIES WE SERVE ===== */}
+      <section className="py-16 border-t border-border/30">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-10"
+          >
+            <span className="text-xs font-mono text-teal uppercase tracking-widest">Sectors We Serve</span>
+            <h2 className="text-3xl font-bold mt-3" style={{ fontFamily: "var(--font-heading)" }}>
+              Industries We Serve
+            </h2>
+          </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Construction", href: "/industries/construction", desc: "Job costing & project accounting" },
+              { name: "Financial Services", href: "/industries/financial-services", desc: "Multi-entity & regulatory" },
+              { name: "Healthcare", href: "/industries/healthcare", desc: "Fund accounting & grants" },
+              { name: "E-Commerce", href: "/industries/ecommerce", desc: "Omnichannel finance" },
+            ].map((ind, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+              >
+                <Link href={ind.href} className="no-underline">
+                  <div className="glass-panel p-5 text-center group hover:border-teal/30 transition-colors" style={{ borderRadius: "var(--radius)" }}>
+                    <h4 className="font-semibold text-foreground mb-1" style={{ fontFamily: "var(--font-heading)" }}>{ind.name}</h4>
+                    <p className="text-xs text-muted-foreground">{ind.desc}</p>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>

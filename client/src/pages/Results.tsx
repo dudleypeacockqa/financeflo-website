@@ -127,6 +127,8 @@ export default function Results() {
   const generateProposal = trpc.proposal.generate.useMutation();
   const generatePdf = trpc.proposal.generatePdf.useMutation();
 
+  useEffect(() => { document.title = "Assessment Results | FinanceFlo.ai"; }, []);
+
   useEffect(() => {
     const stored = sessionStorage.getItem("assessmentResults");
     if (stored) {

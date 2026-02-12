@@ -3,7 +3,7 @@
  * Solutions: Sage Intacct, AI Development, Pricing Tiers, Maintenance Pillars
  * Region-aware pricing (UK/EU/ZA)
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import {
@@ -76,6 +76,7 @@ function detectDefaultRegion(): Region {
 }
 
 export default function Solutions() {
+  useEffect(() => { document.title = "Solutions | FinanceFlo.ai"; }, []);
   const [region, setRegion] = useState<Region>(detectDefaultRegion);
   const config = REGION_CONFIGS[region];
   const tiers = getEngagementTiers(region);

@@ -3,7 +3,7 @@
  * Lead Magnet: Download page for the AI in Finance report with email capture
  * Updated to align with consulting hybrid model and QDOAA framework
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, Download, BookOpen, CheckCircle2, BarChart3, Brain, Shield, TrendingUp, Zap, Target } from "lucide-react";
@@ -23,6 +23,7 @@ const reportHighlights = [
 ];
 
 export default function LeadMagnet() {
+  useEffect(() => { document.title = "AI in Finance Report | FinanceFlo.ai"; }, []);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");

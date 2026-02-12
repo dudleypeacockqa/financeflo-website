@@ -5,7 +5,7 @@
  * Calculates Cost of Inaction and maps to engagement tiers
  * NOW: Wired to tRPC for lead capture + assessment storage + GHL webhooks
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Zap, Building2, Globe } from "lucide-react";
@@ -181,6 +181,7 @@ interface ContactInfo {
 }
 
 export default function Assessment() {
+  useEffect(() => { document.title = "AI Readiness Assessment | FinanceFlo.ai"; }, []);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, { value: string; score: number; constraintType?: string }>>({});
   const [showContact, setShowContact] = useState(false);

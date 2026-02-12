@@ -2,6 +2,7 @@
  * Design: Data Cartography — FinanceFlo.ai
  * ADAPT Framework: Detailed methodology page with QDOAA integration
  */
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import {
@@ -106,6 +107,7 @@ const phases = [
 ];
 
 export default function ADAPTFramework() {
+  useEffect(() => { document.title = "ADAPT Framework | FinanceFlo.ai"; }, []);
   return (
     <div className="min-h-screen pt-24">
       {/* Hero */}

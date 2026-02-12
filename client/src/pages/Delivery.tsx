@@ -11,7 +11,7 @@ import {
   Clock, Clipboard, ChevronDown, CheckCircle2
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CTA_BG = "/images/cta-bg.png";
 
@@ -157,6 +157,7 @@ function StepCard({ step, index }: { step: typeof implementationSteps[0]; index:
 }
 
 export default function Delivery() {
+  useEffect(() => { document.title = "How We Deliver | FinanceFlo.ai"; }, []);
   return (
     <div className="min-h-screen pt-24">
       {/* Hero */}
