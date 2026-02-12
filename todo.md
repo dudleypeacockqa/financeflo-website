@@ -14,7 +14,18 @@
 - [x] Wire up GHL webhook integration for all forms (ghl.ts + routers.ts)
 - [x] Write vitest tests for API routes (27 tests passing)
 - [x] Push database migrations
-- [ ] Save checkpoint and push to GitHub
+- [x] Save checkpoint and push to GitHub
 - [x] Wire up Assessment page to tRPC (lead.create + assessment.submit)
 - [x] Wire up Results page to tRPC (proposal.generate + proposal.generatePdf)
 - [x] Wire up Workshop page to tRPC (lead.create + workshop.register)
+- [x] Deep market research: validate regional pricing for AI/finance consulting (UK, EU, ZA)
+- [x] Create shared region pricing config with GBP/EUR/ZAR rates
+- [x] Update Solutions page with region-aware pricing display
+- [x] Update Assessment/Survey to detect prospect region
+- [x] Update proposal generator with region-based pricing
+- [x] Update PDF generator with region-based pricing
+- [x] Write/update tests for region pricing logic (50 tests passing)
+- [ ] Prepare downloadable transfer package for Cursor IDE
+- [x] Update PRD with ATLAS-VM framework, region pricing, and all new features
+- [x] Create .claude.md file for Cursor/Claude Code integration
+- [ ] Commit and push all changes to GitHub

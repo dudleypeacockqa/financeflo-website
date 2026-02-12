@@ -15,6 +15,13 @@ import {
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import {
+  type Region,
+  REGION_CONFIGS,
+  formatCurrency,
+  formatRange,
+  PRICING_DISCLAIMER,
+} from "@shared/pricing";
 
 interface ProspectScore {
   pain: number;
@@ -35,6 +42,7 @@ interface AssessmentData {
   timestamp: string;
   leadId?: number;
   assessmentId?: number;
+  region?: Region;
 }
 
 function getReadinessLevel(score: number) {
@@ -52,36 +60,40 @@ function getConstraintLabel(type: string) {
   }
 }
 
-function getROILevers(answers: Record<string, { value: string; score: number; constraintType?: string }>, annualCost: number) {
+function getROILevers(answers: Record<string, { value: string; score: number; constraintType?: string }>, annualCost: number, region: Region = "UK") {
   const levers: { icon: typeof DollarSign; title: string; value: string; desc: string }[] = [];
+  const fmt = (n: number) => `${formatCurrency(n, region)}/yr`;
 
   if (answers.bottleneck_area?.value === "close" || answers.bottleneck_area?.value === "interco") {
-    levers.push({ icon: Clock, title: "Time Saved", value: `£${Math.round(annualCost * 0.35).toLocaleString()}/yr`, desc: "Reduce month-end close by 40-60% through automated reconciliation, consolidation, and journal entry posting." });
+    levers.push({ icon: Clock, title: "Time Saved", value: fmt(Math.round(annualCost * 0.35)), desc: "Reduce month-end close by 40-60% through automated reconciliation, consolidation, and journal entry posting." });
   }
   if (answers.data_quality?.score && answers.data_quality.score <= 2) {
-    levers.push({ icon: Shield, title: "Error Reduction", value: `£${Math.round(annualCost * 0.25).toLocaleString()}/yr`, desc: "Eliminate manual data entry errors, improve audit compliance, and reduce rework across entities." });
+    levers.push({ icon: Shield, title: "Error Reduction", value: fmt(Math.round(annualCost * 0.25)), desc: "Eliminate manual data entry errors, improve audit compliance, and reduce rework across entities." });
   }
   if (answers.scale_break?.score && answers.scale_break.score >= 3) {
-    levers.push({ icon: Users, title: "Throughput Increase", value: `£${Math.round(annualCost * 0.30).toLocaleString()}/yr`, desc: "Handle 2-3x transaction volume without proportional headcount increase. Scale capacity, not cost." });
+    levers.push({ icon: Users, title: "Throughput Increase", value: fmt(Math.round(annualCost * 0.30)), desc: "Handle 2-3x transaction volume without proportional headcount increase. Scale capacity, not cost." });
   }
-  levers.push({ icon: TrendingUp, title: "Revenue Optimisation", value: `£${Math.round(annualCost * 0.15).toLocaleString()}/yr`, desc: "Faster reporting enables better decision-making. Predictive analytics identifies revenue opportunities earlier." });
-  levers.push({ icon: DollarSign, title: "Risk Avoidance", value: `£${Math.round(annualCost * 0.10).toLocaleString()}/yr`, desc: "Protect existing revenue through compliance automation, fraud detection, and audit-ready financial controls." });
+  levers.push({ icon: TrendingUp, title: "Revenue Optimisation", value: fmt(Math.round(annualCost * 0.15)), desc: "Faster reporting enables better decision-making. Predictive analytics identifies revenue opportunities earlier." });
+  levers.push({ icon: DollarSign, title: "Risk Avoidance", value: fmt(Math.round(annualCost * 0.10)), desc: "Protect existing revenue through compliance automation, fraud detection, and audit-ready financial controls." });
 
   return levers;
 }
 
-function getEngagementTier(score: number, prospectScore: ProspectScore) {
+function getEngagementTier(score: number, prospectScore: ProspectScore, region: Region = "UK") {
   const totalProspect = prospectScore.pain + prospectScore.budget + prospectScore.authority + prospectScore.timing;
+  const config = REGION_CONFIGS[region];
+  const auditPrice = formatRange(config.auditRange, region);
+  const retainerPrice = `${formatRange(config.retainerRange, region)}/mo`;
 
   if (totalProspect >= 12 && score < 60) {
     return {
       tier: "Full Transformation",
-      tagline: "Audit → Implementation → Ongoing Retainer",
+      tagline: "Audit \u2192 Implementation \u2192 Ongoing Retainer",
       desc: "Your constraint severity and readiness profile indicate maximum ROI from a comprehensive engagement. Start with an AI Operations Audit, move to implementation, and transition to ongoing optimisation.",
       phases: [
-        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Current-state process map, ROI stack, prioritised roadmap, implementation plan" },
+        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: auditPrice, desc: "Current-state process map, ROI stack, prioritised roadmap, implementation plan" },
         { name: "Phase 2: Implementation", duration: "8-16 weeks", price: "Scoped from audit", desc: "Sage Intacct deployment, AI automation, data migration, team training" },
-        { name: "Phase 3: Ongoing Retainer", duration: "Monthly", price: "From £8,000/mo", desc: "System health monitoring, performance optimisation, security management, strategic updates" },
+        { name: "Phase 3: Ongoing Retainer", duration: "Monthly", price: retainerPrice, desc: "System health monitoring, performance optimisation, security management, strategic updates" },
       ],
     };
   }
@@ -91,7 +103,7 @@ function getEngagementTier(score: number, prospectScore: ProspectScore) {
       tagline: "Audit + Quick Wins Implementation",
       desc: "Your profile shows strong potential for quick wins. Start with an audit to identify the highest-impact, lowest-risk interventions, then implement the top 2-3 opportunities.",
       phases: [
-        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Constraint diagnosis, ROI calculation, prioritised roadmap" },
+        { name: "Phase 1: AI Operations Audit", duration: "2-3 weeks", price: auditPrice, desc: "Constraint diagnosis, ROI calculation, prioritised roadmap" },
         { name: "Phase 2: Quick Wins Sprint", duration: "4-8 weeks", price: "Scoped from audit", desc: "Implement top 2-3 highest-ROI automations identified in audit" },
       ],
     };
@@ -101,7 +113,7 @@ function getEngagementTier(score: number, prospectScore: ProspectScore) {
     tagline: "AI Operations Audit + ROI Roadmap",
     desc: "The ideal starting point. A focused audit that maps your current constraints, calculates the real cost of inaction, and delivers a prioritised transformation roadmap.",
     phases: [
-      { name: "AI Operations Audit", duration: "2-3 weeks", price: "£5,000 – £15,000", desc: "Current-state process map, ROI stack with assumptions, prioritised roadmap, implementation plan" },
+      { name: "AI Operations Audit", duration: "2-3 weeks", price: auditPrice, desc: "Current-state process map, ROI stack with assumptions, prioritised roadmap, implementation plan" },
     ],
   };
 }
@@ -157,10 +169,12 @@ export default function Results() {
 
   if (!data) return null;
 
+  const region: Region = data.region || "UK";
+  const regionConfig = REGION_CONFIGS[region];
   const readiness = getReadinessLevel(data.score);
   const constraint = getConstraintLabel(data.primaryConstraint);
-  const roiLevers = getROILevers(data.answers, data.annualCostOfInaction);
-  const engagement = getEngagementTier(data.score, data.prospectScore);
+  const roiLevers = getROILevers(data.answers, data.annualCostOfInaction, region);
+  const engagement = getEngagementTier(data.score, data.prospectScore, region);
   const ReadinessIcon = readiness.icon;
   const ConstraintIcon = constraint.icon;
 
@@ -252,7 +266,7 @@ export default function Results() {
             </div>
             <div className="text-right shrink-0">
               <span className="text-4xl sm:text-5xl font-bold text-amber font-mono">
-                £{data.annualCostOfInaction.toLocaleString()}
+                {formatCurrency(data.annualCostOfInaction, region)}
               </span>
               <p className="text-sm text-muted-foreground mt-1">per year</p>
             </div>
@@ -281,7 +295,7 @@ export default function Results() {
             </div>
             <div className="text-right">
               <span className="text-xs text-muted-foreground">Total Projected Annual ROI</span>
-              <p className="text-2xl font-bold text-teal font-mono">£{totalROI.toLocaleString()}</p>
+              <p className="text-2xl font-bold text-teal font-mono">{formatCurrency(totalROI, region)}</p>
             </div>
           </div>
 

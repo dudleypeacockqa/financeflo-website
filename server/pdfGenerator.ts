@@ -11,6 +11,12 @@
 
 import { storagePut } from "./storage";
 import type { Lead, Assessment, Proposal } from "../drizzle/schema";
+import {
+  type Region,
+  REGION_CONFIGS,
+  formatCurrency as fmtCurrency,
+  PRICING_DISCLAIMER,
+} from "../shared/pricing";
 
 interface ProposalContent {
   title: string;
@@ -39,10 +45,14 @@ interface ProposalContent {
   };
   nextSteps: string[];
   estimatedValue: number;
+  region?: Region;
+  currency?: string;
+  currencySymbol?: string;
+  pricingDisclaimer?: string;
 }
 
-function formatCurrency(amount: number): string {
-  return `£${amount.toLocaleString("en-GB")}`;
+function formatCurrency(amount: number, region: Region = "UK"): string {
+  return fmtCurrency(amount, region);
 }
 
 function getConstraintLabel(key: string): string {
@@ -79,7 +89,9 @@ export function generateProposalHTML(
   assessment: Assessment,
   content: ProposalContent
 ): string {
-  const today = new Date().toLocaleDateString("en-GB", {
+  const region: Region = content.region || "UK";
+  const config = REGION_CONFIGS[region];
+  const today = new Date().toLocaleDateString(config.locale, {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -193,7 +205,7 @@ export function generateProposalHTML(
       <div style="margin-top: 20px; padding: 16px; background: #FF6B3510; border: 1px solid #FF6B3530; border-radius: 8px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 13px; color: #FF6B35; font-weight: 600;">Annual Cost of Inaction</span>
-          <span style="font-size: 24px; font-weight: 700; color: #FF6B35; font-family: 'Space Grotesk';">${formatCurrency(content.constraintDiagnosis.costOfInaction)}</span>
+          <span style="font-size: 24px; font-weight: 700; color: #FF6B35; font-family: 'Space Grotesk';">${formatCurrency(content.constraintDiagnosis.costOfInaction, region)}</span>
         </div>
       </div>
     </div>
@@ -225,11 +237,11 @@ export function generateProposalHTML(
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div style="padding: 16px; background: #1A2744; border-radius: 8px; text-align: center;">
           <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Year 1 Savings</span>
-          <div style="font-size: 22px; font-weight: 700; color: #00D9FF; font-family: 'Space Grotesk'; margin-top: 4px;">${formatCurrency(content.roiProjection.year1Savings)}</div>
+          <div style="font-size: 22px; font-weight: 700; color: #00D9FF; font-family: 'Space Grotesk'; margin-top: 4px;">${formatCurrency(content.roiProjection.year1Savings, region)}</div>
         </div>
         <div style="padding: 16px; background: #1A2744; border-radius: 8px; text-align: center;">
           <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px;">3-Year Savings</span>
-          <div style="font-size: 22px; font-weight: 700; color: #00D9FF; font-family: 'Space Grotesk'; margin-top: 4px;">${formatCurrency(content.roiProjection.year3Savings)}</div>
+          <div style="font-size: 22px; font-weight: 700; color: #00D9FF; font-family: 'Space Grotesk'; margin-top: 4px;">${formatCurrency(content.roiProjection.year3Savings, region)}</div>
         </div>
         <div style="padding: 16px; background: #1A2744; border-radius: 8px; text-align: center;">
           <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px;">ROI Multiple</span>
@@ -289,9 +301,12 @@ export function generateProposalHTML(
         AI-Powered Financial Transformation &middot; Sage Intacct Partner<br>
         hello@financeflo.ai &middot; financeflo.ai
       </p>
+      <p class="mono" style="font-size: 10px; color: #555; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        ${content.pricingDisclaimer || PRICING_DISCLAIMER}
+      </p>
       <p class="mono" style="font-size: 10px; color: #444; margin-top: 8px;">
         This proposal is confidential and intended solely for the named recipient.<br>
-        Valid for 30 days from the date of issue.
+        All pricing shown in ${config.currency} (${config.taxLabel}). Valid for 30 days from the date of issue.
       </p>
     </div>
 

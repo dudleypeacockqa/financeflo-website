@@ -1,5 +1,12 @@
 import { invokeLLM } from "./_core/llm";
 import type { Lead, Assessment } from "../drizzle/schema";
+import {
+  type Region,
+  REGION_CONFIGS,
+  formatCurrency,
+  formatRange,
+  PRICING_DISCLAIMER,
+} from "../shared/pricing";
 
 interface ProposalContent {
   title: string;
@@ -28,6 +35,21 @@ interface ProposalContent {
   };
   nextSteps: string[];
   estimatedValue: number;
+  region: Region;
+  currency: string;
+  currencySymbol: string;
+  pricingDisclaimer: string;
+}
+
+/**
+ * Detect region from assessment answers or default to UK
+ */
+function detectRegion(assessment: Assessment): Region {
+  const answers = assessment.answers as Record<string, string> | null;
+  if (answers?.region && ["UK", "EU", "ZA"].includes(answers.region)) {
+    return answers.region as Region;
+  }
+  return "UK";
 }
 
 export async function generateProposalContent(
@@ -36,6 +58,8 @@ export async function generateProposalContent(
 ): Promise<ProposalContent> {
   const constraintScores = assessment.constraintScores as Record<string, number>;
   const costOfInaction = assessment.costOfInaction ?? 0;
+  const region = detectRegion(assessment);
+  const config = REGION_CONFIGS[region];
 
   const prompt = `You are a senior AI consultant at FinanceFlo.ai. Generate a structured proposal for the following prospect.
 
@@ -45,29 +69,36 @@ PROSPECT:
 - Job Title: ${lead.jobTitle || "Not specified"}
 - Industry: ${lead.industry || "Not specified"}
 - Company Size: ${lead.companySize || "Not specified"}
+- Region: ${config.label}
 
 ASSESSMENT RESULTS:
 - Overall Score: ${assessment.overallScore}/100
 - Primary Constraint: ${assessment.primaryConstraint}
 - Constraint Scores: ${JSON.stringify(constraintScores)}
-- Cost of Inaction (annual): £${costOfInaction.toLocaleString()}
+- Cost of Inaction (annual): ${config.currencySymbol}${costOfInaction.toLocaleString()}
 - Recommended Tier: ${assessment.recommendedTier}
+
+PRICING CONTEXT (${config.currency}):
+- AI Operations Audit: ${formatRange(config.auditRange, region)}
+- Monthly Retainer: ${formatRange(config.retainerRange, region)}/mo
+- Market context: ${config.marketContext}
 
 Generate a professional proposal with:
 1. Executive summary (2-3 paragraphs)
 2. Constraint diagnosis with specific recommendations
 3. Recommended solution (Sage Intacct + AI) with deliverables and timeline
 4. ROI projection with realistic numbers based on the Cost of Inaction
-5. Indicative pricing
+5. Indicative pricing in ${config.currency} (${config.currencySymbol})
 6. Clear next steps
 
 Use the ADAPT Framework (Assess, Design, Automate, Pilot, Transform) and QDOAA methodology.
-Be specific but realistic. Use GBP currency.`;
+Be specific but realistic. Use ${config.currency} (${config.currencySymbol}) for ALL monetary values.
+All pricing is indicative, not fixed, and excludes ${config.taxLabel}.`;
 
   try {
     const response = await invokeLLM({
       messages: [
-        { role: "system", content: "You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only." },
+        { role: "system", content: `You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only. Use ${config.currency} (${config.currencySymbol}) for all monetary values.` },
         { role: "user", content: prompt },
       ],
       response_format: {
@@ -133,7 +164,7 @@ Be specific but realistic. Use GBP currency.`;
                 additionalProperties: false,
               },
               nextSteps: { type: "array", items: { type: "string" } },
-              estimatedValue: { type: "number", description: "Total estimated project value in GBP" },
+              estimatedValue: { type: "number", description: `Total estimated project value in ${config.currency}` },
             },
             required: [
               "title", "executiveSummary", "constraintDiagnosis",
@@ -150,13 +181,20 @@ Be specific but realistic. Use GBP currency.`;
     if (!rawContent) throw new Error("No content in LLM response");
     const content = typeof rawContent === 'string' ? rawContent : JSON.stringify(rawContent);
 
-    return JSON.parse(content) as ProposalContent;
+    const parsed = JSON.parse(content) as Omit<ProposalContent, 'region' | 'currency' | 'currencySymbol' | 'pricingDisclaimer'>;
+    return {
+      ...parsed,
+      region,
+      currency: config.currency,
+      currencySymbol: config.currencySymbol,
+      pricingDisclaimer: PRICING_DISCLAIMER,
+    };
   } catch (error) {
     console.error("[ProposalGenerator] LLM call failed:", error);
-    // Return a fallback proposal structure
+    // Return a fallback proposal structure with region-appropriate pricing
     return {
       title: `AI-Powered Financial Transformation Proposal for ${lead.company || lead.firstName}`,
-      executiveSummary: `Based on our assessment, ${lead.company || "your organisation"} has significant opportunities to improve operational efficiency through AI-powered financial management. Your primary constraint is ${assessment.primaryConstraint}, and we estimate the annual cost of inaction at £${costOfInaction.toLocaleString()}.`,
+      executiveSummary: `Based on our assessment, ${lead.company || "your organisation"} has significant opportunities to improve operational efficiency through AI-powered financial management. Your primary constraint is ${assessment.primaryConstraint}, and we estimate the annual cost of inaction at ${formatCurrency(costOfInaction, region)}.`,
       constraintDiagnosis: {
         primaryConstraint: assessment.primaryConstraint,
         constraintBreakdown: constraintScores,
@@ -180,9 +218,9 @@ Be specific but realistic. Use GBP currency.`;
         paybackMonths: 8,
       },
       pricingIndicative: {
-        auditFee: "£5,000 - £8,000",
-        implementationRange: "£25,000 - £75,000",
-        monthlyRetainer: "£8,000 - £15,000",
+        auditFee: formatRange(config.auditRange, region),
+        implementationRange: `${formatCurrency(config.auditRange[1] * 2, region)} – ${formatCurrency(config.auditRange[1] * 5, region)}`,
+        monthlyRetainer: `${formatRange(config.retainerRange, region)}/mo`,
       },
       nextSteps: [
         "Schedule a 30-minute discovery call to discuss findings",
@@ -191,6 +229,10 @@ Be specific but realistic. Use GBP currency.`;
         "Begin Quick Wins Sprint to prove value within 4-8 weeks",
       ],
       estimatedValue: Math.round(costOfInaction * 0.5),
+      region,
+      currency: config.currency,
+      currencySymbol: config.currencySymbol,
+      pricingDisclaimer: PRICING_DISCLAIMER,
     };
   }
 }

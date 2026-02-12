@@ -1,16 +1,24 @@
 /*
  * Design: Data Cartography — FinanceFlo.ai
  * Solutions: Sage Intacct, AI Development, Pricing Tiers, Maintenance Pillars
- * Consulting hybrid model: client hosts, we maintain
+ * Region-aware pricing (UK/EU/ZA)
  */
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import {
   ArrowRight, BarChart3, Brain, Building2, Cloud, Cog, Database,
   LineChart, Lock, Repeat, Shield, TrendingUp, Zap, Eye,
-  GraduationCap, RefreshCw, CheckCircle2
+  GraduationCap, RefreshCw, CheckCircle2, Globe
 } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+  type Region,
+  REGIONS,
+  REGION_CONFIGS,
+  getEngagementTiers,
+  PRICING_DISCLAIMER,
+} from "@shared/pricing";
 
 const SAGE_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/tPdbnfOAsVngxSte.png";
 
@@ -40,55 +48,68 @@ const maintenancePillars = [
   { icon: GraduationCap, title: "User Adoption & Training", desc: "Ongoing training programmes, documentation updates, and change management support for your team." },
 ];
 
-const pricingTiers = [
-  {
-    name: "AI Operations Audit",
-    price: "£5,000 – £15,000",
-    period: "one-time",
-    desc: "The essential starting point. We diagnose before we prescribe.",
-    features: [
-      "Current-state process map (where time/money leaks)",
-      "ROI stack (levers + numbers + assumptions)",
-      "Prioritised roadmap (quick wins + bigger plays)",
-      "Implementation plan (phases, owners, timeline)",
-      "Cost of Inaction calculation",
-    ],
-    cta: "Start With an Audit",
-    featured: true,
-  },
-  {
-    name: "Implementation",
-    price: "Scoped from audit",
-    period: "project-based",
-    desc: "Build and deploy. Time & materials or fixed-price based on audit findings.",
-    features: [
-      "Sage Intacct configuration & deployment",
-      "Data migration & validation",
-      "Custom AI solution development",
-      "Integration with existing systems",
-      "Team training & documentation",
-      "Full handoff with Loom walkthroughs",
-    ],
-    cta: "Get Scoped",
-  },
-  {
-    name: "Ongoing Retainer",
-    price: "From £8,000/mo",
-    period: "monthly",
-    desc: "You own the infrastructure. We keep it running and evolving.",
-    features: [
-      "All 5 maintenance pillars included",
-      "Defined monthly hours + scope",
-      "Priority support & availability windows",
-      "Monthly performance reports",
-      "Quarterly strategic reviews",
-      "New builds always separate (keeps expansion alive)",
-    ],
-    cta: "Discuss Retainer",
-  },
-];
+function detectDefaultRegion(): Region {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    if (tz.startsWith("Africa/Johannesburg") || tz.startsWith("Africa/Cape") || tz.startsWith("Africa/Harare")) return "ZA";
+    if (tz.startsWith("Europe/London") || tz.startsWith("Europe/Belfast")) return "UK";
+    if (tz.startsWith("Europe/")) return "EU";
+  } catch {
+    // ignore
+  }
+  return "UK";
+}
 
 export default function Solutions() {
+  const [region, setRegion] = useState<Region>(detectDefaultRegion);
+  const config = REGION_CONFIGS[region];
+  const tiers = getEngagementTiers(region);
+
+  const pricingTiers = [
+    {
+      ...tiers[0],
+      period: "one-time",
+      features: [
+        "Current-state process map (where time/money leaks)",
+        "ROI stack (levers + numbers + assumptions)",
+        "Prioritised roadmap (quick wins + bigger plays)",
+        "Implementation plan (phases, owners, timeline)",
+        "Cost of Inaction calculation",
+      ],
+      cta: "Start With an Audit",
+    },
+    {
+      name: "Implementation",
+      price: "Scoped from audit",
+      period: "project-based",
+      description: "Build and deploy. Time & materials or fixed-price based on audit findings.",
+      features: [
+        "Sage Intacct configuration & deployment",
+        "Data migration & validation",
+        "Custom AI solution development",
+        "Integration with existing systems",
+        "Team training & documentation",
+        "Full handoff with Loom walkthroughs",
+      ],
+      cta: "Get Scoped",
+      tag: "Phase 2",
+      featured: false,
+    },
+    {
+      ...tiers[2],
+      period: "monthly",
+      features: [
+        "All 5 maintenance pillars included",
+        "Defined monthly hours + scope",
+        "Priority support & availability windows",
+        "Monthly performance reports",
+        "Quarterly strategic reviews",
+        "New builds always separate (keeps expansion alive)",
+      ],
+      cta: "Discuss Retainer",
+    },
+  ];
+
   return (
     <div className="min-h-screen pt-24">
       {/* Hero */}
@@ -244,7 +265,7 @@ export default function Solutions() {
         </div>
       </section>
 
-      {/* Pricing Tiers */}
+      {/* Pricing Tiers — Region-Aware */}
       <section className="py-20 border-t border-border/30">
         <div className="container">
           <div className="text-center mb-12">
@@ -252,9 +273,31 @@ export default function Solutions() {
             <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
               Transparent Engagement Models
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
               We price like consultants, not vendors. The anchor is always: "What is this problem costing you?" Our pricing reflects the severity of your constraints, not just the complexity of the solution.
             </p>
+
+            {/* Region Selector */}
+            <div className="inline-flex items-center gap-2 glass-panel px-4 py-2" style={{ borderRadius: "var(--radius)" }}>
+              <Globe className="w-4 h-4 text-teal" />
+              <span className="text-xs text-muted-foreground mr-2">Your region:</span>
+              {REGIONS.map((r) => {
+                const c = REGION_CONFIGS[r];
+                return (
+                  <button
+                    key={r}
+                    onClick={() => setRegion(r)}
+                    className={`px-3 py-1 text-xs font-mono rounded transition-colors ${
+                      region === r
+                        ? "bg-teal text-navy-dark font-bold"
+                        : "text-muted-foreground hover:text-foreground hover:bg-navy-light/50"
+                    }`}
+                  >
+                    {c.label} ({c.currencySymbol})
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -280,7 +323,7 @@ export default function Solutions() {
                     <span className="text-xs text-muted-foreground">{tier.period}</span>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">{tier.desc}</p>
+                <p className="text-sm text-muted-foreground mb-4">{tier.description}</p>
                 <ul className="space-y-2 mb-6 flex-1">
                   {tier.features.map((feat, j) => (
                     <li key={j} className="flex items-start gap-2 text-sm">
@@ -300,6 +343,16 @@ export default function Solutions() {
                 </Link>
               </motion.div>
             ))}
+          </div>
+
+          {/* Market Context & Disclaimer */}
+          <div className="mt-8 text-center space-y-3">
+            <p className="text-xs text-muted-foreground/70 max-w-2xl mx-auto">
+              {config.marketContext}
+            </p>
+            <p className="text-xs text-muted-foreground/50 max-w-2xl mx-auto italic">
+              {PRICING_DISCLAIMER}
+            </p>
           </div>
         </div>
       </section>

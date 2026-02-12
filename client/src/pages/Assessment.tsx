@@ -8,10 +8,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Zap, Building2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Zap, Building2, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import {
+  type Region,
+  REGION_CONFIGS,
+  formatCurrency,
+  formatRange,
+} from "@shared/pricing";
 
 const QUIZ_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/SvivZDFlRhDVYiRf.png";
 
@@ -22,9 +28,23 @@ interface QuizQuestion {
   question: string;
   subtext?: string;
   options: { label: string; value: string; score: number; constraintType?: string }[];
+  [key: string]: any;
 }
 
 const questions: QuizQuestion[] = [
+  // --- SECTION 0: Region Detection ---
+  {
+    id: "region",
+    category: "Your Region",
+    categoryIcon: Globe,
+    question: "Where is your business primarily based?",
+    subtext: "This helps us show pricing in your local currency and tailor our recommendations to your market.",
+    options: [
+      { label: "United Kingdom", value: "UK", score: 0 },
+      { label: "Europe (EU / EEA)", value: "EU", score: 0 },
+      { label: "South Africa", value: "ZA", score: 0 },
+    ],
+  },
   // --- SECTION 1: Company Profile & Scale ---
   {
     id: "company_size",
@@ -45,12 +65,7 @@ const questions: QuizQuestion[] = [
     categoryIcon: Building2,
     question: "What is your group's approximate annual revenue?",
     subtext: "This helps us calibrate the ROI model and engagement tier.",
-    options: [
-      { label: "Under £2M", value: "under_2m", score: 1 },
-      { label: "£2M – £10M", value: "2m_10m", score: 2 },
-      { label: "£10M – £50M", value: "10m_50m", score: 3 },
-      { label: "£50M+", value: "50m_plus", score: 4 },
-    ],
+    options: [], // dynamically populated based on region
   },
   // --- SECTION 2: Constraint Diagnosis ---
   {
@@ -174,7 +189,48 @@ export default function Assessment() {
   const createLead = trpc.lead.create.useMutation();
   const submitAssessment = trpc.assessment.submit.useMutation();
 
-  const totalSteps = questions.length;
+  // Detect region from answers (defaults to UK)
+  const selectedRegion: Region = (answers.region?.value as Region) || "UK";
+  const regionConfig = REGION_CONFIGS[selectedRegion];
+
+  // Dynamically populate revenue band options based on region
+  const getRevenueOptions = (region: Region) => {
+    const c = REGION_CONFIGS[region];
+    const s = c.currencySymbol;
+    if (region === "ZA") {
+      return [
+        { label: `Under ${s}30M`, value: "under_2m", score: 1 },
+        { label: `${s}30M – ${s}150M`, value: "2m_10m", score: 2 },
+        { label: `${s}150M – ${s}750M`, value: "10m_50m", score: 3 },
+        { label: `${s}750M+`, value: "50m_plus", score: 4 },
+      ];
+    }
+    if (region === "EU") {
+      return [
+        { label: `Under ${s}2M`, value: "under_2m", score: 1 },
+        { label: `${s}2M – ${s}10M`, value: "2m_10m", score: 2 },
+        { label: `${s}10M – ${s}50M`, value: "10m_50m", score: 3 },
+        { label: `${s}50M+`, value: "50m_plus", score: 4 },
+      ];
+    }
+    // UK default
+    return [
+      { label: `Under ${s}2M`, value: "under_2m", score: 1 },
+      { label: `${s}2M – ${s}10M`, value: "2m_10m", score: 2 },
+      { label: `${s}10M – ${s}50M`, value: "10m_50m", score: 3 },
+      { label: `${s}50M+`, value: "50m_plus", score: 4 },
+    ];
+  };
+
+  // Build effective questions list with dynamic revenue options
+  const effectiveQuestions = questions.map((q) => {
+    if (q.id === "revenue_band") {
+      return { ...q, options: getRevenueOptions(selectedRegion) };
+    }
+    return q;
+  });
+
+  const totalSteps = effectiveQuestions.length;
   const progress = ((step + 1) / totalSteps) * 100;
 
   const handleAnswer = (questionId: string, value: string, score: number, constraintType?: string) => {
@@ -288,6 +344,7 @@ export default function Assessment() {
         primaryConstraint,
         annualCostOfInaction,
         prospectScore,
+        region: selectedRegion,
         timestamp: new Date().toISOString(),
         leadId: lead.id,
         assessmentId: assessment.id,
@@ -319,6 +376,7 @@ export default function Assessment() {
       sessionStorage.setItem("assessmentResults", JSON.stringify({
         score: percentage, totalScore, maxScore, answers, contact,
         primaryConstraint, annualCostOfInaction, prospectScore,
+        region: selectedRegion,
         timestamp: new Date().toISOString(),
       }));
 
@@ -329,7 +387,7 @@ export default function Assessment() {
     }
   };
 
-  const currentQ = questions[step];
+  const currentQ = effectiveQuestions[step];
   const currentAnswer = currentQ ? answers[currentQ.id] : undefined;
   const CategoryIcon = currentQ?.categoryIcon;
 
@@ -406,7 +464,7 @@ export default function Assessment() {
               {!currentQ.subtext && <div className="mb-6" />}
 
               <div className="space-y-3">
-                {currentQ.options.map((opt) => {
+                {currentQ.options.map((opt: any) => {
                   const isSelected = currentAnswer?.value === opt.value;
                   return (
                     <button
