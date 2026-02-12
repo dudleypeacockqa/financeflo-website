@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ADAPT_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/FEyzInVFNQbEObNl.png";
+const ADAPT_IMG = "/images/adapt-hero.png";
 
 const phases = [
   {

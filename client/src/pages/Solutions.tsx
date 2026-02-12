@@ -20,7 +20,7 @@ import {
   PRICING_DISCLAIMER,
 } from "@shared/pricing";
 
-const SAGE_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/tPdbnfOAsVngxSte.png";
+const SAGE_IMG = "/images/sage-intacct-hero.png";
 
 const sageFeatures = [
   { icon: Building2, title: "Multi-Entity Management", desc: "Manage unlimited entities with real-time consolidation, inter-company transactions, and elimination entries — all automated." },

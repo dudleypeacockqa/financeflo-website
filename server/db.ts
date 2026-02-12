@@ -1,5 +1,6 @@
 import { eq, desc } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/node-postgres";
+import pg from "pg";
 import {
   InsertUser, users,
   InsertLead, leads,
@@ -8,14 +9,14 @@ import {
   InsertWorkshopRegistration, workshopRegistrations,
   InsertWebhookEvent, webhookEvents,
 } from "../drizzle/schema";
-import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+      _db = drizzle(pool);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -55,13 +56,14 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     if (user.role !== undefined) {
       values.role = user.role;
       updateSet.role = user.role;
-    } else if (user.openId === ENV.ownerOpenId) {
-      values.role = 'admin';
-      updateSet.role = 'admin';
     }
     if (!values.lastSignedIn) values.lastSignedIn = new Date();
     if (Object.keys(updateSet).length === 0) updateSet.lastSignedIn = new Date();
-    await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
+    updateSet.updatedAt = new Date();
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.openId,
+      set: updateSet,
+    });
   } catch (error) {
     console.error("[Database] Failed to upsert user:", error);
     throw error;
@@ -80,9 +82,7 @@ export async function getUserByOpenId(openId: string) {
 export async function createLead(lead: InsertLead) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(leads).values(lead);
-  const insertId = result[0].insertId;
-  const rows = await db.select().from(leads).where(eq(leads.id, insertId)).limit(1);
+  const rows = await db.insert(leads).values(lead).returning();
   return rows[0];
 }
 
@@ -109,7 +109,7 @@ export async function listLeads(limit = 50) {
 export async function updateLeadGhlId(leadId: number, ghlContactId: string) {
   const db = await getDb();
   if (!db) return;
-  await db.update(leads).set({ ghlContactId }).where(eq(leads.id, leadId));
+  await db.update(leads).set({ ghlContactId, updatedAt: new Date() }).where(eq(leads.id, leadId));
 }
 
 // ─── ASSESSMENT HELPERS ─────────────────────────────────────────────────────
@@ -117,9 +117,7 @@ export async function updateLeadGhlId(leadId: number, ghlContactId: string) {
 export async function createAssessment(assessment: InsertAssessment) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(assessments).values(assessment);
-  const insertId = result[0].insertId;
-  const rows = await db.select().from(assessments).where(eq(assessments.id, insertId)).limit(1);
+  const rows = await db.insert(assessments).values(assessment).returning();
   return rows[0];
 }
 
@@ -147,9 +145,7 @@ export async function markAssessmentProposalGenerated(assessmentId: number) {
 export async function createProposal(proposal: InsertProposal) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(proposals).values(proposal);
-  const insertId = result[0].insertId;
-  const rows = await db.select().from(proposals).where(eq(proposals.id, insertId)).limit(1);
+  const rows = await db.insert(proposals).values(proposal).returning();
   return rows[0];
 }
 
@@ -169,7 +165,7 @@ export async function getProposalsByLeadId(leadId: number) {
 export async function updateProposalStatus(proposalId: number, status: "draft" | "sent" | "viewed" | "accepted" | "declined") {
   const db = await getDb();
   if (!db) return;
-  const updateData: Record<string, unknown> = { status };
+  const updateData: Record<string, unknown> = { status, updatedAt: new Date() };
   if (status === "sent") updateData.sentAt = new Date();
   if (status === "viewed") updateData.viewedAt = new Date();
   await db.update(proposals).set(updateData).where(eq(proposals.id, proposalId));
@@ -178,7 +174,7 @@ export async function updateProposalStatus(proposalId: number, status: "draft" |
 export async function updateProposalPdfUrl(proposalId: number, pdfUrl: string) {
   const db = await getDb();
   if (!db) return;
-  await db.update(proposals).set({ pdfUrl }).where(eq(proposals.id, proposalId));
+  await db.update(proposals).set({ pdfUrl, updatedAt: new Date() }).where(eq(proposals.id, proposalId));
 }
 
 // ─── WORKSHOP HELPERS ───────────────────────────────────────────────────────
@@ -186,9 +182,7 @@ export async function updateProposalPdfUrl(proposalId: number, pdfUrl: string) {
 export async function createWorkshopRegistration(reg: InsertWorkshopRegistration) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(workshopRegistrations).values(reg);
-  const insertId = result[0].insertId;
-  const rows = await db.select().from(workshopRegistrations).where(eq(workshopRegistrations.id, insertId)).limit(1);
+  const rows = await db.insert(workshopRegistrations).values(reg).returning();
   return rows[0];
 }
 
@@ -201,7 +195,7 @@ export async function getWorkshopRegistrationsByWorkshopId(workshopId: string) {
 export async function updateWorkshopStatus(regId: number, status: "registered" | "confirmed" | "attended" | "no_show" | "cancelled") {
   const db = await getDb();
   if (!db) return;
-  await db.update(workshopRegistrations).set({ status }).where(eq(workshopRegistrations.id, regId));
+  await db.update(workshopRegistrations).set({ status, updatedAt: new Date() }).where(eq(workshopRegistrations.id, regId));
 }
 
 // ─── ADMIN LIST HELPERS ────────────────────────────────────────────────────

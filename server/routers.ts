@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
-import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { getSessionCookieOptions } from "./cookies";
+import { systemRouter } from "./systemRouter";
+import { publicProcedure, protectedProcedure, router } from "./trpc";
 import { z } from "zod";
 import {
   createLead, getLeadById, getLeadByEmail, listLeads, updateLeadGhlId,

@@ -9,10 +9,10 @@ import { Link } from "wouter";
 import { ArrowRight, BarChart3, Brain, Building2, Shield, TrendingUp, Zap, Users, Clock, Target, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/gqIatARolILotQkG.png";
-const ADAPT_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/FEyzInVFNQbEObNl.png";
-const SAGE_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/tPdbnfOAsVngxSte.png";
-const CTA_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/luQdnSsPNQfzyaRb.png";
+const HERO_BG = "/images/hero-bg.png";
+const ADAPT_IMG = "/images/adapt-hero.png";
+const SAGE_IMG = "/images/sage-intacct-hero.png";
+const CTA_BG = "/images/cta-bg.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },

@@ -1,29 +1,39 @@
+import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { registerAuthRoutes } from "./auth";
+import { appRouter } from "./routers";
+import { createContext } from "./context";
+import { serveStatic, setupVite } from "./vite";
 
 async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Serve static files from dist/public in production
-  const staticPath =
-    process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-  app.use(express.static(staticPath));
+  // Auth routes under /api/auth/*
+  registerAuthRoutes(app);
 
-  // Handle client-side routing - serve index.html for all routes
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(staticPath, "index.html"));
-  });
+  // tRPC API
+  app.use(
+    "/api/trpc",
+    createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    })
+  );
 
-  const port = process.env.PORT || 3000;
+  // development mode uses Vite, production mode uses static files
+  if (process.env.NODE_ENV === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+
+  const port = parseInt(process.env.PORT || "10000");
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);

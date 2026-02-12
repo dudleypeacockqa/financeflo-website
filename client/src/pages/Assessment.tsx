@@ -19,7 +19,7 @@ import {
   formatRange,
 } from "@shared/pricing";
 
-const QUIZ_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/SvivZDFlRhDVYiRf.png";
+const QUIZ_BG = "/images/quiz-bg.png";
 
 interface QuizQuestion {
   id: string;

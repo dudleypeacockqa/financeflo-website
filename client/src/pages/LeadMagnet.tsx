@@ -10,8 +10,8 @@ import { ArrowRight, Download, BookOpen, CheckCircle2, BarChart3, Brain, Shield,
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-const BANNER_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/uOwtfbsyjFlQFgor.png";
-const FEARS_IMG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/noaoriVwTUguNzHy.png";
+const BANNER_IMG = "/images/lead-magnet-banner.png";
+const FEARS_IMG = "/images/fears-infographic.png";
 
 const reportHighlights = [
   { icon: Target, text: "Constraint-based diagnosis: identify where your business breaks at scale" },

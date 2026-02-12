@@ -13,7 +13,7 @@ import {
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-const CTA_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/luQdnSsPNQfzyaRb.png";
+const CTA_BG = "/images/cta-bg.png";
 
 /* ── 9-Step Implementation Journey ── */
 const implementationSteps = [

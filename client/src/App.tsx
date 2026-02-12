@@ -13,6 +13,7 @@ import Results from "./pages/Results";
 import Delivery from "./pages/Delivery";
 import Workshop from "./pages/Workshop";
 import Admin from "./pages/Admin";
+import AdminLogin from "./pages/AdminLogin";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 function Router() {
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/delivery" component={Delivery} />
       <Route path="/workshop" component={Workshop} />
       <Route path="/admin" component={Admin} />
+      <Route path="/admin/login" component={AdminLogin} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

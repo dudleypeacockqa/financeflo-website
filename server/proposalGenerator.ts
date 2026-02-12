@@ -1,4 +1,4 @@
-import { invokeLLM } from "./_core/llm";
+import { invokeLLM } from "./llm";
 import type { Lead, Assessment } from "../drizzle/schema";
 import {
   type Region,
@@ -93,95 +93,46 @@ Generate a professional proposal with:
 
 Use the ADAPT Framework (Assess, Design, Automate, Pilot, Transform) and QDOAA methodology.
 Be specific but realistic. Use ${config.currency} (${config.currencySymbol}) for ALL monetary values.
-All pricing is indicative, not fixed, and excludes ${config.taxLabel}.`;
+All pricing is indicative, not fixed, and excludes ${config.taxLabel}.
+
+Return ONLY valid JSON with this exact structure (no markdown, no code fences):
+{
+  "title": "string",
+  "executiveSummary": "string (2-3 paragraphs)",
+  "constraintDiagnosis": {
+    "primaryConstraint": "string",
+    "constraintBreakdown": {"capacity": number, "knowledge": number, "process": number, "scale": number},
+    "costOfInaction": number
+  },
+  "recommendedSolution": {
+    "tier": "string",
+    "description": "string",
+    "deliverables": ["string"],
+    "timeline": "string"
+  },
+  "roiProjection": {
+    "year1Savings": number,
+    "year3Savings": number,
+    "roiMultiple": number,
+    "paybackMonths": number
+  },
+  "pricingIndicative": {
+    "auditFee": "string (formatted currency)",
+    "implementationRange": "string",
+    "monthlyRetainer": "string"
+  },
+  "nextSteps": ["string"],
+  "estimatedValue": number
+}`;
 
   try {
-    const response = await invokeLLM({
-      messages: [
-        { role: "system", content: `You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only. Use ${config.currency} (${config.currencySymbol}) for all monetary values.` },
-        { role: "user", content: prompt },
-      ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "proposal_content",
-          strict: true,
-          schema: {
-            type: "object",
-            properties: {
-              title: { type: "string", description: "Proposal title" },
-              executiveSummary: { type: "string", description: "2-3 paragraph executive summary" },
-              constraintDiagnosis: {
-                type: "object",
-                properties: {
-                  primaryConstraint: { type: "string" },
-                  constraintBreakdown: {
-                    type: "object",
-                    properties: {
-                      capacity: { type: "number" },
-                      knowledge: { type: "number" },
-                      process: { type: "number" },
-                      scale: { type: "number" },
-                    },
-                    required: ["capacity", "knowledge", "process", "scale"],
-                    additionalProperties: false,
-                  },
-                  costOfInaction: { type: "number" },
-                },
-                required: ["primaryConstraint", "constraintBreakdown", "costOfInaction"],
-                additionalProperties: false,
-              },
-              recommendedSolution: {
-                type: "object",
-                properties: {
-                  tier: { type: "string" },
-                  description: { type: "string" },
-                  deliverables: { type: "array", items: { type: "string" } },
-                  timeline: { type: "string" },
-                },
-                required: ["tier", "description", "deliverables", "timeline"],
-                additionalProperties: false,
-              },
-              roiProjection: {
-                type: "object",
-                properties: {
-                  year1Savings: { type: "number" },
-                  year3Savings: { type: "number" },
-                  roiMultiple: { type: "number" },
-                  paybackMonths: { type: "number" },
-                },
-                required: ["year1Savings", "year3Savings", "roiMultiple", "paybackMonths"],
-                additionalProperties: false,
-              },
-              pricingIndicative: {
-                type: "object",
-                properties: {
-                  auditFee: { type: "string" },
-                  implementationRange: { type: "string" },
-                  monthlyRetainer: { type: "string" },
-                },
-                required: ["auditFee", "implementationRange", "monthlyRetainer"],
-                additionalProperties: false,
-              },
-              nextSteps: { type: "array", items: { type: "string" } },
-              estimatedValue: { type: "number", description: `Total estimated project value in ${config.currency}` },
-            },
-            required: [
-              "title", "executiveSummary", "constraintDiagnosis",
-              "recommendedSolution", "roiProjection", "pricingIndicative",
-              "nextSteps", "estimatedValue"
-            ],
-            additionalProperties: false,
-          },
-        },
-      },
+    const rawContent = await invokeLLM({
+      systemPrompt: `You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only. Use ${config.currency} (${config.currencySymbol}) for all monetary values.`,
+      userPrompt: prompt,
+      maxTokens: 4096,
     });
 
-    const rawContent = response.choices[0]?.message?.content;
-    if (!rawContent) throw new Error("No content in LLM response");
-    const content = typeof rawContent === 'string' ? rawContent : JSON.stringify(rawContent);
-
-    const parsed = JSON.parse(content) as Omit<ProposalContent, 'region' | 'currency' | 'currencySymbol' | 'pricingDisclaimer'>;
+    const parsed = JSON.parse(rawContent) as Omit<ProposalContent, 'region' | 'currency' | 'currencySymbol' | 'pricingDisclaimer'>;
     return {
       ...parsed,
       region,
