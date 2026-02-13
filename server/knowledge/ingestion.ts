@@ -2,10 +2,8 @@
  * Document ingestion: parsing and recursive text chunking.
  * Supports SRT, TXT, PDF, DOCX, and raw text content.
  */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
-const mammoth = require("mammoth");
+import { PDFParse } from "pdf-parse";
+import mammoth from "mammoth";
 
 const TARGET_CHUNK_TOKENS = 500;
 const OVERLAP_TOKENS = 50;
@@ -65,7 +63,8 @@ export async function parseContentFromBuffer(buffer: Buffer, mimeType: string): 
 }
 
 async function parsePdf(buffer: Buffer): Promise<string> {
-  const result = await pdfParse(buffer);
+  const parser = new PDFParse({ data: new Uint8Array(buffer) });
+  const result = await parser.getText();
   return result.text;
 }
 
