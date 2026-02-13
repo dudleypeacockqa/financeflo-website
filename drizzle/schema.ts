@@ -842,3 +842,157 @@ export const emailSends = pgTable("emailSends", {
 
 export type EmailSend = typeof emailSends.$inferSelect;
 export type InsertEmailSend = typeof emailSends.$inferInsert;
+
+// ─── PHASE 6: SERVICE DELIVERY ──────────────────────────────────────────
+
+export const projectStatusEnum = pgEnum("project_status", ["planning", "active", "on_hold", "completed", "cancelled"]);
+export const adaptPhaseEnum = pgEnum("adapt_phase", ["assess", "design", "architect", "pilot", "transform"]);
+export const milestoneStatusEnum = pgEnum("milestone_status", ["pending", "in_progress", "completed", "overdue", "cancelled"]);
+
+/**
+ * Client projects — post-sale delivery tracking with ADAPT phases.
+ */
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  /** Associated closed deal */
+  dealId: integer("dealId"),
+  /** Associated lead/client */
+  leadId: integer("leadId"),
+  /** Project name */
+  name: varchar("name", { length: 512 }).notNull(),
+  /** Project description */
+  description: text("description"),
+  /** Current status */
+  status: projectStatusEnum("status").default("planning").notNull(),
+  /** Current ADAPT phase */
+  currentPhase: adaptPhaseEnum("currentPhase").default("assess").notNull(),
+  /** Contract value in GBP */
+  contractValue: integer("contractValue"),
+  /** Start date */
+  startDate: timestamp("startDate"),
+  /** Target end date */
+  targetEndDate: timestamp("targetEndDate"),
+  /** Actual end date */
+  completedAt: timestamp("completedAt"),
+  /** Project manager */
+  assignedTo: varchar("assignedTo", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("projects_dealId_idx").on(table.dealId),
+  index("projects_leadId_idx").on(table.leadId),
+]);
+
+export type Project = typeof projects.$inferSelect;
+export type InsertProject = typeof projects.$inferInsert;
+
+/**
+ * Project milestones mapped to ADAPT phases.
+ */
+export const milestones = pgTable("milestones", {
+  id: serial("id").primaryKey(),
+  /** Parent project */
+  projectId: integer("projectId").notNull(),
+  /** ADAPT phase this milestone belongs to */
+  adaptPhase: adaptPhaseEnum("adaptPhase").notNull(),
+  /** Milestone title */
+  title: varchar("title", { length: 512 }).notNull(),
+  /** Description */
+  description: text("description"),
+  /** Due date */
+  dueDate: timestamp("dueDate"),
+  /** Completion status */
+  status: milestoneStatusEnum("status").default("pending").notNull(),
+  /** Deliverables list */
+  deliverables: jsonb("deliverables").$type<string[]>().default([]),
+  /** When completed */
+  completedAt: timestamp("completedAt"),
+  /** Sort order within phase */
+  sortOrder: integer("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("milestones_projectId_idx").on(table.projectId),
+]);
+
+export type Milestone = typeof milestones.$inferSelect;
+export type InsertMilestone = typeof milestones.$inferInsert;
+
+/**
+ * Project updates — client-visible progress log.
+ */
+export const projectUpdates = pgTable("projectUpdates", {
+  id: serial("id").primaryKey(),
+  /** Parent project */
+  projectId: integer("projectId").notNull(),
+  /** Update title */
+  title: varchar("title", { length: 512 }).notNull(),
+  /** Update content (HTML/markdown) */
+  content: text("content").notNull(),
+  /** Whether this update is visible in the client portal */
+  visibleToClient: integer("visibleToClient").default(1).notNull(),
+  /** Author */
+  author: varchar("author", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [
+  index("projectUpdates_projectId_idx").on(table.projectId),
+]);
+
+export type ProjectUpdate = typeof projectUpdates.$inferSelect;
+export type InsertProjectUpdate = typeof projectUpdates.$inferInsert;
+
+/**
+ * Client portal access tokens — magic-link style authentication.
+ */
+export const clientPortalTokens = pgTable("clientPortalTokens", {
+  id: serial("id").primaryKey(),
+  /** Parent project */
+  projectId: integer("projectId").notNull(),
+  /** Client lead */
+  leadId: integer("leadId").notNull(),
+  /** Secure token */
+  token: varchar("token", { length: 128 }).notNull().unique(),
+  /** When the token expires */
+  expiresAt: timestamp("expiresAt").notNull(),
+  /** Last used */
+  lastUsedAt: timestamp("lastUsedAt"),
+  /** Whether the token is revoked */
+  revoked: integer("revoked").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [
+  index("clientPortalTokens_token_idx").on(table.token),
+  index("clientPortalTokens_projectId_idx").on(table.projectId),
+]);
+
+export type ClientPortalToken = typeof clientPortalTokens.$inferSelect;
+export type InsertClientPortalToken = typeof clientPortalTokens.$inferInsert;
+
+/**
+ * Time entries for T&M billing on projects.
+ */
+export const timeEntries = pgTable("timeEntries", {
+  id: serial("id").primaryKey(),
+  /** Parent project */
+  projectId: integer("projectId").notNull(),
+  /** Description of work done */
+  description: text("description").notNull(),
+  /** Hours spent */
+  hours: integer("hours").notNull(),
+  /** Minutes (for fractional hours, stored as 0-59) */
+  minutes: integer("minutes").default(0).notNull(),
+  /** Hourly rate in GBP */
+  rate: integer("rate"),
+  /** Whether this time is billable */
+  billable: integer("billable").default(1).notNull(),
+  /** Date the work was performed */
+  workDate: timestamp("workDate").notNull(),
+  /** Who logged the time */
+  loggedBy: varchar("loggedBy", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("timeEntries_projectId_idx").on(table.projectId),
+]);
+
+export type TimeEntry = typeof timeEntries.$inferSelect;
+export type InsertTimeEntry = typeof timeEntries.$inferInsert;
