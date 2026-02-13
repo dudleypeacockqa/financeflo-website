@@ -15,6 +15,7 @@ import { personalizeMessage } from "../outreach/personalizer";
 import { sendLinkedInDm, sendConnectionRequest } from "../integrations/heyreach";
 import { sendEmail } from "../integrations/email";
 import { campaigns } from "../../drizzle/schema";
+import { processDueSteps } from "../automation/workflowEngine";
 
 /**
  * Register all job handlers. Called once at worker startup.
@@ -23,6 +24,7 @@ export function registerAllHandlers(): void {
   registerJobHandler("embed_document", handleEmbedDocument);
   registerJobHandler("research_lead", handleResearchLead);
   registerJobHandler("process_outreach", handleProcessOutreach);
+  registerJobHandler("process_workflows", handleProcessWorkflows);
 }
 
 /**
@@ -237,4 +239,13 @@ async function handleProcessOutreach(payload: Record<string, unknown>): Promise<
 
   console.log(`[Outreach] Processed ${messages.length} messages: ${sent} sent, ${failed} failed`);
   return { sent, failed, total: messages.length };
+}
+
+/**
+ * Process due workflow steps for marketing automation.
+ */
+async function handleProcessWorkflows(_payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const result = await processDueSteps(20);
+  console.log(`[Workflows] Processed ${result.processed} steps, ${result.errors} errors`);
+  return result;
 }

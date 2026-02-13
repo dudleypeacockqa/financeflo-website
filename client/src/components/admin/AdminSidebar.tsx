@@ -74,6 +74,9 @@ const navGroups: NavGroup[] = [
   {
     title: "Marketing",
     items: [
+      { label: "Workflows", path: "/admin/workflows", icon: Workflow },
+      { label: "Email Templates", path: "/admin/email-templates", icon: Mail },
+      { label: "Analytics", path: "/admin/marketing-metrics", icon: BarChart3 },
       { label: "Workshops", path: "/admin/workshops", icon: BookOpen },
     ],
   },

@@ -38,6 +38,11 @@ export const routes: RouteConfig[] = [
   { path: "/admin/pipeline-metrics", component: lazy(() => import("./pages/admin/PipelineMetrics")) },
   { path: "/admin/deal/:id", component: lazy(() => import("./pages/admin/DealDetail")) },
   { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/AIBADiagnostic")) },
+  // Phase 5: Marketing Automation
+  { path: "/admin/workflows", component: lazy(() => import("./pages/admin/Workflows")) },
+  { path: "/admin/workflow-builder", component: lazy(() => import("./pages/admin/WorkflowBuilder")) },
+  { path: "/admin/email-templates", component: lazy(() => import("./pages/admin/EmailTemplates")) },
+  { path: "/admin/marketing-metrics", component: lazy(() => import("./pages/admin/MarketingMetrics")) },
   // AIBA (public)
   { path: "/aiba", component: lazy(() => import("./pages/aiba/Overview")) },
   { path: "/aiba/diagnostic", component: lazy(() => import("./pages/aiba/Diagnostic")) },

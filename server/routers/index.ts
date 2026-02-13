@@ -13,6 +13,7 @@ import { leadgenRouter } from "./leadgen";
 import { outreachRouter } from "./outreach";
 import { pipelineRouter } from "./pipeline";
 import { aibaRouter } from "./aiba";
+import { automationRouter } from "./automation";
 
 export const appRouter = router({
   system: systemRouter,
@@ -37,6 +38,9 @@ export const appRouter = router({
   // Phase 4: Sales Pipeline & AIBA
   pipeline: pipelineRouter,
   aiba: aibaRouter,
+
+  // Phase 5: Marketing Automation
+  automation: automationRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -704,3 +704,141 @@ export const salesTasks = pgTable("salesTasks", {
 
 export type SalesTask = typeof salesTasks.$inferSelect;
 export type InsertSalesTask = typeof salesTasks.$inferInsert;
+
+// ─── PHASE 5: MARKETING AUTOMATION ──────────────────────────────────────
+
+export const workflowStatusEnum = pgEnum("workflow_status", ["draft", "active", "paused", "archived"]);
+export const workflowTriggerEnum = pgEnum("workflow_trigger", [
+  "lead_created", "assessment_completed", "workshop_registered",
+  "proposal_generated", "proposal_viewed", "deal_stage_changed",
+  "deal_closed_won", "deal_closed_lost", "manual",
+]);
+export const enrollmentStatusEnum = pgEnum("enrollment_status", ["active", "completed", "paused", "cancelled"]);
+export const emailSendStatusEnum = pgEnum("email_send_status", ["pending", "sent", "delivered", "opened", "clicked", "bounced", "failed", "unsubscribed"]);
+
+/**
+ * Marketing automation workflows with trigger-based step sequences.
+ */
+export const workflows = pgTable("workflows", {
+  id: serial("id").primaryKey(),
+  /** Workflow name */
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Description of what this workflow does */
+  description: text("description"),
+  /** Event that triggers enrollment */
+  trigger: workflowTriggerEnum("trigger").notNull(),
+  /** Trigger conditions (e.g., source=lead_magnet, stage=discovery) */
+  triggerConditions: jsonb("triggerConditions").$type<Record<string, unknown>>(),
+  /** Ordered array of workflow steps */
+  steps: jsonb("steps").$type<{
+    stepNumber: number;
+    type: "email" | "wait" | "condition" | "tag" | "webhook" | "notify";
+    config: Record<string, unknown>;
+  }[]>().default([]).notNull(),
+  /** Current status */
+  status: workflowStatusEnum("status").default("draft").notNull(),
+  /** Metrics */
+  metrics: jsonb("metrics").$type<{
+    totalEnrolled: number;
+    totalCompleted: number;
+    totalActive: number;
+  }>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type Workflow = typeof workflows.$inferSelect;
+export type InsertWorkflow = typeof workflows.$inferInsert;
+
+/**
+ * Tracks a lead's progress through a workflow.
+ */
+export const workflowEnrollments = pgTable("workflowEnrollments", {
+  id: serial("id").primaryKey(),
+  /** Parent workflow */
+  workflowId: integer("workflowId").notNull(),
+  /** Enrolled lead */
+  leadId: integer("leadId").notNull(),
+  /** Current step index (0-based) */
+  currentStep: integer("currentStep").default(0).notNull(),
+  /** When the next step should execute */
+  nextStepAt: timestamp("nextStepAt"),
+  /** Enrollment status */
+  status: enrollmentStatusEnum("status").default("active").notNull(),
+  /** Data accumulated during workflow execution */
+  data: jsonb("data").$type<Record<string, unknown>>(),
+  /** When enrolled */
+  enrolledAt: timestamp("enrolledAt").defaultNow().notNull(),
+  /** When completed or cancelled */
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("workflowEnrollments_workflowId_idx").on(table.workflowId),
+  index("workflowEnrollments_leadId_idx").on(table.leadId),
+  index("workflowEnrollments_nextStepAt_idx").on(table.nextStepAt),
+]);
+
+export type WorkflowEnrollment = typeof workflowEnrollments.$inferSelect;
+export type InsertWorkflowEnrollment = typeof workflowEnrollments.$inferInsert;
+
+/**
+ * Reusable email templates for marketing automation.
+ */
+export const emailTemplates = pgTable("emailTemplates", {
+  id: serial("id").primaryKey(),
+  /** Template name */
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Email subject line (supports {{variables}}) */
+  subject: varchar("subject", { length: 512 }).notNull(),
+  /** HTML body (supports {{variables}}) */
+  htmlBody: text("htmlBody").notNull(),
+  /** Plain text body (auto-generated if not provided) */
+  textBody: text("textBody"),
+  /** Available template variables */
+  variables: jsonb("variables").$type<string[]>().default([]),
+  /** Category for organization */
+  category: varchar("category", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type EmailTemplate = typeof emailTemplates.$inferSelect;
+export type InsertEmailTemplate = typeof emailTemplates.$inferInsert;
+
+/**
+ * Email send log with delivery and engagement tracking.
+ */
+export const emailSends = pgTable("emailSends", {
+  id: serial("id").primaryKey(),
+  /** Template used */
+  templateId: integer("templateId"),
+  /** Recipient lead */
+  leadId: integer("leadId").notNull(),
+  /** Associated workflow enrollment */
+  enrollmentId: integer("enrollmentId"),
+  /** Subject line (rendered) */
+  subject: varchar("subject", { length: 512 }),
+  /** Send status */
+  status: emailSendStatusEnum("status").default("pending").notNull(),
+  /** External message ID (from SES) */
+  externalMessageId: varchar("externalMessageId", { length: 256 }),
+  /** Error message if failed */
+  errorMessage: text("errorMessage"),
+  /** Tracking timestamps */
+  sentAt: timestamp("sentAt"),
+  deliveredAt: timestamp("deliveredAt"),
+  openedAt: timestamp("openedAt"),
+  clickedAt: timestamp("clickedAt"),
+  /** Unsubscribe tracking */
+  unsubscribed: integer("unsubscribed").default(0).notNull(),
+  unsubscribedAt: timestamp("unsubscribedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [
+  index("emailSends_leadId_idx").on(table.leadId),
+  index("emailSends_templateId_idx").on(table.templateId),
+  index("emailSends_enrollmentId_idx").on(table.enrollmentId),
+]);
+
+export type EmailSend = typeof emailSends.$inferSelect;
+export type InsertEmailSend = typeof emailSends.$inferInsert;
