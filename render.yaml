@@ -30,6 +30,16 @@ services:
       - key: GHL_WEBHOOK_URL
         sync: false
 
+  - type: web
+    name: stu-davidson-proposal
+    env: static
+    region: frankfurt
+    plan: starter
+    buildCommand: echo "Static site - no build needed"
+    staticPublishPath: stu-davidson-site
+    customDomains:
+      - stu-davidson.financeflo.ai
+
 databases:
   - name: financeflo-website-db
     plan: starter

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stu Davidson & Sons — AI Business Analysis Proposal | FinanceFlo.ai</title>
+  <meta name="description" content="A personalised AI Business Analysis (AIBA) proposal prepared exclusively for Stu Davidson & Sons (Pty) Ltd by FinanceFlo.ai" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a1628;
+      --navy-light: #0f1f3a;
+      --navy-mid: #162544;
+      --teal: #2dd4bf;
+      --teal-dim: rgba(45, 212, 191, 0.15);
+      --amber: #f59e0b;
+      --amber-dim: rgba(245, 158, 11, 0.15);
+      --red: #ef4444;
+      --green: #22c55e;
+      --white: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(45, 212, 191, 0.12);
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--navy); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== NAV ===== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 22, 40, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-brand img { height: 32px; }
+    .nav-brand span { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+    .nav-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--amber); color: var(--navy); font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.25rem; border-radius: 6px; border: none; cursor: pointer; transition: all 0.2s; }
+    .nav-cta:hover { background: #d97706; text-decoration: none; }
+
+    /* ===== HERO ===== */
+    .hero { min-height: 90vh; display: flex; align-items: center; position: relative; overflow: hidden; padding-top: 4rem; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 40%, rgba(45, 212, 191, 0.05) 100%); }
+    .hero-bg::after { content: ''; position: absolute; top: -50%; right: -20%; width: 80%; height: 200%; background: radial-gradient(ellipse, rgba(45, 212, 191, 0.06) 0%, transparent 70%); }
+    .hero-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-text .badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); border: 1px solid rgba(45, 212, 191, 0.3); padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero-text h1 { font-family: var(--font-heading); font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.25rem; }
+    .hero-text h1 em { font-style: italic; color: var(--teal); }
+    .hero-text .subtitle { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin-bottom: 0.75rem; }
+    .hero-text .subtitle-small { font-size: 0.95rem; color: rgba(148, 163, 184, 0.7); max-width: 520px; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--amber); color: var(--navy); font-weight: 700; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 0 30px rgba(245, 158, 11, 0.2); }
+    .btn-primary:hover { background: #d97706; text-decoration: none; transform: translateY(-1px); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--teal); font-weight: 600; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 8px; border: 1px solid rgba(45, 212, 191, 0.4); cursor: pointer; transition: all 0.2s; }
+    .btn-outline:hover { background: rgba(45, 212, 191, 0.08); text-decoration: none; }
+    .hero-visual { display: flex; justify-content: center; }
+    .hero-visual img { border-radius: 12px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); }
+
+    /* ===== SECTIONS ===== */
+    .section { padding: 5rem 1.5rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 0.75rem; }
+    .section-title { font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { font-size: 1.05rem; color: var(--muted); max-width: 680px; margin-bottom: 2.5rem; line-height: 1.7; }
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ===== LOOM VIDEO ===== */
+    .loom-section { background: var(--navy-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .loom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .loom-placeholder { background: var(--navy-mid); border: 2px dashed rgba(45, 212, 191, 0.3); border-radius: 12px; aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+    .loom-placeholder .play-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; }
+    .loom-placeholder .play-icon svg { width: 24px; height: 24px; fill: var(--navy); margin-left: 3px; }
+    .loom-placeholder p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ===== MEETING RECAP ===== */
+    .recap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+    .recap-card { background: var(--navy-light); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+    .recap-card h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 0.75rem; }
+    .recap-card p, .recap-card li { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .recap-card ul { list-style: none; }
+    .recap-card ul li { padding: 0.25rem 0; padding-left: 1.25rem; position: relative; }
+    .recap-card ul li::before { content: ''; position: absolute; left: 0; top: 0.65rem; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+    /* ===== CONSTRAINT DIAGNOSIS ===== */
+    .constraint-section { background: var(--navy-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .constraint-img { border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); margin-bottom: 2rem; }
+
+    /* ===== QUOTES ===== */
+    .quotes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .quote-card { background: var(--navy-mid); border-left: 3px solid var(--amber); padding: 1.5rem; border-radius: 0 8px 8px 0; }
+    .quote-card blockquote { font-style: italic; font-size: 0.95rem; color: var(--white); line-height: 1.6; margin-bottom: 0.5rem; }
+    .quote-card cite { font-size: 0.8rem; color: var(--muted); font-style: normal; }
+
+    /* ===== COST OF INACTION ===== */
+    .coi-img { border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); margin-bottom: 2rem; }
+
+    /* ===== AIBA FRAMEWORK ===== */
+    .aiba-section { background: var(--navy-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .aiba-hero-img { border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); margin-bottom: 3rem; }
+    .aiba-pillars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 3rem; }
+    .pillar { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; text-align: center; transition: border-color 0.2s; }
+    .pillar:hover { border-color: var(--teal); }
+    .pillar-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .pillar h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .pillar p { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+    .aiba-timeline-img { border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); margin-bottom: 2rem; }
+
+    /* ===== QUICK WINS ===== */
+    .wins-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .win-card { background: var(--navy-light); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem; transition: border-color 0.2s; }
+    .win-card:hover { border-color: var(--teal); }
+    .win-number { font-size: 2rem; font-weight: 800; color: var(--teal); opacity: 0.3; margin-bottom: 0.5rem; }
+    .win-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .win-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .win-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.25rem 0.6rem; border-radius: 4px; margin-top: 0.75rem; }
+    .win-tag.high { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .win-tag.medium { background: var(--amber-dim); color: var(--amber); }
+
+    /* ===== INVESTMENT ===== */
+    .investment-section { background: var(--navy-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .invest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .invest-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; position: relative; overflow: hidden; }
+    .invest-card.featured { border-color: var(--teal); }
+    .invest-card.featured::before { content: 'RECOMMENDED'; position: absolute; top: 0; left: 0; right: 0; background: var(--teal); color: var(--navy); font-size: 0.7rem; font-weight: 700; text-align: center; padding: 0.35rem; letter-spacing: 0.1em; }
+    .invest-card.featured { padding-top: 3rem; }
+    .invest-tag { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; }
+    .invest-card h3 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .invest-price { font-size: 1.5rem; font-weight: 800; color: var(--teal); margin-bottom: 0.25rem; }
+    .invest-price-note { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+    .invest-card p.desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .invest-list { list-style: none; }
+    .invest-list li { font-size: 0.85rem; color: var(--white); padding: 0.35rem 0; padding-left: 1.5rem; position: relative; }
+    .invest-list li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+    .pricing-disclaimer { margin-top: 2rem; padding: 1.25rem; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 8px; }
+    .pricing-disclaimer p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ===== NEXT STEPS ===== */
+    .next-steps-img { border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); margin-bottom: 2rem; }
+    .steps-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+    .step-item { display: flex; gap: 1.25rem; align-items: flex-start; background: var(--navy-light); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+    .step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--teal-dim); border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: var(--teal); flex-shrink: 0; }
+    .step-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .step-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+    /* ===== CTA BANNER ===== */
+    .cta-banner { background: linear-gradient(135deg, var(--navy-mid) 0%, rgba(45, 212, 191, 0.08) 100%); border-top: 1px solid var(--border); text-align: center; padding: 5rem 1.5rem; }
+    .cta-banner h2 { font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 1rem; }
+    .cta-banner p { font-size: 1.05rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem; }
+    .cta-banner .btn-primary { font-size: 1.1rem; padding: 1rem 2.5rem; }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--navy); border-top: 1px solid var(--border); padding: 3rem 1.5rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
+    .footer h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 1rem; }
+    .footer p, .footer a { font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
+    .footer-links { list-style: none; }
+    .footer-links li a { display: block; padding: 0.15rem 0; }
+    .footer-bottom { max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(148, 163, 184, 0.5); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-text .subtitle, .hero-text .subtitle-small { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-visual { order: -1; }
+      .loom-grid { grid-template-columns: 1fr; }
+      .recap-grid { grid-template-columns: 1fr; }
+      .aiba-pillars { grid-template-columns: repeat(3, 1fr); }
+      .invest-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .aiba-pillars { grid-template-columns: repeat(2, 1fr); }
+      .quotes-grid { grid-template-columns: 1fr; }
+      .wins-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="#2dd4bf"/><path d="M8 22V10h4v12H8zm6-8v8h4v-8h-4zm6-4v12h4V10h-4z" fill="#0a1628"/></svg>
+        <span>FinanceFlo.ai &mdash; Stu Davidson & Sons</span>
+      </div>
+      <a href="https://calendly.com/dudley-financeflo/discovery-call" target="_blank" class="nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Schedule Discovery Call
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="badge"><span class="badge-dot"></span> Prepared Exclusively for Stu Davidson & Sons</div>
+        <h1>Your Path to <em>AI-Powered</em> Financial Operations</h1>
+        <p class="subtitle">Following our discovery meeting, we've prepared this personalised discussion document for your directors. It outlines how an AI Business Analysis (AIBA) can transform your multi-company operations.</p>
+        <p class="subtitle-small">Sage Intacct multi-company consolidation + AI-powered automation, tailored for construction, plant hire, and aviation operations.</p>
+        <div class="hero-actions">
+          <a href="#investment" class="btn-primary">
+            View Investment Options
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#aiba" class="btn-outline">Explore the AIBA Framework</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/SSIrATFAhGseKEPb.png" alt="AI Business Analysis — 5 Pillars" width="560" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOOM VIDEO ===== -->
+  <section class="section loom-section" id="video">
+    <div class="section-inner">
+      <div class="loom-grid">
+        <div>
+          <span class="section-label">Personal Walkthrough</span>
+          <h2 class="section-title">A Message from Dudley</h2>
+          <p class="section-desc">I've recorded a short video walking through this proposal, the key findings from our meeting, and exactly how the AIBA process works for a business like yours. I'd recommend watching this before sharing with the directors.</p>
+          <p style="font-size: 0.85rem; color: var(--muted);">Duration: ~8 minutes &bull; Covers: Meeting recap, constraint diagnosis, AIBA process, investment options, and next steps.</p>
+        </div>
+        <div class="loom-placeholder" id="loom-embed">
+          <div class="play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <p>Loom video will be embedded here</p>
+          <p style="font-size: 0.75rem; color: rgba(148,163,184,0.5);">Replace this placeholder with your Loom embed code</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEETING RECAP ===== -->
+  <section class="section" id="recap">
+    <div class="section-inner">
+      <span class="section-label">Meeting Summary</span>
+      <h2 class="section-title">What We Discussed</h2>
+      <p class="section-desc">On our discovery call, we explored your current technology landscape, operational challenges, and growth ambitions. Here's a summary of the key themes.</p>
+
+      <div class="recap-grid">
+        <div class="recap-card">
+          <h4>Attendees</h4>
+          <ul>
+            <li>Lisa — Finance/Admin Manager</li>
+            <li>Ashley Bezuidenhout — Accountant</li>
+            <li>Chris — IT/Technical</li>
+            <li>Dudley Peacock — FinanceFlo.ai</li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h4>Current Stack</h4>
+          <ul>
+            <li>Sage Pastel Partner v19 (10 instances)</li>
+            <li>Whimbrel (custom operations system)</li>
+            <li>Paper-based aircraft maintenance</li>
+            <li>Excel, WhatsApp, email</li>
+          </ul>
+        </div>
+        <div class="recap-card">
+          <h4>Key Themes</h4>
+          <ul>
+            <li>12 companies, only 10 on Pastel</li>
+            <li>Data integrity issues in larger entities</li>
+            <li>No consolidated financial view</li>
+            <li>Whimbrel is non-negotiable (stays)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="recap-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="recap-card">
+          <h4>Group Structure</h4>
+          <p>Approximately 12 companies spanning plant hire and construction (core), an aviation division with 15-20 aircraft (buy/sell, maintenance, charter), property companies, directors' capital entities, and a mining company. Currently operating on 10 separate Pastel instances with no consolidated reporting.</p>
+        </div>
+        <div class="recap-card">
+          <h4>Critical Insight</h4>
+          <p>The Whimbrel operations system is deeply embedded and non-negotiable — the directors built it over 8 years and consider it a competitive advantage. Any solution must integrate with Whimbrel, not replace it. As Ashley noted: <em>"It's a not negotiable. It will stay."</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ===== CONSTRAINT DIAGNOSIS ===== -->
+  <section class="section constraint-section" id="diagnosis">
+    <div class="section-inner">
+      <span class="section-label">Constraint Diagnosis</span>
+      <h2 class="section-title">Where Your Business Model Breaks at Scale</h2>
+      <p class="section-desc">We don't ask "What do you want to automate?" We ask "Where does your business model break?" Based on our conversation, we've identified four primary constraints affecting Stu Davidson & Sons.</p>
+
+      <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/tyZTQOIuPJEaAXnz.png" alt="Constraint Diagnosis" class="constraint-img" />
+
+      <div class="quotes-grid">
+        <div class="quote-card">
+          <blockquote>"We have had some data integrity issues, particularly in the bigger company."</blockquote>
+          <cite>— Ashley Bezuidenhout, Accountant</cite>
+        </div>
+        <div class="quote-card">
+          <blockquote>"It's very paper heavy. They don't really have a computerized system for keeping service records."</blockquote>
+          <cite>— Ashley, on aircraft maintenance</cite>
+        </div>
+        <div class="quote-card">
+          <blockquote>"Change is sometimes slow."</blockquote>
+          <cite>— Lisa, Finance/Admin Manager</cite>
+        </div>
+        <div class="quote-card">
+          <blockquote>"Don't go and build models and whatever yet. Let's just get the basics together."</blockquote>
+          <cite>— Lisa, on the pragmatic approach</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COST OF INACTION ===== -->
+  <section class="section" id="cost">
+    <div class="section-inner">
+      <span class="section-label">The Numbers</span>
+      <h2 class="section-title">The Cost of Doing Nothing</h2>
+      <p class="section-desc">Based on industry benchmarks for multi-entity construction businesses of your scale, we estimate the following monthly cost of maintaining the status quo. These are conservative figures — the actual cost may be significantly higher.</p>
+
+      <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/JesiWMCktRnbQwpE.png" alt="Cost of Inaction Analysis" class="coi-img" />
+
+      <div style="background: var(--navy-light); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-top: 1rem;">
+        <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7;">
+          <strong style="color: var(--white);">How we calculated this:</strong> Manual processing overhead is based on estimated hours spent on duplicate data entry across 10 Pastel instances, intercompany reconciliation, and manual consolidation. Revenue leakage accounts for delayed invoicing cycles in construction (where payment terms are already 30-60 days). Duplicate entry errors are based on industry error rates of 1-3% in manual data capture. Early payment discounts assume standard supplier terms that cannot be captured without real-time cash visibility across all entities.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ===== AIBA FRAMEWORK ===== -->
+  <section class="section aiba-section" id="aiba">
+    <div class="section-inner">
+      <span class="section-label">Our Methodology</span>
+      <h2 class="section-title">The AI Business Analysis (AIBA) Framework</h2>
+      <p class="section-desc">AIBA is our structured consulting framework designed to pinpoint exactly where AI and automation can enhance your business. It systematically identifies opportunities to streamline processes, improve decision-making, and boost performance — without disrupting what's already working.</p>
+
+      <div class="aiba-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">⚙️</div>
+          <h4>Operational Efficiency</h4>
+          <p>Unlock productivity gains across your 12 companies</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🏆</div>
+          <h4>Competitive Edge</h4>
+          <p>Early AI adoption gives you a definitive market advantage</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🧩</div>
+          <h4>Customization</h4>
+          <p>Solutions aligned with your unique Whimbrel + Pastel setup</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📈</div>
+          <h4>Scalability</h4>
+          <p>Systems that grow with you to R150M+ without proportional cost</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🛡️</div>
+          <h4>Survival</h4>
+          <p>Businesses that don't adapt to technology don't survive</p>
+        </div>
+      </div>
+
+      <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1.5rem;">The 10-Week Process</h3>
+      <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/eEmrbTJSZKtMrlIF.png" alt="AIBA 10-Week Timeline" class="aiba-timeline-img" />
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
+        <div class="recap-card" style="border-top: 3px solid #22c55e;">
+          <h4 style="color: #22c55e;">Phase 1: Gather & Train (Weeks 1-3)</h4>
+          <ul>
+            <li>Kick-off meeting with key stakeholders</li>
+            <li>Baseline questionnaire for all departments</li>
+            <li>Full tech stack review (Pastel, Whimbrel, etc.)</li>
+            <li>Two AI awareness training sessions</li>
+            <li>Task mapping: identify repetitive processes</li>
+          </ul>
+        </div>
+        <div class="recap-card" style="border-top: 3px solid var(--amber);">
+          <h4 style="color: var(--amber);">Phase 2: Understand (Weeks 4-7)</h4>
+          <ul>
+            <li>Finance & Accounting deep dive</li>
+            <li>Operations & Supply Chain deep dive</li>
+            <li>Aviation division deep dive</li>
+            <li>HR & Procurement deep dive</li>
+            <li>Leadership & Strategy alignment</li>
+          </ul>
+        </div>
+        <div class="recap-card" style="border-top: 3px solid var(--teal);">
+          <h4>Phase 3: Strategy & Alignment (Weeks 8-10)</h4>
+          <ul>
+            <li>Comprehensive AIBA assessment report</li>
+            <li>Project prioritisation and alignment</li>
+            <li>Timeline & budget breakdown</li>
+            <li>12-week action plan</li>
+            <li>Advisory & services proposal</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; padding: 1.5rem; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px;">
+        <h4 style="color: var(--amber); margin-bottom: 0.5rem;">Tailored for Stu Davidson & Sons</h4>
+        <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7;">Your AIBA will focus specifically on: (1) multi-company financial consolidation across your 12 entities, (2) Whimbrel integration and AI-powered business intelligence, (3) aircraft maintenance digitisation, and (4) construction operations optimisation. We respect that Whimbrel stays — our job is to make everything around it work better.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUICK WINS ===== -->
+  <section class="section" id="wins">
+    <div class="section-inner">
+      <span class="section-label">Identified Opportunities</span>
+      <h2 class="section-title">Quick Wins from Our Discovery</h2>
+      <p class="section-desc">Even before the full AIBA, our initial conversation revealed several high-impact opportunities that could deliver immediate value.</p>
+
+      <div class="wins-grid">
+        <div class="win-card">
+          <div class="win-number">01</div>
+          <h4>Multi-Company Financial Consolidation</h4>
+          <p>Replace 10 separate Pastel instances with a single Sage Intacct environment. Real-time consolidated reporting, automated intercompany transactions, and one-click financial statements across all 12 entities.</p>
+          <span class="win-tag high">High Impact</span>
+        </div>
+        <div class="win-card">
+          <div class="win-number">02</div>
+          <h4>Aircraft Digital Job Cards</h4>
+          <p>Mobile app for hangar mechanics to capture service records digitally. Eliminates paper-based tracking, creates searchable aircraft maintenance history, and supports compliance documentation.</p>
+          <span class="win-tag high">High Impact</span>
+        </div>
+        <div class="win-card">
+          <div class="win-number">03</div>
+          <h4>AI Layer on Whimbrel</h4>
+          <p>Natural language business intelligence on top of your existing Whimbrel data. Ask questions like "What was our fuel cost per hour on the N2 project last month?" and get instant answers.</p>
+          <span class="win-tag medium">Medium Term</span>
+        </div>
+        <div class="win-card">
+          <div class="win-number">04</div>
+          <h4>Automated Data Cleanup</h4>
+          <p>AI-powered deduplication and standardisation across your databases. Fix misspellings, merge duplicate records, and establish data quality rules to prevent future degradation.</p>
+          <span class="win-tag medium">Medium Term</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ===== INVESTMENT OPTIONS ===== -->
+  <section class="section investment-section" id="investment">
+    <div class="section-inner">
+      <span class="section-label">Investment</span>
+      <h2 class="section-title">Engagement Options</h2>
+      <p class="section-desc">We offer a phased approach so you can prove value before committing to larger transformation. All pricing is in South African Rands, excluding VAT.</p>
+
+      <div class="invest-grid">
+        <div class="invest-card featured">
+          <div class="invest-tag">Start Here</div>
+          <h3>AI Business Analysis (AIBA)</h3>
+          <div class="invest-price">R85,000 — R175,000</div>
+          <div class="invest-price-note">10-week engagement, scoped to your complexity</div>
+          <p class="desc">The comprehensive AIBA maps every constraint, quantifies ROI, and delivers a prioritised implementation roadmap with a 12-week action plan.</p>
+          <ul class="invest-list">
+            <li>Full constraint diagnosis across all 12 entities</li>
+            <li>Department-by-department deep dives</li>
+            <li>Whimbrel integration assessment</li>
+            <li>Aircraft operations digitisation plan</li>
+            <li>AI readiness score and maturity model</li>
+            <li>Prioritised project roadmap with ROI</li>
+            <li>12-week action plan + budget breakdown</li>
+            <li>2 AI awareness training sessions</li>
+          </ul>
+        </div>
+        <div class="invest-card">
+          <div class="invest-tag">Phase 2</div>
+          <h3>Quick Wins Sprint</h3>
+          <div class="invest-price">Scoped from AIBA</div>
+          <div class="invest-price-note">4-8 weeks, based on AIBA findings</div>
+          <p class="desc">Implement the top 2-3 highest-ROI automations identified in the AIBA. Prove value fast with measurable results.</p>
+          <ul class="invest-list">
+            <li>Top priority implementations from AIBA</li>
+            <li>Measurable KPIs and success criteria</li>
+            <li>Change management support</li>
+            <li>User training and documentation</li>
+            <li>Post-implementation review</li>
+          </ul>
+        </div>
+        <div class="invest-card">
+          <div class="invest-tag">Phase 3</div>
+          <h3>Ongoing Advisory</h3>
+          <div class="invest-price">R30,000 — R75,000/mo</div>
+          <div class="invest-price-note">Monthly retainer, flexible scope</div>
+          <p class="desc">Fractional Chief AI Officer (FCAIO) engagement. Continuous optimisation, system health monitoring, and strategic AI roadmap execution.</p>
+          <ul class="invest-list">
+            <li>Monthly strategy sessions</li>
+            <li>System health monitoring</li>
+            <li>Performance optimisation</li>
+            <li>Security and compliance management</li>
+            <li>Ongoing AI implementation projects</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pricing-disclaimer">
+        <p><strong style="color: var(--amber);">Pricing Disclaimer:</strong> All figures presented are indicative and not fixed. This project operates on a time-and-materials basis. Actual costs are determined by the final agreed scope, any additional out-of-scope work requested, and actual hours consumed. A detailed statement of work with fixed milestones will be provided upon engagement. Hourly rates: Consultant R975/hr, Senior Consultant R1,850/hr (excl. VAT).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEXT STEPS ===== -->
+  <section class="section" id="next-steps">
+    <div class="section-inner">
+      <span class="section-label">What Happens Next</span>
+      <h2 class="section-title">Your Next Steps</h2>
+      <p class="section-desc">We've designed a simple three-step path to get from this discussion document to tangible results. The ball is in your court.</p>
+
+      <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663082250310/FpwbSCQVSAcIHrgc.png" alt="Next Steps" class="next-steps-img" />
+
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div>
+            <h4>Directors Review This Document</h4>
+            <p>Share this proposal with Stuart and the co-directors. We recommend a 30-minute internal review session. Lisa, Ashley, and Chris can provide context from our discovery meeting. Watch the Loom video above for a personal walkthrough.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div>
+            <h4>Schedule a Discovery Call with Decision Makers</h4>
+            <p>Once the directors have reviewed, we'll schedule a focused 45-minute session with all decision-makers present. This is where we answer questions, discuss priorities, and align on the scope of the AIBA engagement. No obligation.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <h4>AIBA Kick-Off</h4>
+            <p>Upon agreement, we begin the 10-week AI Business Analysis. Week 1 starts with a kick-off meeting and baseline questionnaire. You'll have a comprehensive roadmap, prioritised projects, and a 12-week action plan by Week 10.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; padding: 1.25rem; background: var(--navy-light); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px;">
+        <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7;">
+          <strong style="color: var(--amber);">A note on timing:</strong> You mentioned planning a Pastel cloud migration at the end of March. This creates an ideal window — before committing to a cloud migration of 10 separate Pastel instances, it's worth understanding whether consolidating to a single Sage Intacct environment would be more cost-effective and future-proof. The AIBA will give you that clarity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="cta-banner">
+    <h2>Ready to Explore What's Possible?</h2>
+    <p>Book a no-obligation discovery call with all decision-makers present. We'll answer every question and help you decide if the AIBA is right for Stu Davidson & Sons.</p>
+    <a href="https://calendly.com/dudley-financeflo/discovery-call" target="_blank" class="btn-primary">
+      Book Your Discovery Call
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: rgba(148,163,184,0.5);">Or email Dudley directly at <a href="mailto:dudley@financeflo.ai">dudley@financeflo.ai</a></p>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4>FinanceFlo.ai</h4>
+        <p>AI-Powered Financial Transformation for growing businesses. We redesign how companies operate — diagnosing constraints, not selling automations.</p>
+        <p style="margin-top: 0.75rem;">
+          <a href="https://financeflo.ai">financeflo.ai</a> &bull;
+          <a href="mailto:dudley@financeflo.ai">dudley@financeflo.ai</a>
+        </p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#top">Back to Top</a></li>
+          <li><a href="#recap">Meeting Recap</a></li>
+          <li><a href="#diagnosis">Constraint Diagnosis</a></li>
+          <li><a href="#aiba">AIBA Framework</a></li>
+          <li><a href="#investment">Investment Options</a></li>
+          <li><a href="#next-steps">Next Steps</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="https://financeflo-website.onrender.com/industries/construction" target="_blank">Construction Solutions</a></li>
+          <li><a href="https://financeflo-website.onrender.com/erp/sage-intacct" target="_blank">Sage Intacct</a></li>
+          <li><a href="https://financeflo-website.onrender.com/resources/case-studies" target="_blank">Case Studies</a></li>
+          <li><a href="#video">Watch the Loom Video</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FinanceFlo.ai. All rights reserved. This proposal is confidential and prepared exclusively for Stu Davidson & Sons (Pty) Ltd.</p>
+      <p>Proposal valid for 30 days from date of issue.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
