@@ -43,6 +43,13 @@ export const routes: RouteConfig[] = [
   { path: "/admin/workflow-builder", component: lazy(() => import("./pages/admin/WorkflowBuilder")) },
   { path: "/admin/email-templates", component: lazy(() => import("./pages/admin/EmailTemplates")) },
   { path: "/admin/marketing-metrics", component: lazy(() => import("./pages/admin/MarketingMetrics")) },
+  // Phase 6: Service Delivery
+  { path: "/admin/projects", component: lazy(() => import("./pages/admin/Projects")) },
+  { path: "/admin/project-new", component: lazy(() => import("./pages/admin/ProjectNew")) },
+  { path: "/admin/project/:id", component: lazy(() => import("./pages/admin/ProjectDetail")) },
+  { path: "/admin/timesheets", component: lazy(() => import("./pages/admin/Timesheet")) },
+  // Client Portal (public, token-based)
+  { path: "/portal", component: lazy(() => import("./pages/portal/ProjectDashboard")) },
   // AIBA (public)
   { path: "/aiba", component: lazy(() => import("./pages/aiba/Overview")) },
   { path: "/aiba/diagnostic", component: lazy(() => import("./pages/aiba/Diagnostic")) },
