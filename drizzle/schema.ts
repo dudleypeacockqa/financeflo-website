@@ -540,3 +540,167 @@ export const outreachMessages = pgTable("outreachMessages", {
 
 export type OutreachMessage = typeof outreachMessages.$inferSelect;
 export type InsertOutreachMessage = typeof outreachMessages.$inferInsert;
+
+// ─── PHASE 4: SALES PIPELINE & AIBA ─────────────────────────────────────
+
+export const dealStageEnum = pgEnum("deal_stage", [
+  "lead", "mql", "sql", "discovery", "aiba_diagnostic",
+  "proposal_sent", "negotiation", "closed_won", "closed_lost",
+]);
+export const activityTypeEnum = pgEnum("activity_type", ["note", "call", "meeting", "email", "stage_change", "task_completed"]);
+export const taskPriorityEnum = pgEnum("task_priority", ["low", "medium", "high", "urgent"]);
+
+/**
+ * Sales pipeline deals — tracks opportunities from lead to close.
+ */
+export const deals = pgTable("deals", {
+  id: serial("id").primaryKey(),
+  /** Associated lead */
+  leadId: integer("leadId").notNull(),
+  /** Current pipeline stage */
+  stage: dealStageEnum("stage").default("lead").notNull(),
+  /** Deal title/name */
+  title: varchar("title", { length: 512 }).notNull(),
+  /** Estimated deal value in GBP */
+  value: integer("value"),
+  /** Win probability percentage (0-100) */
+  probability: integer("probability"),
+  /** Weighted value (value * probability / 100) */
+  weightedValue: integer("weightedValue"),
+  /** Deal owner/assignee */
+  assignedTo: varchar("assignedTo", { length: 256 }),
+  /** Expected close date */
+  expectedCloseDate: timestamp("expectedCloseDate"),
+  /** Actual close date */
+  closedAt: timestamp("closedAt"),
+  /** Loss reason (if closed_lost) */
+  lossReason: text("lossReason"),
+  /** Notes */
+  notes: text("notes"),
+  /** Associated AIBA analysis ID */
+  aibaAnalysisId: integer("aibaAnalysisId"),
+  /** Associated proposal ID */
+  proposalId: integer("proposalId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("deals_leadId_idx").on(table.leadId),
+  index("deals_stage_idx").on(table.stage),
+]);
+
+export type Deal = typeof deals.$inferSelect;
+export type InsertDeal = typeof deals.$inferInsert;
+
+/**
+ * Activity timeline entries for deals.
+ */
+export const activities = pgTable("activities", {
+  id: serial("id").primaryKey(),
+  /** Parent deal */
+  dealId: integer("dealId").notNull(),
+  /** Activity type */
+  type: activityTypeEnum("type").notNull(),
+  /** Description of the activity */
+  description: text("description").notNull(),
+  /** Additional metadata (e.g., old/new stage for stage_change) */
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  /** Who performed the activity */
+  performedBy: varchar("performedBy", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [
+  index("activities_dealId_idx").on(table.dealId),
+]);
+
+export type Activity = typeof activities.$inferSelect;
+export type InsertActivity = typeof activities.$inferInsert;
+
+/**
+ * AIBA diagnostic analysis reports.
+ * Full 4-Engines analysis with constraint classification and recommendations.
+ */
+export const aibaAnalyses = pgTable("aibaAnalyses", {
+  id: serial("id").primaryKey(),
+  /** Associated deal (optional — can run standalone) */
+  dealId: integer("dealId"),
+  /** Associated lead */
+  leadId: integer("leadId"),
+  /** Input: discovery notes or transcript */
+  inputNotes: text("inputNotes"),
+  /** 4 Engines analysis: Revenue, Operations, Compliance, Data */
+  fourEngines: jsonb("fourEngines").$type<{
+    revenue: { score: number; findings: string[]; opportunities: string[] };
+    operations: { score: number; findings: string[]; opportunities: string[] };
+    compliance: { score: number; findings: string[]; opportunities: string[] };
+    data: { score: number; findings: string[]; opportunities: string[] };
+  }>(),
+  /** Primary constraint classification */
+  constraintType: varchar("constraintType", { length: 64 }),
+  /** Quick wins (implementable in < 30 days) */
+  quickWins: jsonb("quickWins").$type<{
+    title: string;
+    description: string;
+    estimatedImpact: string;
+    effort: string;
+  }[]>(),
+  /** Strategic recommendations */
+  strategicRecommendations: jsonb("strategicRecommendations").$type<{
+    title: string;
+    description: string;
+    timeline: string;
+    investment: string;
+  }[]>(),
+  /** AI type recommendations mapped to findings */
+  aiRecommendations: jsonb("aiRecommendations").$type<{
+    ml: { applicable: boolean; useCases: string[] };
+    agentic: { applicable: boolean; useCases: string[] };
+    rl: { applicable: boolean; useCases: string[] };
+  }>(),
+  /** Estimated annual cost of inaction in GBP */
+  costOfInaction: integer("costOfInaction"),
+  /** Overall readiness score 0-100 */
+  readinessScore: integer("readinessScore"),
+  /** S3 URL of generated PDF report */
+  reportPdfUrl: varchar("reportPdfUrl", { length: 1024 }),
+  /** Processing status */
+  status: varchar("status", { length: 32 }).default("pending").notNull(),
+  /** Error message */
+  errorMessage: text("errorMessage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("aibaAnalyses_dealId_idx").on(table.dealId),
+  index("aibaAnalyses_leadId_idx").on(table.leadId),
+]);
+
+export type AibaAnalysis = typeof aibaAnalyses.$inferSelect;
+export type InsertAibaAnalysis = typeof aibaAnalyses.$inferInsert;
+
+/**
+ * Sales tasks with due dates and priority.
+ */
+export const salesTasks = pgTable("salesTasks", {
+  id: serial("id").primaryKey(),
+  /** Parent deal */
+  dealId: integer("dealId").notNull(),
+  /** Task title */
+  title: varchar("title", { length: 512 }).notNull(),
+  /** Task description */
+  description: text("description"),
+  /** Due date */
+  dueDate: timestamp("dueDate"),
+  /** Priority level */
+  priority: taskPriorityEnum("priority").default("medium").notNull(),
+  /** Whether the task is completed */
+  completed: integer("completed").default(0).notNull(),
+  /** When completed */
+  completedAt: timestamp("completedAt"),
+  /** Assigned to */
+  assignedTo: varchar("assignedTo", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("salesTasks_dealId_idx").on(table.dealId),
+]);
+
+export type SalesTask = typeof salesTasks.$inferSelect;
+export type InsertSalesTask = typeof salesTasks.$inferInsert;

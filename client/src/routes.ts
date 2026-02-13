@@ -33,7 +33,11 @@ export const routes: RouteConfig[] = [
   { path: "/admin/campaigns", component: lazy(() => import("./pages/admin/Campaigns")) },
   { path: "/admin/campaign-builder", component: lazy(() => import("./pages/admin/CampaignBuilder")) },
   { path: "/admin/campaign/:id", component: lazy(() => import("./pages/admin/CampaignDetail")) },
-  { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/Leads")) }, // Phase 4 placeholder
+  // Phase 4: Sales Pipeline & AIBA
+  { path: "/admin/pipeline", component: lazy(() => import("./pages/admin/Pipeline")) },
+  { path: "/admin/pipeline-metrics", component: lazy(() => import("./pages/admin/PipelineMetrics")) },
+  { path: "/admin/deal/:id", component: lazy(() => import("./pages/admin/DealDetail")) },
+  { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/AIBADiagnostic")) },
   // AIBA (public)
   { path: "/aiba", component: lazy(() => import("./pages/aiba/Overview")) },
   { path: "/aiba/diagnostic", component: lazy(() => import("./pages/aiba/Diagnostic")) },

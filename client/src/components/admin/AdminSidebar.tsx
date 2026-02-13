@@ -65,8 +65,10 @@ const navGroups: NavGroup[] = [
   {
     title: "Sales Pipeline",
     items: [
-      { label: "Proposals", path: "/admin/proposals", icon: FileText },
+      { label: "Pipeline", path: "/admin/pipeline", icon: Target },
+      { label: "Metrics", path: "/admin/pipeline-metrics", icon: PieChart },
       { label: "AIBA Diagnostics", path: "/admin/aiba-diagnostics", icon: BrainCircuit },
+      { label: "Proposals", path: "/admin/proposals", icon: FileText },
     ],
   },
   {

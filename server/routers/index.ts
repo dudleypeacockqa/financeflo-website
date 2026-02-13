@@ -11,6 +11,8 @@ import { promptsRouter } from "./prompts";
 import { jobsRouter } from "./jobs";
 import { leadgenRouter } from "./leadgen";
 import { outreachRouter } from "./outreach";
+import { pipelineRouter } from "./pipeline";
+import { aibaRouter } from "./aiba";
 
 export const appRouter = router({
   system: systemRouter,
@@ -31,6 +33,10 @@ export const appRouter = router({
 
   // Phase 3: Outreach Automation
   outreach: outreachRouter,
+
+  // Phase 4: Sales Pipeline & AIBA
+  pipeline: pipelineRouter,
+  aiba: aibaRouter,
 });
 
 export type AppRouter = typeof appRouter;
