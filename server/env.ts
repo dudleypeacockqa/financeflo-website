@@ -9,4 +9,7 @@ export const ENV = {
   awsS3Bucket: process.env.AWS_S3_BUCKET ?? "",
   ghlWebhookUrl: process.env.GHL_WEBHOOK_URL ?? "",
   isProduction: process.env.NODE_ENV === "production",
+
+  // Phase 1: Knowledge Base
+  voyageApiKey: process.env.VOYAGE_API_KEY ?? "",
 };

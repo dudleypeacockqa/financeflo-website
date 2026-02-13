@@ -15,8 +15,23 @@ export const routes: RouteConfig[] = [
   { path: "/free-book", component: lazy(() => import("./pages/FreeBook")) },
   { path: "/delivery", component: lazy(() => import("./pages/Delivery")) },
   { path: "/workshop", component: lazy(() => import("./pages/Workshop")) },
+  // Auth
   { path: "/admin/login", component: lazy(() => import("./pages/AdminLogin")) },
+  // Admin (sidebar layout)
   { path: "/admin", component: lazy(() => import("./pages/Admin")) },
+  { path: "/admin/leads", component: lazy(() => import("./pages/admin/Leads")) },
+  { path: "/admin/lead-research", component: lazy(() => import("./pages/admin/Leads")) }, // Phase 2 placeholder
+  { path: "/admin/assessments", component: lazy(() => import("./pages/admin/Assessments")) },
+  { path: "/admin/proposals", component: lazy(() => import("./pages/admin/Proposals")) },
+  { path: "/admin/workshops", component: lazy(() => import("./pages/admin/Workshops")) },
+  { path: "/admin/webhooks", component: lazy(() => import("./pages/admin/WebhookEvents")) },
+  { path: "/admin/knowledge-base", component: lazy(() => import("./pages/admin/KnowledgeBase")) },
+  { path: "/admin/prompt-manager", component: lazy(() => import("./pages/admin/PromptManager")) },
+  { path: "/admin/jobs", component: lazy(() => import("./pages/admin/BackgroundJobs")) },
+  { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/Leads")) }, // Phase 4 placeholder
+  // AIBA (public)
+  { path: "/aiba", component: lazy(() => import("./pages/aiba/Overview")) },
+  { path: "/aiba/diagnostic", component: lazy(() => import("./pages/aiba/Diagnostic")) },
   // ERP
   { path: "/erp/sage-intacct", component: lazy(() => import("./pages/erp/SageIntacct")) },
   { path: "/erp/acumatica", component: lazy(() => import("./pages/erp/Acumatica")) },

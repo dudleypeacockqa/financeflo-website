@@ -29,6 +29,37 @@ services:
         sync: false
       - key: GHL_WEBHOOK_URL
         sync: false
+      - key: VOYAGE_API_KEY
+        sync: false
+
+  - type: worker
+    name: financeflo-worker
+    runtime: node
+    region: frankfurt
+    plan: starter
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm run start:worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: financeflo-website-db
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: VOYAGE_API_KEY
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: eu-west-2
+      - key: AWS_S3_BUCKET
+        sync: false
+      - key: WORKER_POLL_INTERVAL
+        value: "5000"
 
 databases:
   - name: financeflo-website-db
