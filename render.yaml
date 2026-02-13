@@ -37,6 +37,10 @@ services:
         sync: false
       - key: PERPLEXITY_API_KEY
         sync: false
+      - key: HEYREACH_API_KEY
+        sync: false
+      - key: EMAIL_FROM_ADDRESS
+        value: noreply@financeflo.ai
 
   - type: worker
     name: financeflo-worker
@@ -70,6 +74,10 @@ services:
         sync: false
       - key: PERPLEXITY_API_KEY
         sync: false
+      - key: HEYREACH_API_KEY
+        sync: false
+      - key: EMAIL_FROM_ADDRESS
+        value: noreply@financeflo.ai
       - key: WORKER_POLL_INTERVAL
         value: "5000"
 

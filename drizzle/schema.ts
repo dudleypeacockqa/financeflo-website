@@ -430,3 +430,113 @@ export const leadListMembers = pgTable("leadListMembers", {
 
 export type LeadListMember = typeof leadListMembers.$inferSelect;
 export type InsertLeadListMember = typeof leadListMembers.$inferInsert;
+
+// ─── PHASE 3: OUTREACH AUTOMATION ────────────────────────────────────────
+
+export const campaignStatusEnum = pgEnum("campaign_status", ["draft", "scheduled", "running", "paused", "completed", "cancelled"]);
+export const outreachChannelEnum = pgEnum("outreach_channel", ["linkedin_dm", "linkedin_connection", "email"]);
+export const messageStatusEnum = pgEnum("message_status", ["pending", "scheduled", "sent", "delivered", "opened", "clicked", "replied", "bounced", "failed"]);
+
+/**
+ * Outreach campaigns — multi-channel sequences targeting lead lists.
+ */
+export const campaigns = pgTable("campaigns", {
+  id: serial("id").primaryKey(),
+  /** Campaign name */
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Primary channel */
+  channel: outreachChannelEnum("channel").notNull(),
+  /** Current status */
+  status: campaignStatusEnum("status").default("draft").notNull(),
+  /** Lead list to target */
+  listId: integer("listId"),
+  /** Sequence steps config: array of { stepNumber, channel, delayDays, templateBody } */
+  sequenceSteps: jsonb("sequenceSteps").$type<{
+    stepNumber: number;
+    channel: string;
+    delayDays: number;
+    subject?: string;
+    templateBody: string;
+  }[]>(),
+  /** Campaign settings: daily limits, send windows, etc. */
+  settings: jsonb("settings").$type<{
+    dailyLimit: number;
+    sendWindowStart: string; // HH:mm
+    sendWindowEnd: string;   // HH:mm
+    timezone: string;
+    skipWeekends: boolean;
+  }>(),
+  /** Aggregated metrics */
+  metrics: jsonb("metrics").$type<{
+    totalSent: number;
+    delivered: number;
+    opened: number;
+    clicked: number;
+    replied: number;
+    bounced: number;
+    failed: number;
+  }>(),
+  /** External HeyReach campaign ID (if synced) */
+  heyreachCampaignId: varchar("heyreachCampaignId", { length: 256 }),
+  /** External GHL campaign ID (if synced) */
+  ghlCampaignId: varchar("ghlCampaignId", { length: 256 }),
+  /** Scheduled start time */
+  scheduledAt: timestamp("scheduledAt"),
+  /** When campaign started running */
+  startedAt: timestamp("startedAt"),
+  /** When campaign completed or was cancelled */
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type Campaign = typeof campaigns.$inferSelect;
+export type InsertCampaign = typeof campaigns.$inferInsert;
+
+/**
+ * Individual outreach messages — one per lead per step.
+ */
+export const outreachMessages = pgTable("outreachMessages", {
+  id: serial("id").primaryKey(),
+  /** Parent campaign */
+  campaignId: integer("campaignId").notNull(),
+  /** Target lead */
+  leadId: integer("leadId").notNull(),
+  /** Step number in the sequence */
+  stepNumber: integer("stepNumber").notNull(),
+  /** Channel for this message */
+  channel: outreachChannelEnum("channel").notNull(),
+  /** Delivery status */
+  status: messageStatusEnum("status").default("pending").notNull(),
+  /** Subject line (email only) */
+  subject: varchar("subject", { length: 512 }),
+  /** AI-personalized message body */
+  personalizedBody: text("personalizedBody"),
+  /** Original template body before personalization */
+  templateBody: text("templateBody"),
+  /** External message ID from HeyReach or email service */
+  externalMessageId: varchar("externalMessageId", { length: 256 }),
+  /** Error message if failed */
+  errorMessage: text("errorMessage"),
+  /** When scheduled to send */
+  scheduledAt: timestamp("scheduledAt"),
+  /** When actually sent */
+  sentAt: timestamp("sentAt"),
+  /** When delivered */
+  deliveredAt: timestamp("deliveredAt"),
+  /** When opened (email tracking) */
+  openedAt: timestamp("openedAt"),
+  /** When clicked (email tracking) */
+  clickedAt: timestamp("clickedAt"),
+  /** When replied */
+  repliedAt: timestamp("repliedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("outreachMessages_campaignId_idx").on(table.campaignId),
+  index("outreachMessages_leadId_idx").on(table.leadId),
+  index("outreachMessages_status_scheduledAt_idx").on(table.status, table.scheduledAt),
+]);
+
+export type OutreachMessage = typeof outreachMessages.$inferSelect;
+export type InsertOutreachMessage = typeof outreachMessages.$inferInsert;

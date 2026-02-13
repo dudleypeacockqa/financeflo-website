@@ -17,4 +17,8 @@ export const ENV = {
   relevanceAiApiKey: process.env.RELEVANCE_AI_API_KEY ?? "",
   relevanceAiProjectId: process.env.RELEVANCE_AI_PROJECT_ID ?? "",
   perplexityApiKey: process.env.PERPLEXITY_API_KEY ?? "",
+
+  // Phase 3: Outreach Automation
+  heyreachApiKey: process.env.HEYREACH_API_KEY ?? "",
+  emailFromAddress: process.env.EMAIL_FROM_ADDRESS ?? "",
 };

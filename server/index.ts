@@ -6,6 +6,7 @@ import { registerAuthRoutes } from "./auth";
 import { appRouter } from "./routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { registerWebhookRoutes } from "./webhooks";
 
 async function startServer() {
   const app = express();
@@ -16,6 +17,9 @@ async function startServer() {
 
   // Auth routes under /api/auth/*
   registerAuthRoutes(app);
+
+  // Webhook routes for external service callbacks
+  registerWebhookRoutes(app);
 
   // tRPC API
   app.use(

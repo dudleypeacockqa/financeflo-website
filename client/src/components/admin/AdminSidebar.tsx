@@ -56,6 +56,13 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    title: "Outreach",
+    items: [
+      { label: "Campaigns", path: "/admin/campaigns", icon: Send },
+      { label: "Message Queue", path: "/admin/campaign-builder", icon: MessageSquare },
+    ],
+  },
+  {
     title: "Sales Pipeline",
     items: [
       { label: "Proposals", path: "/admin/proposals", icon: FileText },

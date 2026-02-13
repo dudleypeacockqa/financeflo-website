@@ -30,6 +30,9 @@ export const routes: RouteConfig[] = [
   { path: "/admin/knowledge-base", component: lazy(() => import("./pages/admin/KnowledgeBase")) },
   { path: "/admin/prompt-manager", component: lazy(() => import("./pages/admin/PromptManager")) },
   { path: "/admin/jobs", component: lazy(() => import("./pages/admin/BackgroundJobs")) },
+  { path: "/admin/campaigns", component: lazy(() => import("./pages/admin/Campaigns")) },
+  { path: "/admin/campaign-builder", component: lazy(() => import("./pages/admin/CampaignBuilder")) },
+  { path: "/admin/campaign/:id", component: lazy(() => import("./pages/admin/CampaignDetail")) },
   { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/Leads")) }, // Phase 4 placeholder
   // AIBA (public)
   { path: "/aiba", component: lazy(() => import("./pages/aiba/Overview")) },
