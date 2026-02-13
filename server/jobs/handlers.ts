@@ -8,12 +8,15 @@ import { documents, knowledgeChunks } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { parseContent, chunkText } from "../knowledge/ingestion";
 import { generateEmbeddings } from "../knowledge/embeddings";
+import { runLeadPipeline } from "../leadgen/pipeline";
+import { updateBatchProgress } from "../leadgen/batch";
 
 /**
  * Register all job handlers. Called once at worker startup.
  */
 export function registerAllHandlers(): void {
   registerJobHandler("embed_document", handleEmbedDocument);
+  registerJobHandler("research_lead", handleResearchLead);
 }
 
 /**
@@ -85,4 +88,34 @@ async function handleEmbedDocument(payload: Record<string, unknown>): Promise<Re
       .where(eq(documents.id, documentId));
     throw error;
   }
+}
+
+/**
+ * Run the full lead research pipeline for a single lead.
+ * Optionally part of a batch.
+ */
+async function handleResearchLead(payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const leadId = payload.leadId as number;
+  const batchId = payload.batchId as number | undefined;
+  if (!leadId) throw new Error("Missing leadId in payload");
+
+  const result = await runLeadPipeline(leadId);
+
+  // Update batch progress if part of a batch
+  if (batchId) {
+    await updateBatchProgress(
+      batchId,
+      result.success,
+      result.totalCostUsd,
+      leadId,
+      result.success ? undefined : "Pipeline failed"
+    );
+  }
+
+  return {
+    success: result.success,
+    researchId: result.researchId,
+    totalCostUsd: result.totalCostUsd,
+    steps: result.steps,
+  };
 }

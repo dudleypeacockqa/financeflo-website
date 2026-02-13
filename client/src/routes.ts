@@ -20,7 +20,9 @@ export const routes: RouteConfig[] = [
   // Admin (sidebar layout)
   { path: "/admin", component: lazy(() => import("./pages/Admin")) },
   { path: "/admin/leads", component: lazy(() => import("./pages/admin/Leads")) },
-  { path: "/admin/lead-research", component: lazy(() => import("./pages/admin/Leads")) }, // Phase 2 placeholder
+  { path: "/admin/lead-research", component: lazy(() => import("./pages/admin/LeadResearch")) },
+  { path: "/admin/batch-monitor", component: lazy(() => import("./pages/admin/BatchMonitor")) },
+  { path: "/admin/lead-profile/:id", component: lazy(() => import("./pages/admin/LeadProfile")) },
   { path: "/admin/assessments", component: lazy(() => import("./pages/admin/Assessments")) },
   { path: "/admin/proposals", component: lazy(() => import("./pages/admin/Proposals")) },
   { path: "/admin/workshops", component: lazy(() => import("./pages/admin/Workshops")) },

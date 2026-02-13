@@ -27,6 +27,8 @@ export const documentTypeEnum = pgEnum("document_type", ["transcript", "meeting_
 export const documentStatusEnum = pgEnum("document_status", ["pending", "processing", "ready", "error"]);
 export const jobStatusEnum = pgEnum("job_status", ["pending", "running", "completed", "failed", "cancelled"]);
 export const promptCategoryEnum = pgEnum("prompt_category", ["lead_analysis", "dm_sequence", "proposal", "aiba_diagnostic", "research", "general"]);
+export const researchStatusEnum = pgEnum("research_status", ["none", "pending", "researching", "analyzed", "sequenced", "complete", "error"]);
+export const batchStatusEnum = pgEnum("batch_status", ["draft", "queued", "running", "paused", "completed", "failed"]);
 
 /**
  * Core user table backing auth flow.
@@ -72,6 +74,12 @@ export const leads = pgTable("leads", {
   utmSource: varchar("utmSource", { length: 256 }),
   utmMedium: varchar("utmMedium", { length: 256 }),
   utmCampaign: varchar("utmCampaign", { length: 256 }),
+  /** Phase 2: Lead enrichment fields */
+  linkedinHeadline: varchar("linkedinHeadline", { length: 512 }),
+  companyWebsite: varchar("companyWebsite", { length: 512 }),
+  companyEmployeeCount: integer("companyEmployeeCount"),
+  enrichedAt: timestamp("enrichedAt"),
+  researchStatus: researchStatusEnum("researchStatus").default("none").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
@@ -320,3 +328,105 @@ export const promptTemplates = pgTable("promptTemplates", {
 
 export type PromptTemplate = typeof promptTemplates.$inferSelect;
 export type InsertPromptTemplate = typeof promptTemplates.$inferInsert;
+
+// ─── PHASE 2: LEAD RESEARCH ───────────────────────────────────────────────
+
+/**
+ * Research results per lead — LinkedIn scrape, company research, AI analysis, DM sequences.
+ */
+export const leadResearch = pgTable("leadResearch", {
+  id: serial("id").primaryKey(),
+  /** The lead this research belongs to */
+  leadId: integer("leadId").notNull(),
+  /** Raw LinkedIn profile data from Relevance AI */
+  linkedinData: jsonb("linkedinData").$type<Record<string, unknown>>(),
+  /** Company research from Perplexity AI */
+  companyResearch: jsonb("companyResearch").$type<Record<string, unknown>>(),
+  /** AI-generated lead profile analysis */
+  leadProfile: jsonb("leadProfile").$type<Record<string, unknown>>(),
+  /** Pain/gain analysis mapped to 4 Engines */
+  painGainAnalysis: jsonb("painGainAnalysis").$type<Record<string, unknown>>(),
+  /** Lead archetype classification */
+  archetype: varchar("archetype", { length: 128 }),
+  /** Constraint classification (Capacity, Knowledge, Process, Scale) */
+  constraintType: varchar("constraintType", { length: 64 }),
+  /** Generated DM sequence (connection request + 3 DMs) */
+  dmSequence: jsonb("dmSequence").$type<Record<string, unknown>>(),
+  /** Quality score 1-100 */
+  qualityScore: integer("qualityScore"),
+  /** Total API cost for this research in USD */
+  costUsd: varchar("costUsd", { length: 16 }),
+  /** Processing status */
+  status: researchStatusEnum("status").default("pending").notNull(),
+  /** Error message if failed */
+  errorMessage: text("errorMessage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("leadResearch_leadId_idx").on(table.leadId),
+]);
+
+export type LeadResearch = typeof leadResearch.$inferSelect;
+export type InsertLeadResearch = typeof leadResearch.$inferInsert;
+
+/**
+ * Batch processing runs for lead research.
+ */
+export const leadResearchBatches = pgTable("leadResearchBatches", {
+  id: serial("id").primaryKey(),
+  /** Batch name for identification */
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Current status */
+  status: batchStatusEnum("status").default("draft").notNull(),
+  /** Total leads in batch */
+  totalLeads: integer("totalLeads").default(0).notNull(),
+  /** Leads processed so far */
+  processedLeads: integer("processedLeads").default(0).notNull(),
+  /** Leads that failed */
+  failedLeads: integer("failedLeads").default(0).notNull(),
+  /** Total cost in USD */
+  totalCostUsd: varchar("totalCostUsd", { length: 16 }),
+  /** Lead list ID this batch is based on (optional) */
+  listId: integer("listId"),
+  /** Error log entries */
+  errors: jsonb("errors").$type<{ leadId: number; error: string }[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type LeadResearchBatch = typeof leadResearchBatches.$inferSelect;
+export type InsertLeadResearchBatch = typeof leadResearchBatches.$inferInsert;
+
+/**
+ * Named lists for organizing leads.
+ */
+export const leadLists = pgTable("leadLists", {
+  id: serial("id").primaryKey(),
+  /** List name */
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Description */
+  description: text("description"),
+  /** Number of members (denormalized for performance) */
+  memberCount: integer("memberCount").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type LeadList = typeof leadLists.$inferSelect;
+export type InsertLeadList = typeof leadLists.$inferInsert;
+
+/**
+ * Junction table: lead list membership.
+ */
+export const leadListMembers = pgTable("leadListMembers", {
+  id: serial("id").primaryKey(),
+  listId: integer("listId").notNull(),
+  leadId: integer("leadId").notNull(),
+  addedAt: timestamp("addedAt").defaultNow().notNull(),
+}, (table) => [
+  index("leadListMembers_listId_idx").on(table.listId),
+  index("leadListMembers_leadId_idx").on(table.leadId),
+]);
+
+export type LeadListMember = typeof leadListMembers.$inferSelect;
+export type InsertLeadListMember = typeof leadListMembers.$inferInsert;

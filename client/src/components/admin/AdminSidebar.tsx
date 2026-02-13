@@ -7,6 +7,7 @@ import {
   Cog,
   FileText,
   FolderSearch,
+  Layers,
   LayoutDashboard,
   Library,
   Mail,
@@ -50,6 +51,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Leads", path: "/admin/leads", icon: Users },
       { label: "Lead Research", path: "/admin/lead-research", icon: FolderSearch },
+      { label: "Batch Monitor", path: "/admin/batch-monitor", icon: Layers },
       { label: "Assessments", path: "/admin/assessments", icon: ClipboardList },
     ],
   },

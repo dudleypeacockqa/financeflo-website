@@ -9,6 +9,7 @@ import { workshopRouter } from "./workshop";
 import { knowledgeRouter } from "./knowledge";
 import { promptsRouter } from "./prompts";
 import { jobsRouter } from "./jobs";
+import { leadgenRouter } from "./leadgen";
 
 export const appRouter = router({
   system: systemRouter,
@@ -23,6 +24,9 @@ export const appRouter = router({
   knowledge: knowledgeRouter,
   prompts: promptsRouter,
   jobs: jobsRouter,
+
+  // Phase 2: Lead Engine
+  leadgen: leadgenRouter,
 });
 
 export type AppRouter = typeof appRouter;

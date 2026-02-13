@@ -31,6 +31,12 @@ services:
         sync: false
       - key: VOYAGE_API_KEY
         sync: false
+      - key: RELEVANCE_AI_API_KEY
+        sync: false
+      - key: RELEVANCE_AI_PROJECT_ID
+        sync: false
+      - key: PERPLEXITY_API_KEY
+        sync: false
 
   - type: worker
     name: financeflo-worker
@@ -57,6 +63,12 @@ services:
       - key: AWS_REGION
         value: eu-west-2
       - key: AWS_S3_BUCKET
+        sync: false
+      - key: RELEVANCE_AI_API_KEY
+        sync: false
+      - key: RELEVANCE_AI_PROJECT_ID
+        sync: false
+      - key: PERPLEXITY_API_KEY
         sync: false
       - key: WORKER_POLL_INTERVAL
         value: "5000"

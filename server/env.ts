@@ -12,4 +12,9 @@ export const ENV = {
 
   // Phase 1: Knowledge Base
   voyageApiKey: process.env.VOYAGE_API_KEY ?? "",
+
+  // Phase 2: Lead Engine
+  relevanceAiApiKey: process.env.RELEVANCE_AI_API_KEY ?? "",
+  relevanceAiProjectId: process.env.RELEVANCE_AI_PROJECT_ID ?? "",
+  perplexityApiKey: process.env.PERPLEXITY_API_KEY ?? "",
 };
