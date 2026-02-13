@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { TeamMember } from "@/data/team";
@@ -8,79 +8,11 @@ interface TeamCardProps {
   index: number;
 }
 
-function toTeamSlug(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
-
-function toBasePath(src: string): string {
-  const base = import.meta.env.BASE_URL || "/";
-  const cleanBase = base.endsWith("/") ? base : `${base}/`;
-  const cleanSrc = src.startsWith("/") ? src.slice(1) : src;
-  return `${cleanBase}${cleanSrc}`;
-}
-
 export default function TeamCard({ member, index }: TeamCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const hasLoggedFallbackRef = useRef(false);
-  const [imgStatus, setImgStatus] = useState<"loading" | "loaded" | "error">("loading");
-
-  const imageCandidates = useMemo(() => {
-    const slug = toTeamSlug(member.name);
-    const candidates = new Set<string>();
-
-    if (member.image) {
-      candidates.add(member.image);
-      candidates.add(toBasePath(member.image));
-    }
-
-    const guessed = [
-      `/images/team/${slug}.jpg`,
-      `/images/team/${slug}.jpeg`,
-      `/images/team/${slug}.png`,
-    ];
-
-    guessed.forEach(path => {
-      candidates.add(path);
-      candidates.add(toBasePath(path));
-    });
-
-    return Array.from(candidates);
-  }, [member.image, member.name]);
-
-  const [candidateIndex, setCandidateIndex] = useState(0);
-  const [currentImage, setCurrentImage] = useState<string>(imageCandidates[0] || "");
-
-  useEffect(() => {
-    setCandidateIndex(0);
-    setCurrentImage(imageCandidates[0] || "");
-    setImgStatus(imageCandidates.length > 0 ? "loading" : "error");
-    hasLoggedFallbackRef.current = false;
-  }, [imageCandidates]);
-
-  const handleImageError = () => {
-    const nextIndex = candidateIndex + 1;
-
-    if (nextIndex < imageCandidates.length) {
-      setCandidateIndex(nextIndex);
-      setCurrentImage(imageCandidates[nextIndex] || "");
-      setImgStatus("loading");
-      return;
-    }
-
-    if (
-      import.meta.env.DEV &&
-      !hasLoggedFallbackRef.current &&
-      typeof console !== "undefined"
-    ) {
-      console.warn(
-        `[TeamCard] Falling back to initials for "${member.name}". Tried:`,
-        imageCandidates
-      );
-      hasLoggedFallbackRef.current = true;
-    }
-
-    setImgStatus("error");
-  };
+  const [imgStatus, setImgStatus] = useState<"loading" | "loaded" | "error">(
+    member.image ? "loading" : "error"
+  );
 
   return (
     <motion.div
@@ -92,14 +24,14 @@ export default function TeamCard({ member, index }: TeamCardProps) {
       style={{ borderRadius: "var(--radius)" }}
     >
       <Avatar className="w-20 h-20 mx-auto mb-4 border border-teal/30">
-        {currentImage && (
+        {member.image && (
           <img
-            src={currentImage}
+            src={member.image}
             alt={member.name}
             className="aspect-square size-full object-cover"
             style={{ display: imgStatus === "loaded" ? "block" : "none" }}
             onLoad={() => setImgStatus("loaded")}
-            onError={handleImageError}
+            onError={() => setImgStatus("error")}
           />
         )}
         {imgStatus !== "loaded" && (
