@@ -1,0 +1,406 @@
+Dudley Peacock  0:00  
+Can you hear us? Hi, it's Dudley, Hi. Who am I speaking? Oh, okay, I'm gonna
+
+Ashley Bezuidenhout  0:09  
+say, I'm just gonna show you around. That's Ashley. That's Chris. Hi, Chris. This is Lisa.
+
+Dudley Peacock  0:18  
+Me. Okay, Lisa, Ashley and Chris, yeah, okay, good, good, good to meet. I'm just got my note taker because I just want to make sure I don't miss anything.
+
+Unknown Speaker  0:32  
+Okay, no, that's fine, no problem.
+
+Dudley Peacock  0:35  
+Thank you very much. Yes,
+
+Ashley Bezuidenhout  0:39  
+yeah, so we received an email from you with some info in terms of AI integrated accounting software, and we were just interested to see what it is you do offer, and if there is perhaps anything that could help us in our business. So maybe you can give us a little bit of background of what you actually do and do integrate with AI and what systems you use.
+
+Dudley Peacock  1:10  
+Yeah, so, okay, I quickly give you a bit of background just just before I get into that. What, what are you using at the moment, just so that I can get a bit of context before I jump straight into
+
+Ashley Bezuidenhout  1:22  
+Okay, well, we're currently, okay, no, that's fine. We're currently using sage Castle version 19, and then we've also got a homegrown system called wimbrol that integrates with that that the operations guys basically run the operation on. So it's a combination of those two systems at the end of the day, okay?
+
+Dudley Peacock  1:47  
+Because it looks to me like it's a demolition plant higher. So it's all the yellow goods maintenance as well as booking out equipment, etc. So you, you would, you would lease out, or rent out the yellow goods. Is that correct?
+
+Ashley Bezuidenhout  2:03  
+No, we don't lease it out. We actually use it ourselves. So we actually, we actually go and do the work ourselves. So we have yellow plants, and then we have an operator for each plant, and we basically rent it out and go and do jobs for people. So we're very involved in the construction industry. And ja said, it's quite a big fleet. It's a fleet of about 80 large machines. So that's that's our core business. And then we also doing a little bit of development on the sideline as well. But yes, that's what we're doing. So all our plants and everything is on whimbrel, all our sales and everything, our hours are recorded there. And everything feeds into pastel. So it's a subsystem to pastel at this stage, okay?
+
+Dudley Peacock  2:55  
+And then the pastel obviously handles the the bookkeeping and accounting. Have you got a multi company environment, or is it a sink, single entity that's doing the trading?
+
+Unknown Speaker  3:06  
+Well, there are a number of companies within the group, but they each they each dealt with separately.
+
+Dudley Peacock  3:14  
+Okay, so your pastel partner? Theoretically, you've got a number of pastel partner instances, and each one carries one of the companies. Yes, correct. And how many companies, if you don't mind me
+
+Ashley Bezuidenhout  3:32  
+asking or 12? Yeah, so let's just say about 10 on pastel,
+
+Dudley Peacock  3:41  
+10 on pastel. And then is there something else managing the finances for the other companies?
+
+Dudley Peacock  3:51  
+No, so the others are done, say, on spreadsheets or something like that, or normal little bookkeeping program of some sort. Yeah. Or outsourced, or outsourced, okay, that's also another way to do it. Okay, so you got 8080, odd machines, and if I look at your website, the machines would include things like crushing equipment, front end loaders, etc. Okay, yeah. And then when you talk about a turnkey project, you'll get a particular site, and a customer would come to you and say, we've got a site that needs some work. The this is the, let's call it the work breakdown of in terms of what needs to be done. And then you will take various machines to to then go through a project, let's say, and then go from start, let's say it's a green fields, and then you'll turn that into a full brown fields project. Is that correct? Correct?
+
+Speaker 1  4:50  
+Yeah. So yeah, no, carry on that.
+
+Dudley Peacock  4:54  
+I just want to, just want to understand. So then you would extract whatever needs to be extracted. So if it's, if it's coal or some, some, some other material, and then you'll, at the end of it, you'll then close off the project by returning it to its original state. Is that? Is that correct?
+
+Ashley Bezuidenhout  5:12  
+So we're involved in the construction industry, so what, basically, what would happen is, when you want to start a new development or something, the first thing you need to sort out is the land. So it needs to be leveled. You need to put in trenches for reticulation, whether it's electrical or water or something like that. So we would do all of that. So we prepare everything for bold phase. Then bold phase will start, and then you'll bring in the civil engineers and that. So a lot of the work we do is like preparation to build, if I can put it that way, okay? And then we also, we, so we also do a lot of work for big companies like concour and that's who are building roads and that kind of thing. So then we would move rock for them, break rock for them, that kind of thing, and get it to the job for them. So we do quite a bit of work on the roads as well.
+
+Dudley Peacock  6:12  
+And then there's the demolitions as well that you do. Okay? So it's very much a project based business. So you'll get a sales person or somebody would go in scope the work, have the work sort of estimated in terms of what's going to cost, what kind of vehicles, what's the timelines, etc, and then go into some kind of project phase where you would then roll out the particular things. Is that correct? That's correct,
+
+Unknown Speaker  6:41  
+if you guys anything,
+
+Dudley Peacock  6:44  
+welcome to chip in. I just want to get a sense of this, because we definitely have really good solutions. But I don't want to give you something, you know, spend an hour talking to you and then wasting your time to news. I mean, it's not relevant. So if you can chip in and be really great, if you talk to me about the sales process and then the project management process will be really great
+
+Ashley Bezuidenhout  7:06  
+sales process. We've got operations guys who are out on the field, and while they're working, it's a lot of it is just pure networking. I mean, it's not that they actually going out there selling. We don't have sales representatives. It's word of mouth, it's networking, all that kind of thing. So there's no they're not actual sales representatives out there. There's obviously a demand for it. We obviously have a reputation in the industry, so we lucky enough to be busy enough, if I can put it that
+
+Dudley Peacock  7:42  
+way, nice. And I think this, the industry lends itself to that where, where you get, get a call and then they say, Can you provide us with an estimate, or can you provide us with some kind of costing? Of what this would cost us is that, is that correct? And you'd have somebody coming from the camp, from the company that that's well knowledgeable in the actual industry, or in in the in the actual project, and go and do some kind of on site visit for for instance, and then just get a an estimate together. Is that, is that sort of the process?
+
+Unknown Speaker  8:15  
+Yeah, that's correct.
+
+Dudley Peacock  8:18  
+And then come back to the office, decide what the like, and so on. Sorry about the
+
+Ashley Bezuidenhout  8:24  
+outside, it's more the customer come to us, tell us what machines they'll need. They'll tell us how many hours they would need it for per day. And then basically we would go mostly on that we'd provide them with the quote or sales order. And yeah, a lot of the time it's not, it's not like we would tell them what they need. They they generally tell us what they want to hire from us.
+
+Dudley Peacock  8:49  
+They come to you with a with a list, and say, We need x number of front end loaders and machines and crushing and etc, etc. We need that product to move from there to there, or that that area to be, to be cleaned or demolished, etc. Is that, that kind of thing?
+
+Speaker 2  9:06  
+Yes, generally, it would work like that.
+
+Dudley Peacock  9:09  
+And then your pricing. How does that work? Is it per hour, per machine, per machine type, etc, it
+
+Ashley Bezuidenhout  9:17  
+basically the site manager and the directors would basically give a price to depending on the customer. But yeah, per hour per machine. That's how we would cost it.
+
+Dudley Peacock  9:31  
+This is per hour per machine, and then getting the machines to and from site. Do you charge people for that? Yes, yes. Okay, so those are so additional costs. What other additional costs do you have, like fuel drivers or machine operators, etc?
+
+Ashley Bezuidenhout  9:52  
+We have something called like GT, it stands for ground, engaging tools. So the waiting on, on some of the machines we would charge customers for that, sometimes diesel. Yeah, we have like a, what we call a winter dry rain. So if the project is close to, close to where we are, I think it's 50 kilometers radius, something along those lines, we would have a dry rate. And then, or is it, we would have a way, yeah, we would have a dry light. And then, if it's weight rate, because then you're going to give them fuel, yes, weight rate. So we would fill in. We would fill the machines for them, because it's in, within our areas. And then, if it's a project that's far, would be a dry rate where they would they would provide the fuel, etc. Those are the main two. I would say the main two costs, other than the actual rate per hour.
+
+Dudley Peacock  10:53  
+Okay, okay. And then internally, you've got to service and repair and maintain your your equipment. So do you have a team of technicians, people that go to site, or are in a workshop, in your
+
+Ashley Bezuidenhout  11:09  
+basic breakdown on the site, etc? Then we, obviously, we don't want to bring the whole machine back if, if we don't have to, so we will send guys out there to to sort it out. And then we have quite a few guys here in the workshop. And then they, they will fix, sometimes machines will stay here, and they will fix and repair whatever needs to be whatever needs to be done, okay?
+
+Dudley Peacock  11:36  
+And then, in terms of spares and holding inventory in that for replacement parts, you know, from simple things like filters and oil and that sort of thing, all the way through to things you only, you know, high value items you only buy in when you need it, like a big like tires or something like it's or a gearbox or, yeah, so
+
+Speaker 2  11:57  
+we don't really hold inventory. We mostly just order stuff when we need it. Okay?
+
+Dudley Peacock  12:03  
+So there's no, no real inventory, so
+
+Ashley Bezuidenhout  12:06  
+it's just
+
+Ashley Bezuidenhout  12:07  
+really more. We do have bits and pieces, but we don't, we don't necessarily have, like, inventory, if you know, we don't really record structure,
+
+Ashley Bezuidenhout  12:20  
+you know, yeah, so not,
+
+Ashley Bezuidenhout  12:23  
+I'm sorry, in terms of unpaid,
+
+Ashley Bezuidenhout  12:27  
+yeah, well, on personal, you won't, you won't see anything. But on one role, they do have some oils, and they do have some filters and that, and that all gets maintained and held on one role. Okay, very low quantities. It's just in time, most of the stuff,
+
+Dudley Peacock  12:47  
+okay, so, I mean, because, because I'm guessing that to get that kind of, those kind of spares, and I'm going to, going to call them internal consumables, because you're not reselling those items, and that's why it won't be an inventory item. I think actually, you 100% right. It's not inventory per se, like you buying it and reselling it, but you you potentially consuming it inside the business. So even if you buying it for like one off filter or tires or something, it comes as an internal expense, as opposed to you reselling it to the customer. Your sale is a per hour per machine rate, plus your wet and dry rates, etc. But you don't necessarily, you're not selling you're not selling machines. You're not selling the inventory, really. So therefore you won't have any materials 120% correct? So it's more like fleet management and cost control per machine. Can you measure costs and maintain maintenance per machine? Do you do that at the moment?
+
+Unknown Speaker  13:49  
+Yes, we can. Yes.
+
+Dudley Peacock  13:52  
+Okay, and is that done in winbar? All was that done on separate like spreadsheets or documents and things?
+
+Ashley Bezuidenhout  14:00  
+It's a bit of a combination between one rule and Haskell. But yeah, basically we do, we actually do most, most of, most of our capturing, etc. It was specifically for the machines that Stu onworld. The main thing that's done in Haskell is we have our tax invoices for sales, for example, our purchase orders or tax invoices for expenses, and then obviously our normal balance sheet items when we capture fix assets, etc, bank account, all that kind of stuff. Sons on passports, actually quite simple, I would say, compared to one rule, most of the operations, everything else, the capturing of the hours, for example, it doesn't go, you don't capture anything like that in pastel. It's all done on mobile. And then the final amount from one will go through to pastor.
+
+Dudley Peacock  14:54  
+Okay, so just to give you a bit of context, Ashley Lisa, and it's Chris. Is a bit of context. So why am I asking these, these kind of questions? Is? Is because we don't just focus on an accounting software, although we say AI and account and ERP on AI and accounting is essentially we provide business management solutions. So it's, it's, it's, accounting is one component of a complete solution, just like you've got pastel and your windbrel system is a complete business management system. And potentially you even use things like WhatsApp, I'm guessing, or you're using spreadsheets or even email or text messaging and so on, amongst your team, amongst your customers, and so on. So all of those, although they might not seem like they're part of a business management system, any kind of communication in and out is, is a part of the business management running spreadsheets or even estimations, like to a new customer or a quotation, you might not generate that initial quotation on pastel, for instance, until it becomes an order, for instance, that kind of stuff, all of those kind of steps and all those component parts make up your entire business management system. So when we talk about AI and business management systems, or AI and ERP, which is enterprise resource planning. Essentially, it's no longer just a bookkeeping exercise. So the reason why I'm asking you all these different questions is because we cater for the entire business in terms of having systems that can run the entire business, so all the way from the most simple I'll need one machine to go to x site within 30 kilometers, and that's the rate, or it could be an entire massive project where you applying 15 or 20 of your machines to a long, longer term, three month Project, etc. It doesn't matter the range. It's more about, what are those component parts? What? What makes you successful as a business? Because what you'll find often in businesses, and this is, I mean, we do this every day of our lives, so we find that a lot of intellectual property, a lot of your business acumen, if you like, is is either stuck somewhere in a system or it's in someone's heads, cos people know more about how the business runs in the system themselves, and the systems are just really a point of record, like a place I can record something, or a place I can send and receive messages, either to customers or internally, etc, or it's some kind of compliance thing where I have to submit returns and that to SARS my VAT. I've got to do UIF and payroll taxes, etc. I've got to do I've got to pay salaries and so on. So pai taxes and so on. So those are the compliance elements as well. So you've got every everything that makes up a business has got a business acumen, a business process, and you clearly a successful company that's that's run very, very well in terms of what you currently have as a as a business management system. So what we do, in terms of, you know, what our offering is, is what we what we do is we have a look at of all those, all those component parts, and we will, will help you establish, and if you want to go down that journey, and you want to move, let's say, into a point where you're not doing as much manual work, or things aren't getting lost. Or when you on site, there's paper moving all over the place, or emails or WhatsApp groups, or whatever that communication is. We try to keep it in in one single system, so we have a base system that's maybe a core that's that's a well structured base, and then we have layers of of workflow and other automations and AI intelligence. I'm going to just go through the three types of AI intelligence that we use. The one is machine, yeah,
+
+Ashley Bezuidenhout  19:19  
+sorry, can I just interrupted the single system that you're talking about. Would you also take, for example, let's just say onebrough was our single system. Would you be able to take that system and use that as the base? Or if you got your own systems that you use,
+
+Dudley Peacock  19:38  
+we can do both. We can do both. So wimbrous is your is your choice, and you're happy with that, and everyone's comfortable with that. The last thing I want to do is create a big change management project that you've got to get everyone excited about and getting onto a new system if they already happy with the current system. So yeah, hopefully that answers your question.
+
+Unknown Speaker  19:58  
+Lisa, it does. Thank you. Yeah,
+
+Dudley Peacock  20:01  
+so we're not married to a particular sister, but what we're trying to do is we stay focused on, on the on what we're trying to achieve as a business. So what are the outcomes we're trying to achieve? So we want to potentially be a lot smarter in our decisions. We want to be better, have better visibility in terms of profits and profit margins. For instance, we want to be able to manage our people and our equipment better in a much better, smarter way. We want to be able to predict the future better. So in other words, doing better or much more improved forecasting and other types of sort of business decisions that have to be made, and then using an infrastructure and using AI to be able to take what's already there, that whole business acumen, whether it's in existing systems or whether it's in new systems, or whether it's a combination of the two. We use different types of AI and AI workflows and automations to improve the entire system. So whether it's just keeping pastel and wimble, it's also fine pastel. Unfortunately, because you got a multi company environment, you're going to have many, many databases, and at least, I'm guessing you more on the accounting side, you would know that at the end of every financial year you need to do a backup of the previous and then you move one year forward. And now you have, over the years, you start accumulating these old databases of financial information. And if you need to go back and never find anything, it's very, very hard, because potentially pastel has gone to a new version, and now the the old database is in an old version, kind of thing. And the other problem with that we have with pastel partner, to be fair, is that there's a very old legacy system, so it runs on pervasive database, which is generally the sort of a free database that pastel or sage give you as part of the accounting system, and it can handle up to a certain number of records. And we finding that it starts to get errors and things from about three or four gigabytes of memory. So if you got one or two or three pastel products that or companies set up, and you got a lot of transactions going through that, it starts to create, have errors, and then the data starts, starts to degrade inside the the actual records. I don't know if you're finding that. Do you say, if you got that many transactions, we
+
+Ashley Bezuidenhout  22:42  
+have had some issues with data integrity, but we are, we will be upgrading now, I think beginning or end of March, AI, she end of March and to the cloud. But yes, we have had some data integrity issues, particularly in the bigger company. The smaller ones have been fine.
+
+Dudley Peacock  23:06  
+Yeah, so when you say the cloud, I'm guessing you're going into the sage one product.
+
+Ashley Bezuidenhout  23:12  
+I think so, yeah, I'm not 100% sure, but I think so the IT guys are running with that for us, they're running some tests to make sure that it can integrate properly with one role before we progress. So I should have those tests now at the end of February, and then we can take it from there. And
+
+Dudley Peacock  23:32  
+I heard somebody else ask a question. I'm not sure if someone asked a question. Did Chris say anything? Okay? So, so Okay, so to come back to the way that we operate, as we do what we call an AI BA, which is an AI business analysis. So we'll, we spend a bit of time with you and your team. We just understand what the different workflows are, and then we can, we'll come up with recommendations in terms of how we can we can streamline things for you now, for instance, pastel partner, and if you're going on to a cloud system, I would highly recommend a multi company system that's One single system that covers unlimited number of companies, unlimited. You know, number of transactions, etc, between the companies and intercompany transactions happen automatically. It gets all the bank feeds and so on. And then you can put wimbrel on top, and we could do AI layers and that in there. So that would be one of the quick wins that you could have. Is to move away from pastel partner, but into a multi company, single system that handles all your different companies in one single place, and also you. There's no need for those year ends. So it's it's unlimited number of years of transactions that it keeps as well. That would be one of the things that will potentially come up as a recommendation, any any comments or any thoughts on that
+
+Unknown Speaker  25:08  
+can continue? Can I continue?
+
+Dudley Peacock  25:12  
+Okay, good. Sounds good? Yeah. So so that. So we keep one bro, for instance, we plug it in top of, on top of this system, and then it would post correctly to any one of the companies. So if one company is buying from another, and I'm guessing that the reason why you got multiple companies is because you have you allocate different work to different companies, or different parts of the work to different companies, and they would buy from each other. Is that, is that correct?
+
+Ashley Bezuidenhout  25:39  
+No, not entirely, not entirely, we're quite a diverse group. So we have the plant hire, we have an aircraft company, we've got property companies. The directors have got their own capital companies. We've got a mining company. So it's not the the the businesses are not all interlinked, and they're not dependent on each other. They run independently. Yes, sometimes they are inter company transactions, but that's not the core reason for all the different entities, and the different entities are different businesses, and they each basically run independently at this stage, but the group is diverse. There's a lot of interests
+
+Dudley Peacock  26:33  
+that's even better. So, so a multi company system would really help you a lot in terms of being able to separate the businesses in such a way that it becomes a group entity, a group of companies. And doesn't matter what the shareholding is per company, it's all that can all be maintained within a multi company environment, a multi company system, and it doesn't have to be trading between each other. But what you can do is you can start doing consolidated reports amongst two or three of the ones, or you could do non consolidation, but you can you just have one single place as an accountant or as the project team, for instance, logging in and going into one single place, as opposed to logging in and out. And the other thing, it's automatically cloud, so you've got access to it anywhere in the world. So and you don't have to worry about servers, for instance, so you don't need a server. You don't need to worry about any of that stuff. It all gets maintained by by the actual vendor, the company that provides the software. So that's the, that's this, that's the, let's call it, that's the underlying the diesel engine, if you like, of the infrastructure that we like to put in. So there's a very strong underlying finance system, financial management, financial management system. Then you got your operational system. So if you, if you want to make keep wimble, we just make sure that that sits and integrates well with whatever the different departments are. I'm guessing the, for instance, the aircraft company is going to have a completely different way of operating different mechanisms. So is it just own aircraft and then rent and do leasing of the aircraft, or what are the, what are the what does aircraft do?
+
+Speaker 1  28:30  
+We own our own aircraft, but we also buy and sell aircraft. Chris, you can come in, yeah.
+
+Ashley Bezuidenhout  28:41  
+I mean repairs and maintenance on the aircraft is a lot of work. They take up most of the transactions. And then you're like, like Lisa said, from time to time, we do sell, buy and sell aircraft. And then also a couple of charts of flights here and there type of thing. But I'd say the main, main portion of the business is the maintenance of the aircrafts, making sure that they're air worthy, that sort of thing. Nice.
+
+Dudley Peacock  29:12  
+Okay. So, so that's clearly a completely different business to the demolition plant hire, for instance. So, and the way it operates in terms of that business. When you doing your, let's say it's repairs and maintenance for would that be for other people's aircraft, or would it only be for your for your own aircraft?
+
+Ashley Bezuidenhout  29:32  
+Stump, mostly our own aircraft. But we do have certain clients, like, if we sell an aircraft to a client, most of the time they want to actually carry on doing the maintenance for that aircraft.
+
+Dudley Peacock  29:44  
+Okay? So you'd build them a per service, or per whatever the, let's say there's a specific thing that needs to be looked at, or the or the compliance, regulatory checks that have to be done on the aircraft.
+
+Ashley Bezuidenhout  29:59  
+Yeah, they were like an annual service that they have to do. But sometimes your service bulletin will come from CAA, where something needs to be replaced or whatever, and then, yeah, we sort that out for them, but at a bare minimum, it'll be an annual service type of thing.
+
+Dudley Peacock  30:16  
+So is that on, is that on? Wimble No, not, okay, so that's that's done through at the moment. So say that again. So is that's that's done all on pastel partner at the moment. Do you have another system that manages the invoicing and the managing of those craft
+
+Unknown Speaker  30:40  
+it's all on, all
+
+Dudley Peacock  30:43  
+on personal and then in terms of the service records and all that, where does, where's that kept of the actual aircraft
+
+Ashley Bezuidenhout  30:51  
+that's at the hangar. See, I work at the office, the guys that work at the hangar, the mechanics and stuff like that, they keep the service records that it's very paper heavy. There's they don't really have a computerized system for keeping service records and that type of thing, like the job sheet of what they've done type of thing. And then I will create the invoice based on what the job sheet says.
+
+Dudley Peacock  31:22  
+So that'll be an example of a quick win we could. We could have for you is to turn that into a sort of a more of a system driven so the job cards on a system, the service records on a system, all of that, instead of being very paper heavy, would that be a win for you?
+
+Ashley Bezuidenhout  31:40  
+Yes, would I'm just thinking about the users of the system there. Yeah, they went on in the years, so getting used to a new computerized system might be a challenge for them.
+
+Dudley Peacock  31:55  
+So my normal question to that is, I mean, it's, and it's a, it's a very valid, very, very valid statement you've made there. But my question generally comes back is, do they have a cell phone, a mobile phone? Yeah, yeah, of course, yeah. Are they able to work it? Are they able to to scroll and click buttons and phone and so on? Yeah, that that's pretty much how simple the the software is. So doing a job card, we like just opening the app, selecting the the aircraft, filling in the items. So just just type, just clicking little drop downs or buttons of how many hours they worked and what they did, and press submit. That's it. I mean, if they can work a cell phone,
+
+Unknown Speaker  32:43  
+is in, yo, sorry that we lost you there for a long time.
+
+Dudley Peacock  32:49  
+Yeah, something. So if, if they, if they can work a cell phone, and they're able to open an app and do something on it, if you can watch YouTube videos or scroll on Tiktok or Facebook. You can pretty much work a job card on a phone, and that's pretty much how these the software these days work, is that you are able to even take photographs of the plane before and after, or the device or something that you fixed before and after, and save that in the system. And then you can have the job card, which is literally little job drop downs and little little buttons, how many hours, what they did, what items that they replace, and then click Submit. And that's the job card. If they can work a phone, I can promise you they can work the tech. There's no like installing software, you know, at the hangar, there's none of that because all it's all online and all in the cloud. That would be potentially a quick win for you. So then we can take a lot of the old job cards up to a particular point, and then we can just, we can get a way of getting them into the system. So we got the history of those of the different aircraft, because that's potentially what you want, so they can just call it up, and then the history is already there. So that'll be like a bit of a manual exercise to take the paper and convert it, because I'm guessing they wrote with pens, and it's a bit smudgy and so on on the paper. So, yes, yeah. So it might be that that we just get, like a little mini project, get someone on, on site there, and just to capture as many of those manual things as far back as we need to go to make make sensible, you know, because it's how many aircraft are you looking at,
+
+Speaker 3  34:45  
+we normally keep between like 15 to 20 at a time, depending on how much we bought and sold.
+
+Dudley Peacock  34:54  
+Okay, so, I mean, we're not looking at hundreds over there, so that would be okay. You spoke about property. So property, you, I'm guessing, you know, the waterfall estate, the in Midrand, the Mall of Africa. So we, so we our systems run that entire estate, all the way from the utilities through to the house management, through to billing the owners, you know, their rates, everything of the of the homes, all the way through to the subcontractors that do the electrical and the utility management, to construction and other other people as well, and then also the water and electrical metering of like the usage, all of that gets done. And that entire waterfall estates in Mall of Africa is run on the kind of systems you know that is a potential reference for you from a property management point of view. So if you've got a property portfolio, we can quite easily put that onto our system, or one of our systems, and help you manage that. And if the
+
+Speaker 1  36:08  
+owners have, would that be similar to what bell boy does?
+
+Dudley Peacock  36:13  
+I don't know bell boy, okay, let me see. Let me just see what bellboy is. If you don't mind
+
+Dudley Peacock  36:26  
+bellboy and they do maintenance, property maintenance, ball boy, property management.
+
+Speaker 1  36:38  
+Bellboy tech, a boy is spelled b, u, o, y.
+
+Dudley Peacock  36:50  
+It's a bit like the the one that's in the sea, that kind of boy. Yeah, that one. Okay. So, okay, so find your dream home. Yeah. So, so we, so, this is a, this looks to me like a property management business. So we don't do property management. We provide the systems to property management businesses. Okay, okay, so, so we're a systems driven company. So we put the AI and the and the, you know, all the all the machinery, all the back end electronics that they need to manage it so and then they would be the front end, obviously, the people to talk to the customers and so on. So be the same environment, same in waterfall. They have their own accountants, they have their own teams that go out and do repairs. They have all of those, their own people. But we don't do the services. We don't do that at all. We provide you, okay, so that's on the aircraft, the property, and then in terms of the capital or other things, I'm guessing those are, those are investments and things that they've got in terms of maybe other entities or or properties, or that sort of thing. Is that what the capital side of things is for the owners? Yeah, yeah. They won't be into and they want, like, a return on that we see what the return on investment is. They want to understand what the portfolio is worth, etc, and what are the costs and things that they have to pay to manage that portfolio.
+
+Speaker 1  38:30  
+DN, think there'll be such a need on the two capital companies. It's very much. They're both different, and each director basically does his own thing there. So it's basically just keeping the financials for them. They make their own decisions that the decisions aren't generic. They don't really need systems in place. They have ideas in their heads, and that's what they go with. So it's personal,
+
+Dudley Peacock  38:53  
+okay, so we're not going to worry too much about that, but I'll just give you a quick, quick background. So we we help. One of our clients is the Jimson pension retirement fund, and we help them with the entire portfolio, managing all the all the retirement sort of their pension collections, and they're managing the retirement fund. So that's including the investment portfolios, as well as collecting pensions and things from the employees and also giving them, you know, if someone dies or retires or gets divorced or whatever, then drawing money out of their funds and so on. So we just to give you an idea we've got, you know, we build systems for that as well, if we go back to plant higher plant, higher machinery, equipment and so on. So, so that is wimble. In terms of wimble, just got to get a sense of wimble. So that's you said it's internally developed,
+
+Speaker 1  39:52  
+the developers in Johannesburg, but it's an internal system that they've built, and I think it's been in the making, probably for about eight years
+
+Unknown Speaker  40:03  
+is it finished? It's finished, yeah, but they always doing adding new things to it.
+
+Speaker 1  40:15  
+You know? You know how it goes with system development. You get your basic system, and then there's the scope creep that just keeps on happening as you go along, somebody comes up with a new idea, and then something else gets added. So it's it's complete, it's operational, it's functional. But everybody's always looking for better ways of doing things. So then obviously there will be changes or add ons, okay?
+
+Dudley Peacock  40:40  
+And you and you and you're happy to hold on to it. Obviously, there's a lot of sunk cost in there, and there's, clearly, you've invested a lot of time in there.
+
+Ashley Bezuidenhout  40:49  
+There is sunk cost. It's a not negotiable. It will stay. The directors, they stole on it, and they they like the system, and the system will work perfect.
+
+Dudley Peacock  41:05  
+Okay, so, so the question I've got you got for you is it was, Is it like a is it a commercial project that was sold to multiple companies, but especially customized for you, or was it built specifically for you?
+
+Speaker 1  41:20  
+No, it was built and customized for us specifically as I understand. I know they do do the company that's helped us do sugar software. They also do software for other companies, but I think most of their clients are in the building and the construction industry. It's basically from what I can understand, spreadsheet driven. It's like massive spreadsheets that you work on, but it has all the information we need to manage, to control our business. The director has access anywhere, because it's cloud based, all the information in terms of all the machinery, the operator for each machine, the rates, the whole workshop, the job costing, whatever stocks they are. It's it's encompassing. And as I say, in terms of the invoicing, the invoicing and everything gets done on one role, and then just pushes through to pastel so that we've got record of it for the invoices. Or they don't even actually send the pastel invoices. They send the one rule invoices, but I mean, it pushes through to pastel so that we've got accurate financials. And they're going the same way with the payables as well. So ja, it's all encompassing. It is a big system, and it won't be going anywhere.
+
+Dudley Peacock  42:45  
+No, I'm not, I'm not going to get you. I'm not even going to start trying to convince you otherwise. So please don't worry about that, Lisa, so
+
+Speaker 1  42:52  
+I'm just not worried. I'm just giving you full warning it won't go anywhere with the people
+
+Dudley Peacock  42:58  
+happy, happy with that not, not a problem, if you don't mind just spelling that for me so I can get the correct spelling on that.
+
+Unknown Speaker  43:06  
+Okay, it's W, H,
+
+Unknown Speaker  43:09  
+yeah, I m, yeah, b, r, yeah, E, l, wimbrell, w, H,
+
+Unknown Speaker  43:21  
+yeah, W, H, I, M, V, R, E, L, I'm
+
+Dudley Peacock  43:24  
+not going to ask where that name comes from. I'm just going to assume that's the name it was given. It Okay, so, so wimbrell, I'm guessing, if you say spreadsheet based, I'm guessing it was built on Microsoft Access.
+
+Unknown Speaker  43:38  
+I'm assuming. Sir, it's
+
+Dudley Peacock  43:45  
+just like spreadsheets, so I'm guessing it's there, okay, and then in terms of the integration, so, sorry, I missed that. Lisa, sorry,
+
+Speaker 1  44:00  
+no, I'm just telling the guys, they must jump in if they want to do something else they want to share with you.
+
+Dudley Peacock  44:06  
+Okay, so, wimbril, wimbrol, do you know if, if they would be open to integrating with, you know, with, with additional layers of AI and other things. I'm going to tell you what types of AI now, but would they be open to connecting wimbril to additional resources or software?
+
+Speaker 1  44:33  
+I'm not sure at this stage, as I say, before I contacted you, I did run it by the one director, and he was happy for me to go ahead and find out about it, but I'm not. I can't say whether they will or won't say.
+
+Dudley Peacock  44:53  
+Enough, fair enough. So let me quickly run through the types of AI that we, that we we do so I would highly recommend that you go for a multi company system, you know, as a financial management system, with wimbrell on top. And then we, we add in these different types of of AI. The one type of AI is what we call ml, which is machine learning. And machine learning, essentially the the main financial management system already, sorry, has that built in. And, you know, something, my throat for some reason, and already has machine learning built in. So machine learning is learning repetitive transactions that are coming through, and it starts to build, let's call it a database and a knowledge base of of previous transactions and of the normal way of working. So machine learning what it does, it builds up a memory of transactions that are happening, either now or in the past, and then it starts to help us understand when things are starting to look different going into the future. So in other words, when there's a transaction or thing going through the system, or a particular fault or something happening that it will pick up that as an exception, for instance, and it will either fix it itself, which I'll tell you now about the other AI is that we've got, but the machine learning essentially helps you manage exceptions. So from an accountant point of view, or just normal processing, almost all processing has to start from the beginning and do the full 100% of processing with machine learning. What we do is over time, as the machine learns of what the standard workflows are and the steps and the automated, the steps, manual steps that happen machine learning, we can start automating steps that you don't have to do everything manually. So that's the machine learning side of things. The second part of of the AI that we do is what we call a genetic or agentic AI, which is essentially AI that you would if you think about chat G P T, it's AI that would, would, would generate output and in in financial systems, what we do is we, we don't do chat G P T. We use different, large language models, but we don't expose your information, you know, to the world. So we keep it within a closed environment, an agentic AI will help help users with, for instance, if you're looking for a transaction, or if I go back to what Chris said about the like the the aircraft, for instance, let's say one of the users is looking for, let's say a client that's that bought an aircraft from you comes in for the for the next service. Or there's something that's come from the from the CNA that said that there's something wrong. They might want to look at history of that particular aircraft, for example. Or if you think about your plant, machinery. You want to draw a report, or you want to pull information from something that's happened across the system, including wimble, including your financial system, or including anywhere else that the information could be kept. It could be, you know, could be in emails. It could be anywhere that the agentic AI will go and find that information and bring it back in a format that you've asked it to so you might say, generate a spreadsheet for me of all the last five years services done on this, grader or tipper or front end loader or something like that, and show me the total expenses that I've had to incur to maintain that vehicle over the last five years. Because it could be that you it's cheaper to replace the vehicle or the gearbox or something that keeps breaking than what it is to keep maintaining it, for instance. So agentic AI helps us go into the databases the different areas and extract information that we need very, very quickly. So instead of spending hours and hours and hours going through paper and emails and your systems, the agentic AI goes and fetches the information within a few seconds, a minute or two minutes, and generates the report that you need. And then the third type of AI, please stop me if you if you want to ask more questions. But the third type, type of AI is what we call RL, which is reinforcement learning. So what we try to do is, especially in this new age of AI. AI, what we try to do is we build in systems that would learn to improve the way of doing your work. So there might be in the old way, or the current way that you're doing things, but it might be inefficient. It might there might be things slipping through the cracks. There might be additional work you need to do, and it's such a pain that you have to keep going back and doing it, reinforcement learning, what it what it does. It starts to measure and find ways of not making those same mistakes or having to go through those same error processes again and again. And I'm talking about things that happen once in a blue moon, all the way through to daily activities. So that whole array of things that could that it could work on. So reinforcement learning, when we implement that, that component part of the three types reinforcement learning, would go in and find ways of improving. So it keeps building a memory of how you run your business, and would reinforce that learning, and then find ways of of doing those things better, faster and even more on an automated basis. So those are the three. The Machine Learning learns everything in terms of your day to day. Processing your genetic helps you with searches and understanding different things within your company, and the reinforcement learning continues learning and improves your business on a continuous basis by itself, without you having to get involved. And if there's a bigger thing that it needs you to work on, it will literally give you options of what you can do to improve it could be a human interaction, or it could be that we could completely systemize different steps that you wouldn't have to do them manually. So those are the three types of AI. When we implement any AI levels, we'll implement all three together in one, one single layer and and that AI, then just sits on top of everything else that you've got, and it just keeps on on working. So it can be specific to one company, or it could be for the entire group, or it could be different levels of that AI amongst the different companies that you have, all the different activities you have, so hopefully there wasn't too much of a fire hose of information, but that will give you an idea in any any questions on
+
+Speaker 3  52:36  
+that, when You said, like, what's it the genetic learning, where can go into emails and all information from emails and stuff. I was just wondering, like, how accurate can that be? Because, I mean, for example, like in personal stuff, when we data capture and everything is like, spell correctly and all that type of stuff, but over emails the way sometimes we communicate, it isn't, like, super accurate, like, will be spelling mistakes, or we could refer to one thing by another name or that type of thing. I'm just wondering that, would the AI know or be able to learn that when you speak about this one thing, that it's referring to something else, or, sorry if I'm explaining it terribly, but yeah, I'm just wondering about the accuracy of the AI to read emails and pull the information effectively.
+
+Dudley Peacock  53:40  
+It's a really good question, and yes, you did explain it well. So there's two types of information. We have a structured data so that's like your accounting system or a spreadsheet. It's structured so you could have a drop down list, and it's always the same. But we also know that in structured systems, like a pastel partner or whatever. You could have a misspelling of a name, and if you're looking for that name, you can't find it, and that's the normal searches. For instance, what AI does, and I don't know if you, if you ever played around with like chat, G, P, T, or something like that, before you're welcome to give that a go and you can you'll see that you can take maybe just a paragraph or two or three paragraphs and put it into a Word document or something like that, and completely misspell everything that you can in that entire document. Put that into chat G P T, and ask chat G P T to make sense of that, of that document. And 99% of the time, it will, it will re it will read that and put it into perfect spelling for you and get the full context of what was trying to be said in those paragraphs, you're welcome to experiment that on your own. You have to take my word for it, but it's incredibly smart. Agentic AI is incredibly smart at understanding the context and understanding the essence of what you're trying to say more than the spelling of the item. So what happens a lot in, like, in your accounting systems, or even wimble or any other systems that are supposed to be structured, sometimes you create the same component part, like, like a, like a consumable item. And it could, you could have three of those items in your system that you don't even know because somebody couldn't find it the first time, so they went and created a second one, and then they couldn't find it the second time. They created a third one. So now you got three items of the same thing in the system. The agentic AI for us will will put it through your databases and let it find any duplicates or potential duplicates, and rewrite your entire record, your system, and combine, merge all of those items that are that are potentially duplicated or spelt slightly differently, and it could be pretty much the same thing. And we from a genetic AI, we could run those, tools, and they actually tidy up your customer list, your consumables lists, your supplier lists, etc. And that even goes back to transactions, because it might be that you have a customer that where the name changes, but the aircraft didn't change. So we have, I mean, one of our customers, and just to let you know, I'm actually, I'm actually in the UK, by the way, but one of our customers is Land Rover, and they, the division we work with is they rebuild these old 1960 1965 Land Rovers, handmade them. They about 300,000 pounds pop, which is a lot of money. But they remake these things. So what happens is these, these vehicles change hands as collectors items. Over time, the vehicle stays the same. The owners change. So, so sometimes we have this, the situation where you've got different work that's been done by different owners, and we need to try and keep track of all the different work has been done. The vehicle stays constant or not. The vehicle may have changed because they may have put in from an from an old petrol engine, they put in an electrical engine, and now it's driven by electrics, as opposed to driven by by diesel or petrol. And so there's a complete change in some of the core components, but the vehicle and the VIN numbers stay the same. So our AI is able to track the agentic AI is able to track the lifespan of that vehicle and give you timelines and a whole host of information around that, the lifetime value or the lifetime actions that were taken on that particular vehicle or aircraft or whatever it is. So I'm hoping that gives you an answer so we can, we can find multiple iterations and ways of using the agentic AI across your actual data systems. Yeah, I know you started with a spelling question, but it doesn't matter if it was poorly captured or it's just it's just wild information everywhere we can get the agentic AI to go and find it and then to tidy it up into something that's sensible.
+
+Speaker 3  58:39  
+Okay, yeah, that makes sense, then the other thing I wanted to know is, alright, you saying, like, the system can make all these changes and stuff, but what if it makes a change that you didn't want it to make? Is there, can you, like, go back and look at, I don't know, like the process of how AI came to this conclusion and made this change, and then go and select specifically where you wanted to correct, if I can put it that way.
+
+Dudley Peacock  59:16  
+So again, good question. So with AI we and in in business management systems, we have to there's two main things. The one is, is security, and the second most important thing is accuracy. So whenever, when, whenever we are starting with a new AI system in a new installation, what we don't want is that to to bypass the human. So we call it human in the loop. So any changes that it needs to make, it needs to go through an approval step. So now go for it. Go for it. Go for it. Any, any other questions while, while Chris has stepped out.
+
+Unknown Speaker  1:00:07  
+What is that? First, AI called again. Second,
+
+Dudley Peacock  1:00:12  
+machine learning, machine learning, okay, so it's ml, and then the agentic, and then there's RL, which is the reinforcement learning Perfect. Thank you. So we then plug into like a wimble, or your financial management system or whatever, and we build these very, very smart AI tools that would do specific tasks for you, either very refined, as in, like a single task, or it can, we can build it so that's got multiple tasks to do on a daily basis. We call those cron jobs, but those essentially like once a day, double check for me on all the job cards that were submitted and make sure that all these line items have been completed correctly, and they are identified, you know, or allocated correctly to the right accounts. That could be once a day job. And then next tomorrow morning you arrive, and then there's a list of things that that you can go and double check to make sure that that things are correct in your system. So I'm hoping I'm giving you a decent enough example, but those are the kind of things. So think of having a dis additional employees that can do things that you wish you had time to do, you just don't get around to doing it. Yeah.
+
+Speaker 1  1:01:33  
+So you're managing by exceptions as well, which I also like not all the finer detail, the AI cuts some of that out for you,
+
+Dudley Peacock  1:01:43  
+and then the accounting system. And the accounting system I'm suggesting for you already has a lot of that AI built into it. So instead of just replacing pastel partner with just another bookkeeping or accounting system, you rather put in an accounting system that's already got machine learning, agentic AI, as well as that, RL, the reinforcement learning built into it to start with, without having to go and rebuild things, you know, on top of that. So you've got that as a base. And then we add on additional layers to improve your wimble. Because if you, if you're going to keep wimble, we want to make it better. We want to improve it. We want to get more information out of wimble that's more sensible than just the reports that you can pull from wimble, for instance.
+
+Speaker 1  1:02:34  
+Okay, so what you're saying is, in terms of the whole pastel thing, the other systems, apart from upgrading to the cloud, that we should consider Absolutely, absolutely,
+
+Dudley Peacock  1:02:55  
+yeah, I would definitely go for not. I mean, Cloud is now, you know it's, it's not a it's, it's, it's pretty much how people do things these days. People don't generally have servers and things anymore. I'm guessing, and please help me if I'm wrong, that wimble is potentially still very much a server based software.
+
+Speaker 1  1:03:18  
+Now, one role isn't, but that still is at the moment. So that's why we're wanting to go to the cloud, because we don't want to replace servers and all of that. But one rule is actually already on the cloud, so Wimbledon rely on the server, per se.
+
+Dudley Peacock  1:03:32  
+Okay, so let me, let me give you a slightly different take on on the definition of cloud. Okay, so, so some people call a system that's hosted by a cloud server, cloud, and that's completely different. Okay, maybe I should let me, let me, let me use an analogy.
+
+Speaker 1  1:03:57  
+Okay, I know where you're going now. I know where you're going now. So you're saying guys, one broadcast on a cloud and inverted commas, but it's hosted by another server, just not our server.
+
+Dudley Peacock  1:04:07  
+Yeah, where proper cloud where proper cloud system is what we call a multi tenant system. It's like the difference between living in a house and a block of flats, so or block of apartments. So in a house, you have to look after the maintenance everything. Yourself in an apartment block, you have the the apartment block is one building, but you have lots of tenants that live inside the building. And if there's an upgrade or a painting job or some kind of fix that has to happen, it happens to the entire building, not just to one tenant. So the real cloud systems that you have out there are what we call multi tenant systems. That's one piece of software that gets updated, maintained and secured, and that's proper cloud, the sort of a I'm going to call it fake cloud just just for the sake of putting in a nice word, but it's there's a difference between hosting software in the Cloud versus having a proper cloud software, which you don't take care of, any maintenance, security, nothing like that, no license fees, nothing. You pay one installment, one subscription, and everything is covered with hosting in the cloud. You still have to pay for hosting. You still got to pay for security software, the operating system, the you know, whatever the access mechanism is, whether it's remote desktop or whatever method you get into the system, you still got to pay all those licenses. Where true cloud is you just, it's you open up your browser, username and password, and you're in. It's like internet banking. That's a multi tenant system. Internet banking as an example,
+
+Speaker 1  1:05:56  
+I stand under correction, but I think one goal is on a multi tenant, a multi tenant software. I stand on a correction, but I'll check that. I'll ask the question.
+
+Dudley Peacock  1:06:08  
+Ask the question I'm doubting, because if it's made specifically for you, if it's made for multiple customers, that's why I asked, Is it made for multiple customers and then just customized for you, but it was made for multiple customers. It means they got one piece of software they maintaining, and they have lots of customers that have logged in,
+
+Speaker 1  1:06:35  
+so that, I think it's a base system, and it's obviously been changed for different sets of customers depending on their needs and requirements.
+
+Dudley Peacock  1:06:45  
+But could be, it could be multi tenant. So, but yes, there's a really good question to ask, because if it is multi tenant, means that they maintaining it, they're looking after the licensing, they're looking after the security and all that kind of thing for you. And I'm loving that, because it means, and there's another question I need you to ask, please Lisa, if you can, and that is, what are the APIs? I mean, do we have a connection directly into wimble that we could connect AI functionality, or the new accounting system directly into wimble without much technical build or cost or anything like that, so the two systems can talk to each other without having to do massive integrations and things like that, because at the moment, I'm guessing, as the partner, they've got software that integrates it. Sorry, Ashley, was it you? I think
+
+Speaker 2  1:07:42  
+they have spoken about something, wanting to link one role to the Passcode cloud. They they spoke about AI integration. So I'm pretty sure that it is something that they do,
+
+Dudley Peacock  1:08:00  
+because that'll be a massive, massive win for us if they've got an API that we could, we could work with. We can take a brand new accounting system, which has already got aI built into it, AI, ml and RL, and we can then build on layers that could. Could make like Chris's job a lot easier in terms of his managing his job cards and managing the planes and all that kind of thing, or even with your plant hire, you know, making sure that a lot of those transactions are, you know, they're going from wimbrell to to the accounting system, but there's a layer of AI that helps us better understand the business, ask better questions of our system, and not just standard reporting or standard KPIs or whatever we're looking to do, but getting the AI to be smart about if we have to ask the like agentic AI like, if you look at the last three to five years of data that we have in wimbrell and in our accounting system, What are the three ways you can you can suggest for us to improve our business. Where are we losing money? Where can we increase speed? Where can we improve customer support or customer reliability, or deliverability and so on? Where are the gaps? And then you could the AI will come back with suggestions. And then you could start improving your business consistently by asking the right questions and having a tool that's got its own powerful brain to go through tons and tons and tons of data, you can probably do it yourself. But firstly, you probably don't have time. And secondly, from a human being, our ability, from our cognitive ability, to go through tons of data and make sense of it. We're not very good with that, where the AI, with a few, with a few prompts and the correct tools we can, we can extract really smart business growth information out of AI, out of your current systems, to to, you know, improve the way that you do your business going forward, and then obviously, stay competitive. I'm guessing that in your plant and demolition business, there are competitors out there, and I'm guessing you are one of a number of quotes that people would ask you for. They would probably go to a competitor and ask for a comparative quote as well, because they probably have tender processes and things they have to go through, yeah, so that that's pretty much the discussion. Any, any sort of questions, anything you can think of that that you need to ask me,
+
+Speaker 1  1:10:37  
+any questions, but I have, I do think it's been very thought provoking. You were able to talk to us today and run us through this. We'll definitely chat to the directors. So saying change is sometimes slow, yeah, but I think there definitely is some value add. Yeah, I like the idea that they can still keep one vulva, because I know that will make them happy. Yeah. And I think we've all learned something here as well, definitely in terms of AI, and then also in terms of the actual cloud storage, and what it actually means. And multi tenant was something new to me, which I wasn't aware of. Um, the APIs we've been recently, recently introduced two so it's definitely been a good learning curve, and I do appreciate your time. So we will take all of this information through to the directors, and then we'll provide you some feedback somewhere along the line. And, yeah, maybe there's an opportunity for us going forward. Yeah.
+
+Dudley Peacock  1:11:46  
+And what I'd like to, like to suggest is I will take my transcriber, which, thankfully I've had on now my description, and what I'll do is I'll prepare, let's call it just a draft discussion document that you could go, go to your directors with, and I can share the recording as well, if you like, so that, so that you can, you know, can have some something sensible to to go and have a chat to them about, because I know in these kind of conversations, there's a ton of Information, and it's very hard to remember everything. So I'll put together a document for you that you can take to to your directors and and share that with them. In addition to that, is, I can, I can start suggesting some, some alternatives to look at that we could. We could start implementing, or just at least have a what what we what generally is, we call it an MVP, which is a minimum viable solution or product or a proof of concept. I'm sure you've heard of that before. But maybe just to build something small for you to start with, to interrogate, wimble. Wimble, sorry, wimbrell, for you to ask wimbrol A few questions, for instance, so we can build a small AI tool for you to interrogate wimbrell for something. So it'd be great if you tell me, like, I wish I could, I wish I could get this information easily, or something that'd be useful if you feedback that to me, like the wish list, the stuff that you wish you could do but could never do because it's so either annoying or you just can't get hold of that information. Okay?
+
+Speaker 1  1:13:31  
+Now that's fine, as I say. In the meantime, if you could just send us a summary or recording or whatever. So if we've got that, and then the three of us will sit together before we sit with the directors anyway, and just run through because we need to present it in the right way in order to sell it to them. And following on from those conversations, and we'll make contact with you again and with the with some questions, the wish lists and whatever. And then you can maybe look at that for us, if that's okay with you.
+
+Dudley Peacock  1:14:03  
+Ja, of course, no problem. This is a these are these conversations generally carry on for a while, until you make a decision, either to go with us or not to go with us, you know.
+
+Speaker 1  1:14:12  
+So no, it can take time. That's why I'm saying. Don't go and build models and whatever. Yet. Let's just get the basics together. Chris, you look like?
+
+Speaker 3  1:14:22  
+Ja, I was just going to ask if you could also, like, send us an example of how it has changed, like a business, like a before and after type of thing, just so we can have case studies to show,
+
+Dudley Peacock  1:14:37  
+yeah, yeah. I would love to Yes. I'll give you a few case studies around essentially, managing the aircraft is is very similar to fleet management of vehicles of any type. It's, it's roughly the same thing, it's just a different type of vehicle. But, yes, I mean, it might not be perfect, in line with what you do, but it's going to be. It's going to show you sort of ideas around that. Yeah, I'll do just a rough case studies. I won't go to too much trouble, but it'll be at least substantial enough for you to have a sensible conversation with your team.
+
+Unknown Speaker  1:15:13  
+Perfect. Thank you.
+
+Speaker 1  1:15:14  
+Thank you very much. Dudley, I really appreciate it. It's really been a pleasure session.
+
+Dudley Peacock  1:15:21  
+Yeah, big pleasure, and looking forward to working with you guys in the future, if you do decide to do something with me, okay?
+
+Speaker 1  1:15:28  
+No. Thank you very much. It's appreciated, right? Thanks, guys. Bye.
+
+Transcribed by https://otter.ai
