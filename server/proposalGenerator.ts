@@ -1,4 +1,5 @@
 import { invokeLLM } from "./llm";
+import { searchKnowledge } from "./knowledge/search";
 import type { Lead, Assessment } from "../drizzle/schema";
 import {
   type Region,
@@ -126,9 +127,28 @@ Return ONLY valid JSON with this exact structure (no markdown, no code fences):
 }`;
 
   try {
+    // Search KB for relevant frameworks, methodologies, and pricing context
+    const kbQuery = [
+      assessment.primaryConstraint,
+      assessment.recommendedTier,
+      lead.industry || "",
+      "ADAPT methodology",
+    ].filter(Boolean).join(" ");
+
+    let kbContext = "";
+    try {
+      const kbResults = await searchKnowledge(kbQuery, 5);
+      if (kbResults.length > 0) {
+        kbContext = "\n\nCOMPANY KNOWLEDGE BASE:\n" +
+          kbResults.map((r, i) => `[${r.documentTitle}]\n${r.content}`).join("\n\n---\n\n");
+      }
+    } catch {
+      // KB search failure should not block proposal generation
+    }
+
     const rawContent = await invokeLLM({
-      systemPrompt: `You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only. Use ${config.currency} (${config.currencySymbol}) for all monetary values.`,
-      userPrompt: prompt,
+      systemPrompt: `You are a senior AI consultant at FinanceFlo.ai specialising in Sage Intacct implementations and AI-powered financial transformation. Return valid JSON only. Use ${config.currency} (${config.currencySymbol}) for all monetary values.${kbContext ? " Reference the company knowledge base content to make proposals specific to FinanceFlo's actual frameworks and methodology." : ""}`,
+      userPrompt: prompt + kbContext,
       maxTokens: 4096,
     });
 

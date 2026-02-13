@@ -6,7 +6,8 @@ import { registerJobHandler } from "./queue";
 import { getDb } from "../db";
 import { documents, knowledgeChunks } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
-import { parseContent, chunkText } from "../knowledge/ingestion";
+import { parseContent, parseContentFromBuffer, chunkText } from "../knowledge/ingestion";
+import { storageDownload } from "../storage";
 import { generateEmbeddings } from "../knowledge/embeddings";
 import { runLeadPipeline } from "../leadgen/pipeline";
 import { updateBatchProgress } from "../leadgen/batch";
@@ -42,16 +43,23 @@ async function handleEmbedDocument(payload: Record<string, unknown>): Promise<Re
   if (docRows.length === 0) throw new Error(`Document #${documentId} not found`);
   const doc = docRows[0];
 
-  if (!doc.rawContent) throw new Error(`Document #${documentId} has no raw content`);
-
   // Update status to processing
   await db.update(documents)
     .set({ status: "processing", updatedAt: new Date() })
     .where(eq(documents.id, documentId));
 
   try {
-    // Parse content based on type
-    const parsedContent = await parseContent(doc.rawContent, doc.mimeType ?? undefined);
+    // Parse content: either from rawContent or by downloading from S3
+    let parsedContent: string;
+
+    if (doc.rawContent) {
+      parsedContent = await parseContent(doc.rawContent, doc.mimeType ?? undefined);
+    } else if (doc.s3Key) {
+      const buffer = await storageDownload(doc.s3Key);
+      parsedContent = await parseContentFromBuffer(buffer, doc.mimeType ?? "text/plain");
+    } else {
+      throw new Error(`Document #${documentId} has no rawContent and no s3Key`);
+    }
 
     // Chunk the text
     const chunks = chunkText(parsedContent);

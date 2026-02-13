@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import {
   ArrowRight,
+  BookOpen,
   BrainCircuit,
   CheckCircle2,
   Clock,
@@ -83,6 +84,10 @@ export default function DealDetail() {
 
   const completeTaskMutation = trpc.pipeline.completeTask.useMutation({
     onSuccess: () => { toast.success("Task completed"); refetchTasks(); refetch(); },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const meetingPrepMutation = trpc.ai.meetingPrep.useMutation({
     onError: (err) => toast.error(err.message),
   });
 
@@ -180,8 +185,72 @@ export default function DealDetail() {
                   </div>
                 </div>
               )}
+
+              {/* Meeting Prep Button */}
+              <div className="mt-4 pt-4 border-t border-border/20">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-teal/30 text-teal hover:bg-teal/10"
+                  onClick={() => meetingPrepMutation.mutate({ dealId: deal.id })}
+                  disabled={meetingPrepMutation.isPending}
+                >
+                  {meetingPrepMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <BookOpen className="h-3 w-3" />}
+                  Meeting Prep
+                </Button>
+              </div>
             </CardContent>
           </Card>
+
+          {/* Meeting Prep Brief */}
+          {meetingPrepMutation.data && (
+            <Card className="bg-navy-light border-teal/30">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-teal" />
+                  Meeting Prep: {meetingPrepMutation.data.dealTitle}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm">
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Background</p>
+                  <p className="whitespace-pre-wrap">{meetingPrepMutation.data.backgroundSummary}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Suggested Agenda</p>
+                  <ol className="list-decimal list-inside space-y-1">
+                    {meetingPrepMutation.data.suggestedAgenda.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ol>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Talking Points</p>
+                  <ul className="list-disc list-inside space-y-1">
+                    {meetingPrepMutation.data.talkingPoints.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Questions to Ask</p>
+                  <ul className="list-disc list-inside space-y-1">
+                    {meetingPrepMutation.data.questionsToAsk.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase mb-1">Risks & Objections</p>
+                  <ul className="list-disc list-inside space-y-1 text-amber">
+                    {meetingPrepMutation.data.risks.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* AIBA Analysis Summary */}
           {aibaAnalysis && (

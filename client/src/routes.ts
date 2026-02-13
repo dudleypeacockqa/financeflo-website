@@ -38,6 +38,9 @@ export const routes: RouteConfig[] = [
   { path: "/admin/pipeline-metrics", component: lazy(() => import("./pages/admin/PipelineMetrics")) },
   { path: "/admin/deal/:id", component: lazy(() => import("./pages/admin/DealDetail")) },
   { path: "/admin/aiba-diagnostics", component: lazy(() => import("./pages/admin/AIBADiagnostic")) },
+  // AI Features
+  { path: "/admin/ai-chat", component: lazy(() => import("./pages/admin/AIChat")) },
+  { path: "/admin/content-studio", component: lazy(() => import("./pages/admin/ContentStudio")) },
   // Phase 5: Marketing Automation
   { path: "/admin/workflows", component: lazy(() => import("./pages/admin/Workflows")) },
   { path: "/admin/workflow-builder", component: lazy(() => import("./pages/admin/WorkflowBuilder")) },

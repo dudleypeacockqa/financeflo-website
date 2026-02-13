@@ -15,6 +15,7 @@ import { pipelineRouter } from "./pipeline";
 import { aibaRouter } from "./aiba";
 import { automationRouter } from "./automation";
 import { deliveryRouter } from "./delivery";
+import { aiRouter } from "./ai";
 
 export const appRouter = router({
   system: systemRouter,
@@ -45,6 +46,9 @@ export const appRouter = router({
 
   // Phase 6: Service Delivery
   delivery: deliveryRouter,
+
+  // AI Features: Chat, Meeting Prep, Content Generation
+  ai: aiRouter,
 });
 
 export type AppRouter = typeof appRouter;

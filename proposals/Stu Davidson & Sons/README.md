@@ -108,6 +108,9 @@ Stu Davidson & Sons/
 - **Email:** dudley@financeflo.ai
 - **LinkedIn:** linkedin.com/in/dudleypeacock
 - **Website:** https://financeflo.ai
-- **Calendly:** https://calendly.com/dudley-financeflo/discovery
+- **Book a Meeting:**
+  - [30-Minute Meeting](https://book.vimcal.com/p/dudleypeacock/30-minute-meeting-f8337)
+  - [60-Minute Meeting](https://book.vimcal.com/p/dudleypeacock/60-minute-meeting-D158w)
+  - [Scoping Workshop (2 Hours)](https://book.vimcal.com/p/dudleypeacock/scoping-workshop-2-hours)
 
 Profile pictures are stored in `/profile-pictures/` for use in proposals, websites, and marketing materials.

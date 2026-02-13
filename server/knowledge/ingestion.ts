@@ -1,8 +1,11 @@
 /**
  * Document ingestion: parsing and recursive text chunking.
- * Supports SRT, TXT, and raw text content.
- * PDF/PPTX parsing added when pdf-parse/mammoth are installed.
+ * Supports SRT, TXT, PDF, DOCX, and raw text content.
  */
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
+const mammoth = require("mammoth");
 
 const TARGET_CHUNK_TOKENS = 500;
 const OVERLAP_TOKENS = 50;
@@ -38,6 +41,37 @@ export async function parseContent(content: string, mimeType?: string): Promise<
 
   // For other text types, return as-is
   return content;
+}
+
+/**
+ * Parse content from a binary buffer based on MIME type.
+ * Supports PDF, DOCX, and text-based formats.
+ */
+export async function parseContentFromBuffer(buffer: Buffer, mimeType: string): Promise<string> {
+  if (mimeType === "application/pdf") {
+    return parsePdf(buffer);
+  }
+
+  if (
+    mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+    mimeType === "application/docx"
+  ) {
+    return parseDocx(buffer);
+  }
+
+  // Text-based formats — decode as UTF-8 and use existing parseContent
+  const text = buffer.toString("utf-8");
+  return parseContent(text, mimeType);
+}
+
+async function parsePdf(buffer: Buffer): Promise<string> {
+  const result = await pdfParse(buffer);
+  return result.text;
+}
+
+async function parseDocx(buffer: Buffer): Promise<string> {
+  const result = await mammoth.extractRawText({ buffer });
+  return result.value;
 }
 
 /**

@@ -16,6 +16,17 @@ export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
       const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+      // Ensure pgvector extension exists (safe for any fresh database)
+      await pool.query('CREATE EXTENSION IF NOT EXISTS vector');
+
+      // HNSW index for fast cosine similarity search on knowledge chunks
+      await pool.query(`
+        CREATE INDEX IF NOT EXISTS "knowledgeChunks_embedding_hnsw_idx"
+        ON "knowledgeChunks" USING hnsw (embedding vector_cosine_ops)
+        WITH (m = 16, ef_construction = 64)
+      `);
+
       _db = drizzle(pool);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);

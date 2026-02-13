@@ -7,27 +7,52 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Library, Loader2, Plus, RefreshCw, Search, Trash2, Upload } from "lucide-react";
-import { useState } from "react";
+import { FileUp, Library, Loader2, Plus, RefreshCw, Search, Trash2, Upload } from "lucide-react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { formatDate, StatusBadge } from "@/components/admin/shared";
+
+type UploadMode = "text" | "file";
+
+const ACCEPTED_FILE_TYPES = ".pdf,.docx,.txt,.srt";
+const MIME_MAP: Record<string, string> = {
+  pdf: "application/pdf",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  txt: "text/plain",
+  srt: "application/x-subrip",
+};
+
+function getMimeType(filename: string): string {
+  const ext = filename.split(".").pop()?.toLowerCase() ?? "";
+  return MIME_MAP[ext] ?? "application/octet-stream";
+}
 
 export default function KnowledgeBase() {
   const { data: docs, isLoading, refetch } = trpc.knowledge.list.useQuery();
   const uploadMutation = trpc.knowledge.upload.useMutation({
-    onSuccess: () => { toast.success("Document uploaded and queued for processing"); refetch(); },
+    onSuccess: () => { toast.success("Document uploaded and queued for processing"); refetch(); resetForm(); },
     onError: (err) => toast.error(err.message),
   });
   const deleteMutation = trpc.knowledge.delete.useMutation({
     onSuccess: () => { toast.success("Document deleted"); refetch(); },
     onError: (err) => toast.error(err.message),
   });
+  const getUploadUrlMutation = trpc.knowledge.getUploadUrl.useMutation();
+  const uploadFileMutation = trpc.knowledge.uploadFile.useMutation({
+    onSuccess: () => { toast.success("File uploaded and queued for processing"); refetch(); resetForm(); },
+    onError: (err) => toast.error(err.message),
+  });
 
   const [showUpload, setShowUpload] = useState(false);
+  const [uploadMode, setUploadMode] = useState<UploadMode>("text");
   const [title, setTitle] = useState("");
   const [docType, setDocType] = useState<string>("transcript");
   const [rawContent, setRawContent] = useState("");
   const [tags, setTags] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -40,7 +65,17 @@ export default function KnowledgeBase() {
     onError: (err: any) => toast.error(err.message),
   });
 
-  function handleUpload() {
+  function resetForm() {
+    setTitle("");
+    setRawContent("");
+    setTags("");
+    setSelectedFile(null);
+    setUploadProgress(0);
+    setShowUpload(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function handleTextUpload() {
     if (!title.trim() || !rawContent.trim()) {
       toast.error("Title and content are required");
       return;
@@ -51,16 +86,61 @@ export default function KnowledgeBase() {
       rawContent: rawContent.trim(),
       tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : undefined,
     });
-    setTitle("");
-    setRawContent("");
-    setTags("");
-    setShowUpload(false);
+  }
+
+  async function handleFileUpload() {
+    if (!title.trim() || !selectedFile) {
+      toast.error("Title and file are required");
+      return;
+    }
+
+    setUploading(true);
+    setUploadProgress(10);
+
+    try {
+      const mimeType = getMimeType(selectedFile.name);
+
+      // Step 1: Get presigned upload URL
+      const { s3Key, uploadUrl } = await getUploadUrlMutation.mutateAsync({
+        filename: selectedFile.name,
+        contentType: mimeType,
+      });
+      setUploadProgress(30);
+
+      // Step 2: Upload file to S3
+      const response = await fetch(uploadUrl, {
+        method: "PUT",
+        body: selectedFile,
+        headers: { "Content-Type": mimeType },
+      });
+
+      if (!response.ok) throw new Error("Failed to upload file to storage");
+      setUploadProgress(70);
+
+      // Step 3: Create document record and trigger embedding
+      await uploadFileMutation.mutateAsync({
+        title: title.trim(),
+        type: docType as any,
+        s3Key,
+        filename: selectedFile.name,
+        mimeType,
+        fileSize: selectedFile.size,
+        tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : undefined,
+      });
+      setUploadProgress(100);
+    } catch (err: any) {
+      toast.error(err.message || "File upload failed");
+    } finally {
+      setUploading(false);
+    }
   }
 
   function handleSearch() {
     if (!searchQuery.trim()) return;
     setSearchInput(searchQuery.trim());
   }
+
+  const isPending = uploadMutation.isPending || uploading;
 
   return (
     <AdminLayout title="Knowledge Base" description="Upload documents, manage content, and test semantic search.">
@@ -82,6 +162,30 @@ export default function KnowledgeBase() {
               <CardTitle className="text-base">Upload Document</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Mode Tabs */}
+              <div className="flex gap-1 bg-navy rounded-lg p-1 w-fit">
+                <button
+                  onClick={() => setUploadMode("text")}
+                  className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
+                    uploadMode === "text"
+                      ? "bg-teal/20 text-teal font-medium"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Paste Text
+                </button>
+                <button
+                  onClick={() => setUploadMode("file")}
+                  className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
+                    uploadMode === "file"
+                      ? "bg-teal/20 text-teal font-medium"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Upload File
+                </button>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-muted-foreground mb-1 block">Title</label>
@@ -118,20 +222,72 @@ export default function KnowledgeBase() {
                   className="bg-navy border-border/30"
                 />
               </div>
-              <div>
-                <label className="text-sm text-muted-foreground mb-1 block">Content</label>
-                <Textarea
-                  value={rawContent}
-                  onChange={(e) => setRawContent(e.target.value)}
-                  placeholder="Paste document content here (text, SRT subtitles, etc.)"
-                  rows={10}
-                  className="bg-navy border-border/30 font-mono text-xs"
-                />
-              </div>
+
+              {uploadMode === "text" ? (
+                <div>
+                  <label className="text-sm text-muted-foreground mb-1 block">Content</label>
+                  <Textarea
+                    value={rawContent}
+                    onChange={(e) => setRawContent(e.target.value)}
+                    placeholder="Paste document content here (text, SRT subtitles, etc.)"
+                    rows={10}
+                    className="bg-navy border-border/30 font-mono text-xs"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="text-sm text-muted-foreground mb-1 block">File</label>
+                  <div className="border border-dashed border-border/40 rounded-lg p-6 bg-navy text-center">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept={ACCEPTED_FILE_TYPES}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] ?? null;
+                        setSelectedFile(file);
+                        if (file && !title) setTitle(file.name.replace(/\.[^.]+$/, ""));
+                      }}
+                      className="hidden"
+                      id="kb-file-upload"
+                    />
+                    <label htmlFor="kb-file-upload" className="cursor-pointer">
+                      <FileUp className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                      {selectedFile ? (
+                        <div>
+                          <p className="text-sm font-medium">{selectedFile.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {(selectedFile.size / 1024).toFixed(1)} KB
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          Click to select a file (PDF, DOCX, TXT, SRT)
+                        </p>
+                      )}
+                    </label>
+                  </div>
+                  {uploading && (
+                    <div className="mt-2">
+                      <div className="h-1.5 bg-navy rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-teal rounded-full transition-all duration-300"
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">{uploadProgress}% uploaded</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="flex gap-2">
-                <Button onClick={handleUpload} disabled={uploadMutation.isPending} className="bg-teal hover:bg-teal/90 gap-2">
-                  {uploadMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                  Upload & Process
+                <Button
+                  onClick={uploadMode === "text" ? handleTextUpload : handleFileUpload}
+                  disabled={isPending}
+                  className="bg-teal hover:bg-teal/90 gap-2"
+                >
+                  {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {uploadMode === "text" ? "Upload & Process" : "Upload File & Process"}
                 </Button>
                 <Button variant="outline" onClick={() => setShowUpload(false)} className="border-border/40">
                   Cancel

@@ -25,6 +25,8 @@ import {
   Webhook,
   Workflow,
   Zap,
+  Bot,
+  Pen,
 } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import { useState } from "react";
@@ -47,6 +49,7 @@ const navGroups: NavGroup[] = [
     title: "Overview",
     items: [
       { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
+      { label: "AI Chat", path: "/admin/ai-chat", icon: Bot },
     ],
   },
   {
@@ -79,6 +82,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Workflows", path: "/admin/workflows", icon: Workflow },
       { label: "Email Templates", path: "/admin/email-templates", icon: Mail },
+      { label: "Content Studio", path: "/admin/content-studio", icon: Pen },
       { label: "Analytics", path: "/admin/marketing-metrics", icon: BarChart3 },
       { label: "Workshops", path: "/admin/workshops", icon: BookOpen },
     ],

@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { documents, knowledgeChunks } from "../../drizzle/schema";
 import { eq, desc, sql, ilike, or } from "drizzle-orm";
 import { enqueueJob } from "../jobs/queue";
+import { storageGetPresignedPut } from "../storage";
 
 export const knowledgeRouter = router({
   /** Upload a new document for processing */
@@ -149,5 +150,51 @@ export const knowledgeRouter = router({
     .mutation(async ({ input }) => {
       const { queryWithRag } = await import("../knowledge/rag");
       return queryWithRag(input.query, input.maxChunks ?? 5);
+    }),
+
+  /** Generate a presigned S3 upload URL for a knowledge document */
+  getUploadUrl: adminProcedure
+    .input(z.object({
+      filename: z.string().min(1),
+      contentType: z.string().min(1),
+    }))
+    .mutation(async ({ input }) => {
+      const s3Key = `knowledge/${Date.now()}-${input.filename.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+      const { key, url } = await storageGetPresignedPut(s3Key, input.contentType);
+      return { s3Key: key, uploadUrl: url };
+    }),
+
+  /** Create a document record from an uploaded S3 file and trigger embedding */
+  uploadFile: adminProcedure
+    .input(z.object({
+      title: z.string().min(1),
+      type: z.enum(["transcript", "meeting_notes", "framework", "course_material", "prompt", "other"]),
+      s3Key: z.string().min(1),
+      filename: z.string().min(1),
+      mimeType: z.string().min(1),
+      fileSize: z.number(),
+      tags: z.array(z.string()).optional(),
+      metadata: z.record(z.string(), z.unknown()).optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database not available");
+
+      const rows = await db.insert(documents).values({
+        title: input.title,
+        type: input.type,
+        status: "pending",
+        s3Key: input.s3Key,
+        filename: input.filename,
+        mimeType: input.mimeType,
+        fileSize: input.fileSize,
+        tags: input.tags,
+        metadata: input.metadata,
+      }).returning();
+
+      const doc = rows[0];
+      await enqueueJob("embed_document", { documentId: doc.id });
+
+      return doc;
     }),
 });

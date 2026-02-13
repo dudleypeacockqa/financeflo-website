@@ -53,6 +53,46 @@ export async function storagePut(
   return { key, url };
 }
 
+export async function storageDownload(relKey: string): Promise<Buffer> {
+  const s3 = getS3Client();
+  const key = normalizeKey(relKey);
+
+  const response = await s3.send(
+    new GetObjectCommand({
+      Bucket: ENV.awsS3Bucket,
+      Key: key,
+    })
+  );
+
+  const stream = response.Body as NodeJS.ReadableStream;
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
+
+export async function storageGetPresignedPut(
+  relKey: string,
+  contentType: string = "application/octet-stream",
+  expiresIn: number = 3600
+): Promise<{ key: string; url: string }> {
+  const s3 = getS3Client();
+  const key = normalizeKey(relKey);
+
+  const url = await getSignedUrl(
+    s3,
+    new PutObjectCommand({
+      Bucket: ENV.awsS3Bucket,
+      Key: key,
+      ContentType: contentType,
+    }),
+    { expiresIn }
+  );
+
+  return { key, url };
+}
+
 export async function storageGet(relKey: string): Promise<{ key: string; url: string }> {
   const s3 = getS3Client();
   const key = normalizeKey(relKey);
