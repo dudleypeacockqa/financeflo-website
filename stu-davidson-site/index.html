@@ -232,12 +232,8 @@
           <p class="section-desc">I've recorded a short video walking through this proposal, the key findings from our meeting, and exactly how the AIBA process works for a business like yours. I'd recommend watching this before sharing with the directors.</p>
           <p style="font-size: 0.85rem; color: var(--muted);">Duration: ~8 minutes &bull; Covers: Meeting recap, constraint diagnosis, AIBA process, investment options, and next steps.</p>
         </div>
-        <div class="loom-placeholder" id="loom-embed">
-          <div class="play-icon">
-            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-          <p>Loom video will be embedded here</p>
-          <p style="font-size: 0.75rem; color: rgba(148,163,184,0.5);">Replace this placeholder with your Loom embed code</p>
+        <div class="loom-placeholder" id="loom-embed" style="position: relative; padding-bottom: 47.4%; height: 0; border-radius: 12px; overflow: hidden;">
+          <iframe src="https://www.loom.com/embed/eddba9e9ba1345079afb8568a8a4a3e4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
         </div>
       </div>
     </div>
@@ -255,7 +251,7 @@
           <h4>Attendees</h4>
           <ul>
             <li>Lisa — Finance/Admin Manager</li>
-            <li>Ashley Bezuidenhout — Accountant</li>
+            <li>Ashley Bhana — Accountant</li>
             <li>Chris — IT/Technical</li>
             <li>Dudley Peacock — FinanceFlo.ai</li>
           </ul>
@@ -307,7 +303,7 @@
       <div class="quotes-grid">
         <div class="quote-card">
           <blockquote>"We have had some data integrity issues, particularly in the bigger company."</blockquote>
-          <cite>— Ashley Bezuidenhout, Accountant</cite>
+          <cite>— Ashley Bhana, Accountant</cite>
         </div>
         <div class="quote-card">
           <blockquote>"It's very paper heavy. They don't really have a computerized system for keeping service records."</blockquote>
@@ -566,9 +562,29 @@
   <section class="cta-banner" id="contact">
     <h2>Ready to Explore What's Possible?</h2>
     <p>Book a no-obligation discovery call with all decision-makers present. We'll answer every question and help you decide if the AIBA is right for Stu Davidson & Sons.</p>
-    <div style="margin: 2rem auto 0; max-width: 800px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-      <iframe src="https://book.vimcal.com/p/dudleypeacock/30-minute-meeting-f8337" width="100%" height="700" style="border: none; background: #fff;"></iframe>
+    <div style="margin: 2rem auto 0; max-width: 800px;">
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem;">
+        <button class="cal-tab active" onclick="switchCalendar(this, 'https://book.vimcal.com/p/dudleypeacock/30-minute-meeting-f8337')" style="padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); background: var(--accent); color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">30-Minute Meeting</button>
+        <button class="cal-tab" onclick="switchCalendar(this, 'https://book.vimcal.com/p/dudleypeacock/60-minute-meeting-D158w')" style="padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">60-Minute Meeting</button>
+        <button class="cal-tab" onclick="switchCalendar(this, 'https://book.vimcal.com/p/dudleypeacock/scoping-workshop-2-hours')" style="padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">Scoping Workshop (2 Hours)</button>
+      </div>
+      <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+        <iframe id="cal-iframe" src="https://book.vimcal.com/p/dudleypeacock/30-minute-meeting-f8337" width="100%" height="700" style="border: none; background: #fff;"></iframe>
+      </div>
     </div>
+    <script>
+      function switchCalendar(btn, url) {
+        document.getElementById('cal-iframe').src = url;
+        document.querySelectorAll('.cal-tab').forEach(function(t) {
+          t.style.background = 'transparent';
+          t.style.color = 'var(--muted)';
+          t.classList.remove('active');
+        });
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#fff';
+        btn.classList.add('active');
+      }
+    </script>
     <p style="margin-top: 1.5rem; font-size: 0.85rem; color: rgba(148,163,184,0.5);">Or email Dudley directly at <a href="mailto:dudley@financeflo.ai">dudley@financeflo.ai</a></p>
   </section>
 
