@@ -1,0 +1,67 @@
+# Email Draft — Proposal Delivery
+
+**Subject:** Great meeting — your AI Business Analysis discussion document
+
+**To:** Stuart + Directors, Lisa van den Berg, Ashley Bhana, Chris
+
+**From:** Dudley Peacock <dudley@financeflo.ai>
+
+**Attachments:** stu-davidson-proposal.pdf
+
+---
+
+Hi Lisa, Ashley, and Chris,
+
+Thank you again for such a productive and open conversation. I genuinely appreciated the transparency — it's rare to walk into a meeting where everyone is so honest about both what's working and what isn't. That tells me a lot about the culture at Stu Davidson & Sons, and it made this document much more useful as a result.
+
+I've put together a discussion document for the directors that captures everything we covered:
+
+- The four constraints we identified (data integrity, paper-based aviation records, no consolidated view, and change management)
+- A conservative estimate of what the status quo is costing the group (R85K–R145K/month)
+- Three engagement options — starting with the AI Business Analysis (AIBA) at R85K–R175K
+- A clear three-step path forward with no obligation at any stage
+
+**Attached:** The full proposal as a PDF — designed to be printed or shared digitally.
+
+**Online version:** I've also built an interactive version with all the same content, which may be easier to share with the directors:
+https://stu-davidson.financeflo.ai/
+
+**Video walkthrough:** I've recorded a short personal video (8 min) walking through the proposal — I'd recommend watching this before sharing with the directors:
+https://www.loom.com/share/eddba9e9ba1345079afb8568a8a4a3e4
+
+I want to be clear: there is no pressure here. This document respects the fact that Whimbrel stays — our approach is to enhance what you already have, not replace it. And I know change takes time. I'd rather we get this right than rush it.
+
+**When you're ready, here are three ways to continue the conversation:**
+
+- **Quick 30-minute call:** https://book.vimcal.com/p/dudleypeacock/30-minute-meeting-f8337
+- **60-minute director review:** https://book.vimcal.com/p/dudleypeacock/60-minute-meeting-D158w
+- **2-hour scoping workshop:** https://book.vimcal.com/p/dudleypeacock/scoping-workshop-2-hours
+
+One last thought — you mentioned the Pastel cloud migration planned for end of March. Before committing to migrating 10 separate instances to the cloud, it may be worth exploring whether consolidating to a single platform would be more cost-effective. The AIBA would give you that clarity before you make that decision.
+
+Looking forward to hearing from you. No rush at all.
+
+Warm regards,
+
+**Dudley Peacock**
+FinanceFlo.ai | dudley@financeflo.ai
+https://financeflo.ai
+
+---
+
+## Stu Davidson & Sons Company Details
+
+- **Tel:** 041 581 7711
+- **Fax:** 041 581 7712
+- **Email:** office@stu.co.za
+- **Web:** https://stu.co.za
+
+---
+
+## Sending Notes
+
+- Send from Dudley's email client (Gmail/GHL) with the PDF attached
+- BCC the GHL CRM for logging (tag: `stu-davidson`, `proposal-sent`)
+- This is Email 1 in the follow-up sequence — see `documents/follow-up-emails.md` for the full drip sequence
+- Tone is warm, personal, and respectful of their pace — no hard sell
+- If Lisa responds, immediately personalise the next email based on her response
