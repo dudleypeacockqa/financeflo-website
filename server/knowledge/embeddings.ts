@@ -7,7 +7,7 @@ import { ENV } from "../env";
 
 const VOYAGE_API_URL = "https://api.voyageai.com/v1/embeddings";
 const VOYAGE_MODEL = "voyage-3";
-const EMBEDDING_DIMENSIONS = 1536;
+const EMBEDDING_DIMENSIONS = 1024;
 
 /**
  * Generate embeddings for an array of text strings using Voyage AI.
@@ -21,8 +21,8 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 
   if (texts.length === 0) return [];
 
-  // Voyage AI supports batch requests up to 128 texts
-  const batchSize = 128;
+  // Keep batches small to avoid Voyage AI token/rate limits on large docs
+  const batchSize = 20;
   const allEmbeddings: number[][] = [];
 
   for (let i = 0; i < texts.length; i += batchSize) {

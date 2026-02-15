@@ -3,7 +3,7 @@ import { pgTable, serial, text, varchar, integer, timestamp, jsonb, boolean, pgE
 // ─── CUSTOM TYPES ─────────────────────────────────────────────────────────
 const vector = customType<{ data: number[]; dpiData: string }>({
   dataType() {
-    return "vector(1536)";
+    return "vector(1024)";
   },
   toDriver(value: number[]): string {
     return `[${value.join(",")}]`;

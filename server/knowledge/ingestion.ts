@@ -14,15 +14,22 @@ const CHARS_PER_TOKEN = 4;
  * Parse SRT subtitle content into plain text.
  */
 export function parseSrt(content: string): string {
-  return content
+  const blocks = content
     .split(/\r?\n\r?\n/)
     .map(block => {
       const lines = block.trim().split(/\r?\n/);
       // Skip index and timestamp lines
       return lines.slice(2).join(" ");
     })
-    .filter(text => text.trim().length > 0)
-    .join(" ");
+    .filter(text => text.trim().length > 0);
+
+  // Group every 4 subtitle blocks into a paragraph so chunkText() can
+  // split on paragraph boundaries instead of treating it as one blob.
+  const paragraphs: string[] = [];
+  for (let i = 0; i < blocks.length; i += 4) {
+    paragraphs.push(blocks.slice(i, i + 4).join(" "));
+  }
+  return paragraphs.join("\n\n");
 }
 
 /**

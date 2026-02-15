@@ -16,14 +16,21 @@ import { documents, backgroundJobs } from "../../drizzle/schema";
 
 /** Inline copy of parseSrt to avoid transitive pdf-parse ESM issue. */
 function parseSrt(content: string): string {
-  return content
+  const blocks = content
     .split(/\r?\n\r?\n/)
     .map((block) => {
       const lines = block.trim().split(/\r?\n/);
       return lines.slice(2).join(" ");
     })
-    .filter((text) => text.trim().length > 0)
-    .join(" ");
+    .filter((text) => text.trim().length > 0);
+
+  // Group every 4 subtitle blocks into a paragraph so chunkText() can
+  // split on paragraph boundaries instead of treating it as one blob.
+  const paragraphs: string[] = [];
+  for (let i = 0; i < blocks.length; i += 4) {
+    paragraphs.push(blocks.slice(i, i + 4).join(" "));
+  }
+  return paragraphs.join("\n\n");
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -68,7 +75,7 @@ async function main() {
         status: "pending",
         rawContent: parsed,
         filename,
-        mimeType: "application/x-subrip",
+        mimeType: "text/plain",
         fileSize: Buffer.byteLength(raw, "utf-8"),
         tags: TAGS,
         metadata: { source: "mansel-scheffal-skool-course" },
