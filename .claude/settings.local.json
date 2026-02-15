@@ -135,7 +135,15 @@
       "Bash(git -C \"C:\\\\Projects\\\\financeflo-ai\\\\financeflo-mvp\" push origin main)",
       "Bash(if not exist \"C:\\\\Projects\\\\financeflo-ai\\\\financeflo-mvp\\\\server\\\\scripts\" mkdir \"C:\\\\Projects\\\\financeflo-ai\\\\financeflo-mvp\\\\server\\\\scripts\")",
       "Bash(powershell:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git -C:*)",
+      "Bash(git -C \"C:\\\\Projects\\\\financeflo-ai\\\\financeflo-mvp\" remote set-url flo-uk https://github.com/financeflo-ai/flo-finance-uk-website.git)",
+      "Bash(pnpm remove:*)",
+      "Bash(git stash:*)",
+      "Bash(for f in *.png)",
+      "Bash(do npx sharp-cli -i \"$f\" -o \"compressed/$f\" -- resize 1200 --withoutEnlargement)",
+      "Bash(cmd /c start \"\" \"C:\\\\Projects\\\\financeflo-ai\\\\financeflo-mvp\\\\proposals\\\\Stu Davidson & Sons\\\\output\\\\stu-davidson-proposal.pdf\")",
+      "Bash(git merge:*)"
     ]
   }
 }
