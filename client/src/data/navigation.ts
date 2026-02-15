@@ -157,6 +157,8 @@ export const footerColumns = [
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "Assessment", href: "/assessment" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
 ];

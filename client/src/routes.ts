@@ -80,6 +80,9 @@ export const routes: RouteConfig[] = [
   // Company
   { path: "/about", component: lazy(() => import("./pages/company/About")) },
   { path: "/contact", component: lazy(() => import("./pages/company/Contact")) },
+  // Legal
+  { path: "/terms", component: lazy(() => import("./pages/legal/Terms")) },
+  { path: "/privacy", component: lazy(() => import("./pages/legal/Privacy")) },
   // Services
   { path: "/services/implementation", component: lazy(() => import("./pages/services/Implementation")) },
   { path: "/services/ai-enhancement", component: lazy(() => import("./pages/services/AIEnhancement")) },
