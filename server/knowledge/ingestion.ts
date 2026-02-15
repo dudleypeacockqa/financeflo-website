@@ -2,10 +2,8 @@
  * Document ingestion: parsing and recursive text chunking.
  * Supports SRT, TXT, PDF, DOCX, and raw text content.
  */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
-const mammoth = require("mammoth");
+import { PDFParse } from "pdf-parse";
+import mammoth from "mammoth";
 
 const TARGET_CHUNK_TOKENS = 500;
 const OVERLAP_TOKENS = 50;
@@ -16,15 +14,22 @@ const CHARS_PER_TOKEN = 4;
  * Parse SRT subtitle content into plain text.
  */
 export function parseSrt(content: string): string {
-  return content
+  const blocks = content
     .split(/\r?\n\r?\n/)
     .map(block => {
       const lines = block.trim().split(/\r?\n/);
       // Skip index and timestamp lines
       return lines.slice(2).join(" ");
     })
-    .filter(text => text.trim().length > 0)
-    .join(" ");
+    .filter(text => text.trim().length > 0);
+
+  // Group every 4 subtitle blocks into a paragraph so chunkText() can
+  // split on paragraph boundaries instead of treating it as one blob.
+  const paragraphs: string[] = [];
+  for (let i = 0; i < blocks.length; i += 4) {
+    paragraphs.push(blocks.slice(i, i + 4).join(" "));
+  }
+  return paragraphs.join("\n\n");
 }
 
 /**
@@ -65,7 +70,8 @@ export async function parseContentFromBuffer(buffer: Buffer, mimeType: string): 
 }
 
 async function parsePdf(buffer: Buffer): Promise<string> {
-  const result = await pdfParse(buffer);
+  const parser = new PDFParse({ data: new Uint8Array(buffer) });
+  const result = await parser.getText();
   return result.text;
 }
 
