@@ -17,7 +17,7 @@ export const familyOfficeData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Family Office", description: "Multi-entity consolidation, inter-company eliminations, and real-time wealth dashboards across all structures.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Reporting", description: "Automated capital call tracking, distribution waterfalls, and beneficiary reporting with natural language querying.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect custodians, fund administrators, and banking platforms to your ERP for live portfolio visibility.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect custodians, fund administrators, and banking platforms to your ERP for live portfolio visibility.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Family Office",

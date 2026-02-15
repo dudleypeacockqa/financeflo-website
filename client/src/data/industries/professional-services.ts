@@ -17,7 +17,7 @@ export const professionalServicesData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Professional Services", description: "Project accounting, real-time WIP dashboards, and automated revenue recognition across engagement types.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Utilisation Analytics", description: "Predictive resource planning, margin forecasting, and automated write-off detection using machine learning.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect your PSA, CRM, and timesheet systems to your ERP for end-to-end project financial visibility.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect your PSA, CRM, and timesheet systems to your ERP for end-to-end project financial visibility.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Professional Services Firm",

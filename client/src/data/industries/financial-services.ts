@@ -17,7 +17,7 @@ export const financialServicesData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Financial Services", description: "Multi-entity consolidation with SOC 1 Type II compliance, dimensional reporting, and complete audit trails.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Compliance", description: "Automated regulatory reporting, anomaly detection, and continuous compliance monitoring.", href: "/services/ai-enhancement" },
-    { title: "Integration Hub", description: "Connect trading platforms, custodians, and market data feeds to your financial management system.", href: "/ipaas/intelliflow" },
+    { title: "Integration Hub", description: "Connect trading platforms, custodians, and market data feeds to your financial management system.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Financial Group",

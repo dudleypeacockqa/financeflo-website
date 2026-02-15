@@ -19,7 +19,7 @@ const timeline = [
   { year: "2020", event: "Founded FinanceFlo with a focus on Sage Intacct implementation for mid-market companies" },
   { year: "2022", event: "Expanded into AI-enhanced finance operations, developing the QDOAA framework" },
   { year: "2023", event: "Launched the ADAPT Framework for structured business transformation" },
-  { year: "2024", event: "Introduced IntelliFlow iPaaS and expanded ERP portfolio to include Acumatica and Odoo" },
+  { year: "2024", event: "Introduced FloSynq iPaaS and expanded ERP portfolio to include Acumatica and Odoo" },
   { year: "2025", event: "Launched LeverageFlo.ai marketing automation and industry-specific solutions" },
 ];
 

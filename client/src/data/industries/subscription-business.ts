@@ -17,7 +17,7 @@ export const subscriptionBusinessData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for SaaS", description: "Automated ASC 606 revenue recognition, multi-element arrangements, and real-time SaaS metrics dashboards.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Churn Analytics", description: "Predictive churn scoring, cohort analysis, and expansion revenue identification using machine learning.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect Stripe, Chargebee, Salesforce, and your billing stack to your ERP for end-to-end revenue visibility.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect Stripe, Chargebee, Salesforce, and your billing stack to your ERP for end-to-end revenue visibility.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder SaaS Company",

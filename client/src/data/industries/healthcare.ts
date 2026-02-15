@@ -17,7 +17,7 @@ export const healthcareData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Healthcare", description: "Fund accounting, grant tracking, and dimensional reporting for healthcare and non-profit organisations.", href: "/erp/sage-intacct" },
     { title: "AI Cost Allocation", description: "Machine learning-powered cost allocation that learns from historical patterns and adapts to changing structures.", href: "/services/ai-enhancement" },
-    { title: "System Integration", description: "Connect PAS, RIS, HR, and rostering systems to your financial management platform.", href: "/ipaas/intelliflow" },
+    { title: "System Integration", description: "Connect PAS, RIS, HR, and rostering systems to your financial management platform.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Healthcare Trust",

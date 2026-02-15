@@ -17,7 +17,7 @@ export const insuranceData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Insurance", description: "Multi-entity premium accounting, automated reserve postings, and real-time combined ratio dashboards.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Claims Analytics", description: "Predictive claims severity scoring, fraud detection, and automated reserve adequacy testing using machine learning.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect policy admin, claims platforms, and reinsurance systems to your financial ledger in real-time.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect policy admin, claims platforms, and reinsurance systems to your financial ledger in real-time.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Insurance Company",

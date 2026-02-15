@@ -107,7 +107,7 @@ export default function ApiManagement() {
         description="Start with a Constraint Diagnosis to audit your current API landscape and identify security gaps before they become breaches."
         actions={[
           { label: "Diagnose Your Constraints", href: "/assessment" },
-          { label: "IntelliFlow Platform", href: "/ipaas/intelliflow", variant: "secondary" },
+          { label: "FloSynq Platform", href: "/ipaas/flosynq", variant: "secondary" },
         ]}
       />
     </div>

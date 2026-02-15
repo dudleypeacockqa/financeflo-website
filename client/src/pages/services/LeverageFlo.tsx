@@ -10,7 +10,7 @@ const features = [
   { icon: Zap, title: "Campaign Automation", description: "Multi-channel campaign orchestration — email, social, content, and retargeting — driven by AI-optimised timing and targeting." },
   { icon: BarChart3, title: "Attribution Analytics", description: "Full-funnel attribution from first touch to closed deal. Understand which channels and content drive real revenue." },
   { icon: Users, title: "Audience Segmentation", description: "Dynamic segmentation based on behaviour, industry, company size, and constraint profile — not just demographics." },
-  { icon: Repeat, title: "CRM Integration", description: "Bi-directional sync with your CRM, ERP, and marketing platforms via IntelliFlow for a single view of every prospect." },
+  { icon: Repeat, title: "CRM Integration", description: "Bi-directional sync with your CRM, ERP, and marketing platforms via FloSynq for a single view of every prospect." },
 ];
 
 export default function LeverageFlo() {
@@ -44,7 +44,7 @@ export default function LeverageFlo() {
               Integrated With Your Entire Stack
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-              LeverageFlo connects to your CRM, ERP, email platform, social channels, and analytics tools via IntelliFlow. No data silos — every interaction is tracked, attributed, and actionable.
+              LeverageFlo connects to your CRM, ERP, email platform, social channels, and analytics tools via FloSynq. No data silos — every interaction is tracked, attributed, and actionable.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {["Sage Intacct", "Salesforce", "HubSpot", "GoHighLevel", "Mailchimp", "LinkedIn", "Google Ads", "Slack"].map((tool) => (

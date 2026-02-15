@@ -62,7 +62,7 @@ export const routes: RouteConfig[] = [
   { path: "/erp/odoo", component: lazy(() => import("./pages/erp/Odoo")) },
   { path: "/erp/sage-x3", component: lazy(() => import("./pages/erp/SageX3")) },
   // iPaaS
-  { path: "/ipaas/intelliflow", component: lazy(() => import("./pages/ipaas/IntelliFlow")) },
+  { path: "/ipaas/flosynq", component: lazy(() => import("./pages/ipaas/FloSynq")) },
   { path: "/ipaas/strategy", component: lazy(() => import("./pages/ipaas/Strategy")) },
   { path: "/ipaas/connectors", component: lazy(() => import("./pages/ipaas/Connectors")) },
   { path: "/ipaas/api-management", component: lazy(() => import("./pages/ipaas/ApiManagement")) },

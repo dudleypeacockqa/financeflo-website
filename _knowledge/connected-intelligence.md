@@ -45,7 +45,7 @@ Artificial intelligence transforms data into insight and action:
 ### Pillar 3: Integration Architecture (iPaaS)
 
 The integration layer connects all systems into a unified data flow:
-- **IntelliFlow** — FinanceFlo's iPaaS platform for connecting business systems
+- **FloSynq** — FinanceFlo's iPaaS platform for connecting business systems
 - **Real-time sync** — data flows between systems as events happen
 - **Transformation** — data is normalised and enriched as it moves
 - **Monitoring** — visibility into data flows, errors, and throughput
@@ -59,7 +59,7 @@ The integration layer connects all systems into a unified data flow:
 Banking ─┐                    ┌─ Dashboards
 CRM ─────┤                    ├─ Reports
 Payroll ──┤  ←→ iPaaS ←→ ERP ←→ AI Layer  ├─ Predictions
-HR ───────┤    (IntelliFlow)   (Sage Intacct)  ├─ Automation
+HR ───────┤    (FloSynq)   (Sage Intacct)  ├─ Automation
 eComm ────┘                    └─ Alerts
 ```
 

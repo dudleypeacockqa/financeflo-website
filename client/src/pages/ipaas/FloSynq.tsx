@@ -16,16 +16,16 @@ const capabilities = [
   { icon: Database, title: "Data Transformation", description: "Built-in ETL capabilities with visual mapping, custom transformations, and data quality rules." },
 ];
 
-export default function IntelliFlow() {
+export default function FloSynq() {
   useEffect(() => {
-    document.title = "IntelliFlow iPaaS | FinanceFlo.ai";
+    document.title = "FloSynq iPaaS | FinanceFlo.ai";
   }, []);
 
   return (
     <div className="min-h-screen pt-24">
       <PageHero
         tagline="iPaaS & Integration"
-        title="IntelliFlow:"
+        title="FloSynq:"
         titleAccent="AI-Powered Integration"
         description="Connect every system in your finance stack with an intelligent integration platform that learns, adapts, and scales with your business. No more brittle point-to-point integrations."
       >
@@ -58,7 +58,7 @@ export default function IntelliFlow() {
                 Integration Platform as a Service
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                iPaaS (Integration Platform as a Service) replaces fragile point-to-point integrations with a managed, scalable platform. Instead of building custom code for every connection, IntelliFlow provides a central hub that connects all your systems — ERP, CRM, banking, payroll, and more.
+                iPaaS (Integration Platform as a Service) replaces fragile point-to-point integrations with a managed, scalable platform. Instead of building custom code for every connection, FloSynq provides a central hub that connects all your systems — ERP, CRM, banking, payroll, and more.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The AI layer learns your data patterns, optimises routing, detects anomalies, and self-heals when connections fail. This means fewer integration breakdowns, faster data flow, and more time for your team to focus on strategic work.
@@ -95,7 +95,7 @@ export default function IntelliFlow() {
 
       <FeatureGrid
         tagline="Capabilities"
-        title="What IntelliFlow Does"
+        title="What FloSynq Does"
         features={capabilities}
         columns={3}
         accentColor="teal"
@@ -104,7 +104,7 @@ export default function IntelliFlow() {
       <CTASection
         title="Ready to Unify"
         titleAccent="Your Systems?"
-        description="Take our Constraint Diagnosis and we'll map your integration landscape, identify the highest-ROI connections, and show you what IntelliFlow can automate."
+        description="Take our Constraint Diagnosis and we'll map your integration landscape, identify the highest-ROI connections, and show you what FloSynq can automate."
         actions={[
           { label: "Diagnose Your Constraints", href: "/assessment" },
           { label: "Integration Strategy", href: "/ipaas/strategy", variant: "secondary" },

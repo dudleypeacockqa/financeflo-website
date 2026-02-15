@@ -17,7 +17,7 @@ export const constructionData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Construction", description: "Multi-entity consolidation, job costing, and AIA billing with real-time project profitability dashboards.", href: "/erp/sage-intacct" },
     { title: "Acumatica Construction Edition", description: "Project accounting, change order management, and subcontractor compliance in one platform.", href: "/erp/acumatica" },
-    { title: "IntelliFlow Integration", description: "Connect your estimating, project management, and field systems to your ERP in real-time.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect your estimating, project management, and field systems to your ERP in real-time.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Construction Co.",

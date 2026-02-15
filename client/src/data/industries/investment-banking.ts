@@ -17,7 +17,7 @@ export const investmentBankingData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Investment Banking", description: "Multi-entity deal accounting, milestone-based revenue recognition, and real-time fee tracking dashboards.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Deal Analytics", description: "Predictive deal scoring, fee forecasting, and automated compliance monitoring using machine learning.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect your CRM, deal room, and compliance systems to your ERP for end-to-end deal lifecycle visibility.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect your CRM, deal room, and compliance systems to your ERP for end-to-end deal lifecycle visibility.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Investment Bank",

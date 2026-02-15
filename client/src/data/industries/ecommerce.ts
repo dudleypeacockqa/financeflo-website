@@ -17,12 +17,12 @@ export const ecommerceData: IndustryData = {
   solutions: [
     { title: "Acumatica Commerce Edition", description: "Native Shopify, Amazon, and BigCommerce integration with real-time inventory and financial sync.", href: "/erp/acumatica" },
     { title: "Odoo All-in-One", description: "E-commerce, inventory, accounting, and CRM in a single platform with modular pricing.", href: "/erp/odoo" },
-    { title: "IntelliFlow Commerce Hub", description: "Connect all your sales channels, fulfilment systems, and financial platform in real-time.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Commerce Hub", description: "Connect all your sales channels, fulfilment systems, and financial platform in real-time.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Commerce Ltd.",
     challenge: "5 sales channels processed manually into Xero with weekly reconciliation. No real-time inventory visibility or product-level profitability.",
-    outcome: "Migrated to Acumatica with IntelliFlow integration hub, automated multi-channel reconciliation, and AI-powered demand forecasting.",
+    outcome: "Migrated to Acumatica with FloSynq integration hub, automated multi-channel reconciliation, and AI-powered demand forecasting.",
     metrics: [
       { value: "95%", label: "Automation of order processing" },
       { value: "5x", label: "Faster reconciliation" },

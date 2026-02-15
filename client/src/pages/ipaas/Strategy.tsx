@@ -80,7 +80,7 @@ export default function Strategy() {
         description="Start with our Constraint Diagnosis to map your integration landscape and identify the highest-impact connections."
         actions={[
           { label: "Diagnose Your Constraints", href: "/assessment" },
-          { label: "View IntelliFlow", href: "/ipaas/intelliflow", variant: "secondary" },
+          { label: "View FloSynq", href: "/ipaas/flosynq", variant: "secondary" },
         ]}
       />
     </div>

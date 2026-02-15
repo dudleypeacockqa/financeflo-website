@@ -95,7 +95,7 @@ export default function Connectors() {
         description="Don't see your system? We build custom connectors as part of every integration project. Start with a Constraint Diagnosis to map your integration needs."
         actions={[
           { label: "Diagnose Your Constraints", href: "/assessment" },
-          { label: "IntelliFlow Platform", href: "/ipaas/intelliflow", variant: "secondary" },
+          { label: "FloSynq Platform", href: "/ipaas/flosynq", variant: "secondary" },
         ]}
       />
     </div>

@@ -28,7 +28,7 @@ Activities:
 - Future-state process design incorporating AI automation opportunities
 - Technology stack recommendation (Sage Intacct configuration, AI tools, integrations)
 - Data migration strategy and mapping
-- Integration architecture (iPaaS design with IntelliFlow where applicable)
+- Integration architecture (iPaaS design with FloSynq where applicable)
 - Change management plan for staff transition
 - ROI projection with phased benefits realisation
 

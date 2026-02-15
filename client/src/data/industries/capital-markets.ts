@@ -17,7 +17,7 @@ export const capitalMarketsData: IndustryData = {
   solutions: [
     { title: "Sage Intacct for Capital Markets", description: "Multi-entity fund accounting, real-time consolidation, and automated regulatory reporting across trading desks.", href: "/erp/sage-intacct" },
     { title: "AI-Powered Risk Analytics", description: "Real-time position monitoring, anomaly detection on trade flows, and predictive risk modelling.", href: "/services/ai-enhancement" },
-    { title: "IntelliFlow Integration", description: "Connect order management, execution platforms, and prime brokers to your back-office systems in real-time.", href: "/ipaas/intelliflow" },
+    { title: "FloSynq Integration", description: "Connect order management, execution platforms, and prime brokers to your back-office systems in real-time.", href: "/ipaas/flosynq" },
   ],
   caseStudy: {
     company: "Placeholder Capital Markets Firm",
