@@ -107,7 +107,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-3 shrink-0">
           <Link href="/assessment">
             <Button className="bg-teal text-navy-dark font-semibold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-              AI Readiness Assessment
+              Free Assessment
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
@@ -184,7 +184,7 @@ export default function Navbar() {
                 <div className="mt-6">
                   <Link href="/assessment" onClick={() => setMobileOpen(false)}>
                     <Button className="w-full bg-teal text-navy-dark font-semibold gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-                      AI Readiness Assessment
+                      Free Assessment
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>

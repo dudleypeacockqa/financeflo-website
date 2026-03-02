@@ -3,11 +3,33 @@
  * Footer: 5-column layout with all new navigation links
  */
 import { Link } from "wouter";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { footerColumns } from "@/data/navigation";
 
 export default function Footer() {
   return (
     <footer className="border-t border-border/30 bg-navy-dark">
+      {/* Conversion CTA Strip */}
+      <div className="border-b border-border/20">
+        <div className="container py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+              Ready to eliminate your finance constraints?
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Take the free 5-minute Constraint Diagnosis and get your personalised roadmap.
+            </p>
+          </div>
+          <Link href="/assessment">
+            <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber shrink-0" style={{ fontFamily: "var(--font-heading)" }}>
+              Free Assessment
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+
       <div className="container py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {/* Brand */}

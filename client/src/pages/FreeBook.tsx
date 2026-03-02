@@ -306,24 +306,10 @@ export default function FreeBook() {
                       />
                     </div>
 
-                    {/* Phone */}
+                    {/* Company — optional, helps with lead quality */}
                     <div>
                       <label className="text-sm font-medium text-foreground mb-1 block">
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        placeholder="+44 7700 900000"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className={INPUT_CLASS}
-                      />
-                    </div>
-
-                    {/* Company Name */}
-                    <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        Company Name
+                        Company Name <span className="text-muted-foreground font-normal">(optional)</span>
                       </label>
                       <input
                         type="text"
@@ -332,42 +318,6 @@ export default function FreeBook() {
                         onChange={(e) => setCompany(e.target.value)}
                         className={INPUT_CLASS}
                       />
-                    </div>
-
-                    {/* Role / Position */}
-                    <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        Role / Position
-                      </label>
-                      <select
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        className={SELECT_CLASS}
-                      >
-                        {roleOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Number of Employees */}
-                    <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        Number of Employees
-                      </label>
-                      <select
-                        value={employees}
-                        onChange={(e) => setEmployees(e.target.value)}
-                        className={SELECT_CLASS}
-                      >
-                        {employeeOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
                     </div>
 
                     {/* Shipping Address — Physical only */}

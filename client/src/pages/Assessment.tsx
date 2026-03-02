@@ -557,9 +557,6 @@ export default function Assessment() {
                   { key: "name" as const, label: "Full Name *", placeholder: "John Smith", type: "text" },
                   { key: "email" as const, label: "Business Email *", placeholder: "john@company.com", type: "email" },
                   { key: "company" as const, label: "Company Name *", placeholder: "Acme Holdings Ltd", type: "text" },
-                  { key: "role" as const, label: "Your Role", placeholder: "CFO, Finance Director, COO, etc.", type: "text" },
-                  { key: "employees" as const, label: "Number of Employees", placeholder: "e.g., 50-200", type: "text" },
-                  { key: "phone" as const, label: "Phone (Optional)", placeholder: "+27 82 000 0000", type: "tel" },
                 ].map((field) => (
                   <div key={field.key}>
                     <label className="text-sm font-medium text-foreground mb-1 block">{field.label}</label>

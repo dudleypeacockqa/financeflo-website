@@ -86,21 +86,23 @@ export default function Home() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
               style={{ fontFamily: "var(--font-heading)" }}
             >
-              We Redesign How Growing Companies{" "}
-              <span className="text-gradient-teal">Operate</span>
+              Month-End Taking{" "}
+              <span className="text-gradient-amber">15+ Days</span>?{" "}
+              We Cut It to{" "}
+              <span className="text-gradient-teal">4</span>
             </motion.h1>
 
             <motion.p
               initial="hidden" animate="visible" variants={fadeUp} custom={2}
               className="text-lg text-muted-foreground leading-relaxed mb-4 max-w-xl"
             >
-              Where does your business model break at scale? We diagnose constraints, not sell automations. AI is just one tool in the system.
+              Multi-entity CFOs and Finance Directors: we diagnose the constraints costing you time, money, and growth &mdash; then fix them with Sage Intacct and AI.
             </motion.p>
             <motion.p
               initial="hidden" animate="visible" variants={fadeUp} custom={2.5}
               className="text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-xl"
             >
-              Sage Intacct multi-company financial management + custom AI solutions, delivered through our proven ADAPT Framework.
+              No generic implementations. No multi-year lock-in. Just proven results through our ADAPT Framework &mdash; starting with a 2-week audit.
             </motion.p>
 
             <motion.div
@@ -123,9 +125,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== STATS BAR ===== */}
+      {/* ===== SOCIAL PROOF + STATS ===== */}
       <section className="border-y border-border/30 bg-navy-dark/80">
         <div className="container py-8">
+          {/* Trust Signals */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-md bg-amber/10 border border-amber/30 flex items-center justify-center">
+                <Shield className="w-5 h-5 text-amber" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Sage Intacct Partner</p>
+                <p className="text-xs text-muted-foreground">Certified implementation specialist</p>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-8 bg-border/30" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-md bg-teal/10 border border-teal/30 flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-teal" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Multi-Entity Specialists</p>
+                <p className="text-xs text-muted-foreground">UK, South Africa &amp; international</p>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-8 bg-border/30" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-md bg-teal/10 border border-teal/30 flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-teal" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Published Author</p>
+                <p className="text-xs text-muted-foreground">Connected Intelligence &mdash; Amazon</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto mb-8"
+          >
+            <p className="text-sm text-muted-foreground italic leading-relaxed">
+              "FinanceFlo didn't just implement software &mdash; they redesigned how we operate. Month-end went from 15 days to 4, and we finally have real-time visibility across all our entities."
+            </p>
+            <p className="text-xs text-teal mt-2 font-medium">
+              &mdash; CFO, Multi-Entity Investment Group
+            </p>
+          </motion.div>
+
+          {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat, i) => (
               <motion.div

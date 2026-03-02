@@ -359,7 +359,7 @@ export default function Results() {
           </div>
         </motion.div>
 
-        {/* Prospect Score */}
+        {/* Readiness Summary — simplified, no internal scores exposed */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -368,24 +368,21 @@ export default function Results() {
           style={{ borderRadius: "var(--radius)" }}
         >
           <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-            Your Readiness Profile
+            What Happens Next
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { label: "Pain Severity", score: data.prospectScore.pain, max: 3 },
-              { label: "Budget Readiness", score: data.prospectScore.budget, max: 4 },
-              { label: "Decision Authority", score: data.prospectScore.authority, max: 4 },
-              { label: "Timing Urgency", score: data.prospectScore.timing, max: 4 },
+              { step: "1", title: "Review Your Roadmap", desc: "Save this page or download your proposal for your team." },
+              { step: "2", title: "Book a Strategy Call", desc: "Discuss findings with Dudley — no obligation, no pitch deck." },
+              { step: "3", title: "Start With an Audit", desc: "Validate these numbers with a hands-on AI Operations Audit." },
             ].map((item, i) => (
-              <div key={i} className="text-center">
-                <div className="text-xs text-muted-foreground mb-2">{item.label}</div>
-                <div className="flex justify-center gap-1">
-                  {Array.from({ length: item.max }).map((_, j) => (
-                    <div
-                      key={j}
-                      className={`w-3 h-3 rounded-full ${j < item.score ? "bg-teal" : "bg-navy-light border border-border/30"}`}
-                    />
-                  ))}
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-teal/10 border border-teal/30 flex items-center justify-center shrink-0">
+                  <span className="text-teal font-bold font-mono text-sm">{item.step}</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-sm" style={{ fontFamily: "var(--font-heading)" }}>{item.title}</h4>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -409,10 +406,19 @@ export default function Results() {
               : "Generate a personalised transformation proposal with detailed ROI projections, or book a free strategy call with Dudley Peacock."
             }
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Primary CTA — always visible */}
+          <a href="mailto:dudley@financeflo.ai?subject=Strategy%20Call%20Request&body=Hi%20Dudley%2C%0A%0AI%20just%20completed%20the%20AI%20Readiness%20Assessment%20and%20would%20like%20to%20book%20a%20strategy%20call%20to%20discuss%20the%20findings.%0A%0AThanks" rel="noopener noreferrer">
+            <Button size="lg" className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber text-base px-8" style={{ fontFamily: "var(--font-heading)" }}>
+              <Phone className="w-5 h-5" />
+              Book a Free Strategy Call
+            </Button>
+          </a>
+
+          {/* Secondary CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
             {proposalUrl ? (
               <a href={proposalUrl} target="_blank" rel="noopener noreferrer">
-                <Button className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
+                <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
                   <Download className="w-4 h-4" />
                   Download Your Proposal
                 </Button>
@@ -421,32 +427,26 @@ export default function Results() {
               <Button
                 onClick={handleGenerateProposal}
                 disabled={proposalLoading}
-                className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2"
-                style={{ fontFamily: "var(--font-heading)" }}
+                variant="outline"
+                className="border-teal/40 text-teal hover:bg-teal/10 gap-2"
               >
                 {proposalLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Generating Proposal...
+                    Generating...
                   </>
                 ) : (
                   <>
                     <FileText className="w-4 h-4" />
-                    Generate My Proposal
+                    Generate Proposal PDF
                   </>
                 )}
               </Button>
             ) : null}
-            <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
-                <Phone className="w-4 h-4" />
-                Book a Strategy Call
-              </Button>
-            </a>
-            <Link href="/lead-magnet">
-              <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
+            <Link href="/free-book">
+              <Button variant="outline" className="border-border/50 text-muted-foreground hover:text-foreground hover:bg-navy-light/50 gap-2">
                 <Download className="w-4 h-4" />
-                Download AI in Finance Report
+                Free Book: Connected Intelligence
               </Button>
             </Link>
           </div>
