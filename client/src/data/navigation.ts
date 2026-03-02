@@ -37,6 +37,7 @@ export const navItems: NavItem[] = [
         heading: "iPaaS & Integration",
         links: [
           { label: "FloSynq iPaaS", href: "/ipaas/flosynq", description: "AI-powered integration platform" },
+          { label: "FloSynq Pricing", href: "/ipaas/flosynq-pricing", description: "Subscription plans & pricing" },
           { label: "Integration Strategy", href: "/ipaas/strategy", description: "End-to-end integration methodology" },
           { label: "Connectors", href: "/ipaas/connectors", description: "Pre-built connector library" },
           { label: "API Management", href: "/ipaas/api-management", description: "Secure API governance" },
@@ -119,6 +120,7 @@ export const footerColumns = [
     heading: "Services",
     links: [
       { label: "FloSynq iPaaS", href: "/ipaas/flosynq" },
+      { label: "FloSynq Pricing", href: "/ipaas/flosynq-pricing" },
       { label: "Implementation", href: "/services/implementation" },
       { label: "AI Enhancement", href: "/services/ai-enhancement" },
       { label: "LeverageFlo.ai", href: "/leverageflo" },

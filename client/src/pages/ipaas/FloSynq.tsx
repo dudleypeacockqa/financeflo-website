@@ -35,9 +35,9 @@ export default function FloSynq() {
               Assess Your Integration Needs <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
-          <Link href="/ipaas/connectors">
+          <Link href="/ipaas/flosynq-pricing">
             <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
-              View Connectors
+              View Pricing
             </Button>
           </Link>
         </div>
