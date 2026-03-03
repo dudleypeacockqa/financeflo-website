@@ -9,6 +9,7 @@ import { Link } from "wouter";
 import { ArrowRight, Download, BookOpen, CheckCircle2, BarChart3, Brain, Shield, TrendingUp, Zap, Target } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 const BANNER_IMG = "/images/lead-magnet-banner.png";
 const FEARS_IMG = "/images/fears-infographic.png";
@@ -30,12 +31,33 @@ export default function LeadMagnet() {
   const [role, setRole] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const createLead = trpc.lead.create.useMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !name) return;
-    // In production, this would POST to GHL webhook
-    setSubmitted(true);
-    toast.success("Check your email for the download link!");
+
+    const nameParts = name.trim().split(/\s+/);
+    const firstName = nameParts[0];
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "-";
+
+    try {
+      await createLead.mutateAsync({
+        firstName,
+        lastName,
+        email,
+        company: company || undefined,
+        jobTitle: role || undefined,
+        source: "lead_magnet",
+        tags: ["ai-finance-report"],
+      });
+
+      setSubmitted(true);
+      toast.success("Check your email for the download link!");
+    } catch (err) {
+      console.error("[LeadMagnet] Lead creation failed:", err);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -152,11 +174,18 @@ export default function LeadMagnet() {
                     </div>
                     <Button
                       type="submit"
+                      disabled={createLead.isPending}
                       className="w-full bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber py-6 text-base"
                       style={{ fontFamily: "var(--font-heading)" }}
                     >
-                      <Download className="w-5 h-5" />
-                      Download the Report
+                      {createLead.isPending ? (
+                        "Submitting..."
+                      ) : (
+                        <>
+                          <Download className="w-5 h-5" />
+                          Download the Report
+                        </>
+                      )}
                     </Button>
                   </form>
 

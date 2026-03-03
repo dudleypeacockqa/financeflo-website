@@ -93,6 +93,7 @@ export default function Solutions() {
         "Cost of Inaction calculation",
       ],
       cta: "Start With an Audit",
+      href: "/assessment",
     },
     {
       name: "Implementation",
@@ -110,6 +111,7 @@ export default function Solutions() {
       cta: "Get Scoped",
       tag: "Phase 2",
       featured: false,
+      href: "mailto:dudley@financeflo.ai?subject=Implementation%20Enquiry",
     },
     {
       ...tiers[2],
@@ -123,6 +125,7 @@ export default function Solutions() {
         "New builds always separate (keeps expansion alive)",
       ],
       cta: "Discuss Retainer",
+      href: "mailto:dudley@financeflo.ai?subject=Retainer%20Enquiry",
     },
   ];
 
@@ -391,15 +394,27 @@ export default function Solutions() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/assessment">
-                  <Button
-                    className={`w-full gap-2 ${tier.featured ? "bg-teal text-navy-dark font-bold hover:bg-teal/90" : "bg-navy-light border border-border/50 text-foreground hover:bg-navy-light/80"}`}
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {tier.cta}
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+                {tier.href?.startsWith("mailto:") ? (
+                  <a href={tier.href}>
+                    <Button
+                      className={`w-full gap-2 ${tier.featured ? "bg-teal text-navy-dark font-bold hover:bg-teal/90" : "bg-navy-light border border-border/50 text-foreground hover:bg-navy-light/80"}`}
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {tier.cta}
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </a>
+                ) : (
+                  <Link href={tier.href || "/assessment"}>
+                    <Button
+                      className={`w-full gap-2 ${tier.featured ? "bg-teal text-navy-dark font-bold hover:bg-teal/90" : "bg-navy-light border border-border/50 text-foreground hover:bg-navy-light/80"}`}
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {tier.cta}
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                )}
               </motion.div>
             ))}
           </div>

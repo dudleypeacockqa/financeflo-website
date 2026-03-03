@@ -63,6 +63,7 @@ export const routes: RouteConfig[] = [
   { path: "/erp/sage-x3", component: lazy(() => import("./pages/erp/SageX3")) },
   // iPaaS
   { path: "/ipaas/flosynq", component: lazy(() => import("./pages/ipaas/FloSynq")) },
+  { path: "/ipaas/flosynq-pricing", component: lazy(() => import("./pages/ipaas/FloSynqPricing")) },
   { path: "/ipaas/strategy", component: lazy(() => import("./pages/ipaas/Strategy")) },
   { path: "/ipaas/connectors", component: lazy(() => import("./pages/ipaas/Connectors")) },
   { path: "/ipaas/api-management", component: lazy(() => import("./pages/ipaas/ApiManagement")) },

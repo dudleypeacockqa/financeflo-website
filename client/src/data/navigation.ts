@@ -37,6 +37,7 @@ export const navItems: NavItem[] = [
         heading: "iPaaS & Integration",
         links: [
           { label: "FloSynq iPaaS", href: "/ipaas/flosynq", description: "AI-powered integration platform" },
+          { label: "FloSynq Pricing", href: "/ipaas/flosynq-pricing", description: "Subscription plans & pricing" },
           { label: "Integration Strategy", href: "/ipaas/strategy", description: "End-to-end integration methodology" },
           { label: "Connectors", href: "/ipaas/connectors", description: "Pre-built connector library" },
           { label: "API Management", href: "/ipaas/api-management", description: "Secure API governance" },
@@ -85,8 +86,9 @@ export const navItems: NavItem[] = [
       {
         heading: "Learn",
         links: [
-          { label: "Case Studies", href: "/case-studies", description: "Real-world transformation results" },
-          { label: "Blog", href: "/blog", description: "Insights on AI & finance" },
+          // Case Studies and Blog hidden until real content is available
+          // { label: "Case Studies", href: "/case-studies", description: "Real-world transformation results" },
+          // { label: "Blog", href: "/blog", description: "Insights on AI & finance" },
           { label: "AI in Finance Report", href: "/lead-magnet", description: "Free downloadable report" },
           { label: "Free Book", href: "/free-book", description: "Get 'Connected Intelligence' free" },
         ],
@@ -119,6 +121,7 @@ export const footerColumns = [
     heading: "Services",
     links: [
       { label: "FloSynq iPaaS", href: "/ipaas/flosynq" },
+      { label: "FloSynq Pricing", href: "/ipaas/flosynq-pricing" },
       { label: "Implementation", href: "/services/implementation" },
       { label: "AI Enhancement", href: "/services/ai-enhancement" },
       { label: "LeverageFlo.ai", href: "/leverageflo" },
@@ -143,8 +146,9 @@ export const footerColumns = [
   {
     heading: "Resources",
     links: [
-      { label: "Case Studies", href: "/case-studies" },
-      { label: "Blog", href: "/blog" },
+      // Case Studies and Blog hidden until real content is available
+      // { label: "Case Studies", href: "/case-studies" },
+      // { label: "Blog", href: "/blog" },
       { label: "ROI Calculator", href: "/roi-calculator" },
       { label: "AI in Finance Report", href: "/lead-magnet" },
       { label: "Free Book", href: "/free-book" },
