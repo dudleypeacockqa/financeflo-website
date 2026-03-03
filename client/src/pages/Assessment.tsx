@@ -107,44 +107,7 @@ const questions: QuizQuestion[] = [
       { label: "We're already built for scale — systems can handle it", value: "ready", score: 1 },
     ],
   },
-  // --- SECTION 3: Current Systems & Data ---
-  {
-    id: "current_system",
-    category: "Current Systems",
-    categoryIcon: Building2,
-    question: "What is your primary accounting/ERP system?",
-    options: [
-      { label: "Spreadsheets / Manual processes", value: "manual", score: 1 },
-      { label: "Entry-level (Sage One, Xero, QuickBooks)", value: "entry", score: 2 },
-      { label: "Mid-market (Sage 200, Sage 300, Pastel, Whimbrel)", value: "midmarket", score: 3 },
-      { label: "Enterprise ERP (SAP, Oracle, Sage Intacct)", value: "enterprise", score: 4 },
-    ],
-  },
-  {
-    id: "data_quality",
-    category: "Data Maturity",
-    categoryIcon: Building2,
-    question: "How would you rate the quality and accessibility of your financial data?",
-    options: [
-      { label: "Data is scattered across systems, often unreliable", value: "poor", score: 1 },
-      { label: "Data exists but requires significant manual cleanup", value: "fair", score: 2 },
-      { label: "Reasonably clean data with some automation", value: "good", score: 3 },
-      { label: "Clean, centralised, and readily accessible via APIs", value: "excellent", score: 4 },
-    ],
-  },
-  // --- SECTION 4: AI Readiness & Investment ---
-  {
-    id: "ai_readiness",
-    category: "AI Readiness",
-    categoryIcon: Zap,
-    question: "Where is your organisation on the AI adoption journey?",
-    options: [
-      { label: "Haven't started — still exploring what AI means for us", value: "exploring", score: 1 },
-      { label: "Aware of AI benefits but no concrete plans", value: "aware", score: 2 },
-      { label: "Piloting AI tools in some areas (e.g., ChatGPT, Copilot)", value: "piloting", score: 3 },
-      { label: "Actively implementing AI in business processes", value: "implementing", score: 4 },
-    ],
-  },
+  // --- SECTION 3: Investment & Timeline ---
   {
     id: "budget_timeline",
     category: "Investment",

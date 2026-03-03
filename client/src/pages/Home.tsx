@@ -21,9 +21,9 @@ const fadeUp = {
 };
 
 const stats = [
-  { value: "72%", label: "of CFOs say AI is their top priority in 2026", source: "Gartner" },
+  { value: "72%", label: "of CFOs say AI is their top priority in 2026", source: "Industry research" },
   { value: "40%", label: "reduction in month-end close time with Sage Intacct", source: "Sage" },
-  { value: "3.2x", label: "ROI within 18 months for AI-enabled finance teams", source: "McKinsey" },
+  { value: "3.2x", label: "ROI within 18 months for AI-enabled finance teams", source: "Management consulting research" },
 ];
 
 const constraints = [

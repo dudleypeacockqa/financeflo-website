@@ -67,9 +67,6 @@ function getROILevers(answers: Record<string, { value: string; score: number; co
   if (answers.bottleneck_area?.value === "close" || answers.bottleneck_area?.value === "interco") {
     levers.push({ icon: Clock, title: "Time Saved", value: fmt(Math.round(annualCost * 0.35)), desc: "Reduce month-end close by 40-60% through automated reconciliation, consolidation, and journal entry posting." });
   }
-  if (answers.data_quality?.score && answers.data_quality.score <= 2) {
-    levers.push({ icon: Shield, title: "Error Reduction", value: fmt(Math.round(annualCost * 0.25)), desc: "Eliminate manual data entry errors, improve audit compliance, and reduce rework across entities." });
-  }
   if (answers.scale_break?.score && answers.scale_break.score >= 3) {
     levers.push({ icon: Users, title: "Throughput Increase", value: fmt(Math.round(annualCost * 0.30)), desc: "Handle 2-3x transaction volume without proportional headcount increase. Scale capacity, not cost." });
   }
