@@ -353,7 +353,17 @@ export default function Assessment() {
         recommendedPhase: "assess",
       });
 
-      // 3. Store results in sessionStorage for the Results page
+      // 3. Fire Meta Pixel Lead event
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "Lead", {
+          content_name: "AI Readiness Assessment",
+          content_category: recommendedTier,
+          value: annualCostOfInaction,
+          currency: regionConfig.currency,
+        });
+      }
+
+      // 4. Store results in sessionStorage for the Results page
       sessionStorage.setItem("assessmentResults", JSON.stringify({
         score: percentage,
         totalScore,

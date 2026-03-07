@@ -132,7 +132,17 @@ export default function Results() {
   useEffect(() => {
     const stored = sessionStorage.getItem("assessmentResults");
     if (stored) {
-      setData(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      setData(parsed);
+
+      // Fire Meta Pixel CompleteRegistration event
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "CompleteRegistration", {
+          content_name: "AI Readiness Assessment - Results",
+          value: parsed.annualCostOfInaction,
+          currency: parsed.region === "ZA" ? "ZAR" : parsed.region === "US" ? "USD" : parsed.region === "CA" ? "CAD" : parsed.region === "EU" ? "EUR" : "GBP",
+        });
+      }
     } else {
       navigate("/assessment");
     }
@@ -409,7 +419,28 @@ export default function Results() {
               : "Generate a personalised transformation proposal with detailed ROI projections, or book a free strategy call with Dudley Peacock."
             }
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Primary CTA — GHL Calendar Booking */}
+          <a
+            href="https://financeflo.ai/booking/erp-consultation"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              // Fire Meta Pixel Schedule event
+              if (typeof window !== "undefined" && (window as any).fbq) {
+                (window as any).fbq("track", "Schedule", {
+                  content_name: "Strategy Call Booking",
+                });
+              }
+            }}
+          >
+            <Button size="lg" className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber text-base px-8" style={{ fontFamily: "var(--font-heading)" }}>
+              <Calendar className="w-5 h-5" />
+              Book a Free Strategy Call
+            </Button>
+          </a>
+
+          {/* Secondary CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
             {proposalUrl ? (
               <a href={proposalUrl} target="_blank" rel="noopener noreferrer">
                 <Button className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
@@ -437,12 +468,6 @@ export default function Results() {
                 )}
               </Button>
             ) : null}
-            <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber" style={{ fontFamily: "var(--font-heading)" }}>
-                <Phone className="w-4 h-4" />
-                Book a Strategy Call
-              </Button>
-            </a>
             <Link href="/lead-magnet">
               <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
                 <Download className="w-4 h-4" />

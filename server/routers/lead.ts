@@ -28,6 +28,8 @@ export const leadRouter = router({
 
       const lead = await createLead(input);
 
+      // Send to GHL — this now creates a GHL contact directly via API
+      // and fires Meta CAPI Lead event from server side
       sendToGHL("lead_created", {
         leadId: lead.id,
         ...input,
