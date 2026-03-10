@@ -299,6 +299,34 @@ describe("lead.create", () => {
     );
   });
 
+  it("persists the returned GHL contact ID on new lead creation", async () => {
+    const { sendToGHL } = await import("./ghl");
+    const { updateLeadGhlId } = await import("./db");
+
+    (sendToGHL as ReturnType<typeof vi.fn>).mockImplementationOnce(
+      async (_eventType: string, payload: Record<string, unknown>) => {
+        payload.ghlContactId = "ghl-contact-123";
+      }
+    );
+
+    const ctx = createPublicContext();
+    const caller = appRouter.createCaller(ctx);
+
+    const result = await caller.lead.create({
+      firstName: "Persisted",
+      lastName: "Lead",
+      email: "persisted@test.com",
+      source: "contact",
+    });
+
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(updateLeadGhlId).toHaveBeenCalledWith(
+      result.id,
+      "ghl-contact-123"
+    );
+  });
+
   it("rejects invalid email format", async () => {
     const ctx = createPublicContext();
     const caller = appRouter.createCaller(ctx);

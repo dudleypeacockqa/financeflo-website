@@ -99,6 +99,7 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+.tmp-*.mjs
 .tmp_secret_scan_zip/
 
 # Database

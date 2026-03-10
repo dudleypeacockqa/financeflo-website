@@ -427,9 +427,7 @@ export default function Results() {
           </p>
           {/* Primary CTA — GHL Calendar Booking */}
           <a
-            href="https://financeflo.ai/booking/erp-consultation"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/booking/erp-consultation"
             onClick={() => {
               // Fire Meta Pixel Schedule event
               if (typeof window !== "undefined" && (window as any).fbq) {

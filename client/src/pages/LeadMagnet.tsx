@@ -92,7 +92,6 @@ export default function LeadMagnet() {
       /* sessionStorage unavailable or parse error — show the form */
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !name) return;

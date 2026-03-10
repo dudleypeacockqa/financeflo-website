@@ -7,6 +7,7 @@ export interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   { path: "/", component: lazy(() => import("./pages/Home")) },
+  { path: "/booking/erp-consultation", component: lazy(() => import("./pages/BookingERPConsultation")) },
   { path: "/solutions", component: lazy(() => import("./pages/Solutions")) },
   { path: "/adapt-framework", component: lazy(() => import("./pages/ADAPTFramework")) },
   { path: "/assessment", component: lazy(() => import("./pages/Assessment")) },

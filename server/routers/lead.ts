@@ -1,6 +1,12 @@
 import { publicProcedure, protectedProcedure, router } from "../trpc";
 import { z } from "zod";
-import { createLead, getLeadById, getLeadByEmail, listLeads } from "../db";
+import {
+  createLead,
+  getLeadById,
+  getLeadByEmail,
+  listLeads,
+  updateLeadGhlId,
+} from "../db";
 import { sendToGHL } from "../ghl";
 
 export const leadRouter = router({
@@ -28,12 +34,21 @@ export const leadRouter = router({
 
       const lead = await createLead(input);
 
-      // Send to GHL — this now creates a GHL contact directly via API
-      // and fires Meta CAPI Lead event from server side
-      sendToGHL("lead_created", {
-        leadId: lead.id,
-        ...input,
-      }).catch(err => console.error("[GHL] Failed to send lead:", err));
+      // Send to GHL — creates GHL contact via API and fires Meta CAPI Lead event.
+      // Await so ghlContactId is persisted before assessment.submit runs.
+      try {
+        const payload: Record<string, unknown> = {
+          leadId: lead.id,
+          ...input,
+        };
+        await sendToGHL("lead_created", payload);
+        const ghlContactId = payload.ghlContactId;
+        if (typeof ghlContactId === "string" && ghlContactId) {
+          await updateLeadGhlId(lead.id, ghlContactId);
+        }
+      } catch (err) {
+        console.error("[GHL] Failed to send lead:", err);
+      }
 
       return lead;
     }),
