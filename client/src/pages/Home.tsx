@@ -109,7 +109,7 @@ export default function Home() {
             >
               <Link href="/assessment">
                 <Button size="lg" className="bg-amber text-navy-dark font-bold hover:bg-amber/90 gap-2 glow-amber text-base px-8" style={{ fontFamily: "var(--font-heading)" }}>
-                  Diagnose Your Constraints
+                  AI Readiness Assessment
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
