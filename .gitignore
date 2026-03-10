@@ -112,3 +112,9 @@ temp/
 
 # BMad Method generated artifacts
 _bmad-output/
+
+# ATLAS-VM integration
+memory/logs/
+.tmp/
+hooks/__pycache__/
+tools/__pycache__/

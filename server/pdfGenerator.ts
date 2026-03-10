@@ -334,9 +334,15 @@ export async function generateAndUploadProposal(
     .replace(/-+/g, "-")
     .substring(0, 30);
   const fileKey = `proposals/${sanitizedCompany}-${timestamp}.html`;
+  const downloadFilename = `FinanceFlo-Proposal-${lead.company || "Prospect"}.html`;
 
   try {
-    const { url } = await storagePut(fileKey, html, "text/html");
+    const { url } = await storagePut(
+      fileKey,
+      html,
+      "text/html",
+      `attachment; filename="${downloadFilename}"`
+    );
     console.log(`[PDFGenerator] Proposal uploaded: ${url}`);
     return url;
   } catch (error) {

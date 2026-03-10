@@ -11,29 +11,81 @@ import {
 } from "../drizzle/schema";
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _dbInitPromise: Promise<ReturnType<typeof drizzle> | null> | null = null;
+
+async function bootstrapKnowledgeSearch(pool: pg.Pool): Promise<void> {
+  try {
+    await pool.query('CREATE EXTENSION IF NOT EXISTS vector');
+  } catch (error) {
+    console.warn("[Database] Skipping pgvector bootstrap:", error);
+    return;
+  }
+
+  try {
+    const result = await pool.query<{ exists: boolean }>(`
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.tables
+        WHERE table_schema = 'public'
+          AND table_name = 'knowledgeChunks'
+      ) AS "exists"
+    `);
+
+    if (!result.rows[0]?.exists) {
+      console.warn(
+        '[Database] Skipping knowledge chunk index bootstrap: "knowledgeChunks" table not found'
+      );
+      return;
+    }
+
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS "knowledgeChunks_embedding_hnsw_idx"
+      ON "knowledgeChunks" USING hnsw (embedding vector_cosine_ops)
+      WITH (m = 16, ef_construction = 64)
+    `);
+  } catch (error) {
+    console.warn("[Database] Skipping knowledge chunk index bootstrap:", error);
+  }
+}
 
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (_db) {
+    return _db;
+  }
+
+  if (_dbInitPromise) {
+    return _dbInitPromise;
+  }
+
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    return null;
+  }
+
+  _dbInitPromise = (async () => {
+    const pool = new pg.Pool({ connectionString });
+
     try {
-      const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+      await pool.query("SELECT 1");
+      const db = drizzle(pool);
 
-      // Ensure pgvector extension exists (safe for any fresh database)
-      await pool.query('CREATE EXTENSION IF NOT EXISTS vector');
+      _db = db;
+      void bootstrapKnowledgeSearch(pool);
 
-      // HNSW index for fast cosine similarity search on knowledge chunks
-      await pool.query(`
-        CREATE INDEX IF NOT EXISTS "knowledgeChunks_embedding_hnsw_idx"
-        ON "knowledgeChunks" USING hnsw (embedding vector_cosine_ops)
-        WITH (m = 16, ef_construction = 64)
-      `);
-
-      _db = drizzle(pool);
+      return db;
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
+      await pool.end().catch(() => {});
+      return null;
     }
+  })();
+
+  try {
+    return await _dbInitPromise;
+  } finally {
+    _dbInitPromise = null;
   }
-  return _db;
 }
 
 // ─── USER HELPERS ───────────────────────────────────────────────────────────

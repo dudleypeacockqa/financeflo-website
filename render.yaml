@@ -26,7 +26,7 @@ services:
       - key: GHL_API_KEY
         sync: false
       - key: GHL_LOCATION_ID
-        value: f2hL1WCfLruukYmOIvhu
+        value: cNlIeDa74LdzPEIPGQUg
       - key: META_PIXEL_ACCESS_TOKEN
         sync: false
       - key: META_PIXEL_ID

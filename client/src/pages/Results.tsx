@@ -446,7 +446,7 @@ export default function Results() {
           {/* Secondary CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
             {proposalUrl ? (
-              <a href={proposalUrl} target="_blank" rel="noopener noreferrer">
+              <a href={proposalUrl}>
                 <Button className="bg-teal text-navy-dark font-bold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
                   <Download className="w-4 h-4" />
                   Download Your Proposal
@@ -477,7 +477,7 @@ export default function Results() {
               variant="outline"
               className="border-teal/40 text-teal hover:bg-teal/10 gap-2"
             >
-              <a href={aiFinanceReportUrl}>
+              <a href={aiFinanceReportUrl} target="_blank" rel="noopener noreferrer">
                 <Download className="w-4 h-4" />
                 Download AI in Finance Report
               </a>

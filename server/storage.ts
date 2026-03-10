@@ -24,7 +24,8 @@ function normalizeKey(relKey: string): string {
 export async function storagePut(
   relKey: string,
   data: Buffer | Uint8Array | string,
-  contentType = "application/octet-stream"
+  contentType = "application/octet-stream",
+  contentDisposition?: string
 ): Promise<{ key: string; url: string }> {
   const s3 = getS3Client();
   const key = normalizeKey(relKey);
@@ -37,15 +38,18 @@ export async function storagePut(
       Key: key,
       Body: body,
       ContentType: contentType,
+      ContentDisposition: contentDisposition,
     })
   );
 
-  // Generate a presigned URL for reading
+  // Generate a presigned URL for reading, with content-disposition override
+  // so the browser triggers a download instead of rendering inline
   const url = await getSignedUrl(
     s3,
     new GetObjectCommand({
       Bucket: ENV.awsS3Bucket,
       Key: key,
+      ResponseContentDisposition: contentDisposition,
     }),
     { expiresIn: 604800 } // 7 days
   );

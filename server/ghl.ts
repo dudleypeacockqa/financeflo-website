@@ -10,14 +10,14 @@ import { logWebhookEvent } from "./db";
  *
  * Environment Variables:
  *   GHL_API_KEY         — FinanceFlo Private Integration Token (PIT)
- *   GHL_LOCATION_ID     — FinanceFlo GHL Location ID (f2hL1WCfLruukYmOIvhu)
+ *   GHL_LOCATION_ID     — FinanceFlo GHL Location ID (cNlIeDa74LdzPEIPGQUg)
  *   GHL_WEBHOOK_URL     — Fallback webhook URL (optional if API key is set)
  *   META_PIXEL_ACCESS_TOKEN — Meta Conversions API access token (server-side events)
  *   META_PIXEL_ID       — Meta Pixel ID (1740344890642234)
  */
 
 const GHL_API_KEY = process.env.GHL_API_KEY || "";
-const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID || "f2hL1WCfLruukYmOIvhu";
+const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID || "cNlIeDa74LdzPEIPGQUg";
 const GHL_BASE_URL = "https://services.leadconnectorhq.com";
 const GHL_API_VERSION = "2021-07-28";
 const GHL_WEBHOOK_URL = process.env.GHL_WEBHOOK_URL || "";
