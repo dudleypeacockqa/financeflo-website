@@ -168,7 +168,7 @@ export default function Solutions() {
             <div className="lg:col-span-3">
               <span className="text-xs font-mono text-amber uppercase tracking-widest">Core Platform</span>
               <h2 className="text-3xl font-bold mt-3 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-                Sage Intacct:{" "}
+                AI Powered ERP:{" "}
                 <span className="text-gradient-amber">The Foundation</span>
               </h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">

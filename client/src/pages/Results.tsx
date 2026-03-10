@@ -6,11 +6,11 @@
  */
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import {
-  ArrowRight, Download, CheckCircle2, AlertTriangle, Zap,
+  Download, CheckCircle2, AlertTriangle, Zap,
   DollarSign, TrendingUp, Clock, Shield, Users, Target,
-  Calendar, Phone, FileText, Loader2
+  Calendar, FileText, Loader2
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -20,8 +20,8 @@ import {
   REGION_CONFIGS,
   formatCurrency,
   formatRange,
-  PRICING_DISCLAIMER,
 } from "@shared/pricing";
+import { buildAiFinanceReportUrl } from "@shared/aiFinanceReport";
 
 interface ProspectScore {
   pain: number;
@@ -182,13 +182,19 @@ export default function Results() {
   if (!data) return null;
 
   const region: Region = data.region || "UK";
-  const regionConfig = REGION_CONFIGS[region];
   const readiness = getReadinessLevel(data.score);
   const constraint = getConstraintLabel(data.primaryConstraint);
   const roiLevers = getROILevers(data.answers, data.annualCostOfInaction, region);
   const engagement = getEngagementTier(data.score, data.prospectScore, region);
   const ReadinessIcon = readiness.icon;
   const ConstraintIcon = constraint.icon;
+  const aiFinanceReportUrl = buildAiFinanceReportUrl({
+    company: data.contact.company || undefined,
+    download: true,
+    email: data.contact.email || undefined,
+    name: data.contact.name || undefined,
+    role: data.contact.role || undefined,
+  });
 
   const totalROI = roiLevers.reduce((sum, l) => {
     const numStr = l.value.replace(/[^0-9]/g, "");
@@ -468,17 +474,21 @@ export default function Results() {
                 )}
               </Button>
             ) : null}
-            <Link href="/lead-magnet">
-              <Button variant="outline" className="border-teal/40 text-teal hover:bg-teal/10 gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="border-teal/40 text-teal hover:bg-teal/10 gap-2"
+            >
+              <a href={aiFinanceReportUrl}>
                 <Download className="w-4 h-4" />
                 Download AI in Finance Report
-              </Button>
-            </Link>
+              </a>
+            </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-6">
             {data.leadId
-              ? `Assessment saved (ID: ${data.assessmentId}). Your personalised report will be emailed to ${data.contact.email}.`
-              : `A copy of this assessment has been saved. Your personalised report will be emailed to ${data.contact.email}.`
+              ? `Assessment saved (ID: ${data.assessmentId}). Your AI in Finance report is ready to download, and we'll use ${data.contact.email} for follow-up.`
+              : `A copy of this assessment has been saved. Your AI in Finance report is ready to download for ${data.contact.email}.`
             }
           </p>
         </motion.div>

@@ -5,6 +5,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerAuthRoutes } from "./auth";
 import { appRouter } from "./routers";
 import { createContext } from "./context";
+import { registerReportRoutes } from "./reportRoutes";
 import { serveStatic, setupVite } from "./vite";
 import { registerWebhookRoutes } from "./webhooks";
 
@@ -20,6 +21,9 @@ async function startServer() {
 
   // Webhook routes for external service callbacks
   registerWebhookRoutes(app);
+
+  // Public report delivery routes
+  registerReportRoutes(app);
 
   // tRPC API
   app.use(

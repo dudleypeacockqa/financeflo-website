@@ -332,7 +332,7 @@ export default function Home() {
             >
               <span className="text-xs font-mono text-amber uppercase tracking-widest">Core Platform</span>
               <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-6" style={{ fontFamily: "var(--font-heading)" }}>
-                Sage Intacct + AI:{" "}
+                AI Powered ERP:{" "}
                 <span className="text-gradient-amber">The Foundation</span>
               </h2>
               <p className="text-muted-foreground mb-6 leading-relaxed">
