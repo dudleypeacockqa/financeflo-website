@@ -4,8 +4,11 @@
  */
 import { Link } from "wouter";
 import { footerColumns } from "@/data/navigation";
+import { getSiteBrand } from "@/lib/siteBrand";
 
 export default function Footer() {
+  const brand = getSiteBrand();
+
   return (
     <footer className="border-t border-border/30 bg-navy-dark">
       <div className="container py-12">
@@ -17,18 +20,20 @@ export default function Footer() {
                 <span className="text-navy-dark font-bold text-lg" style={{ fontFamily: "var(--font-heading)" }}>F</span>
               </div>
               <span className="text-lg font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-                Finance<span className="text-teal">Flo</span>.ai
+                {brand.logo.leading}
+                <span className="text-teal">{brand.logo.accent}</span>
+                {brand.logo.suffix}
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              AI-powered financial transformation for mid-market companies. ERP implementation, iPaaS integration, and custom AI solutions.
+              {brand.footerDescription}
             </p>
             <div className="mt-4 flex flex-col gap-1">
-              <a href="mailto:dudley@financeflo.ai" className="text-sm text-teal hover:text-teal/80 transition-colors no-underline">
-                dudley@financeflo.ai
+              <a href={`mailto:${brand.contactEmail}`} className="text-sm text-teal hover:text-teal/80 transition-colors no-underline">
+                {brand.contactEmail}
               </a>
-              <a href="https://financeflo.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-teal hover:text-teal/80 transition-colors no-underline">
-                financeflo.ai
+              <a href={brand.siteUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-teal hover:text-teal/80 transition-colors no-underline">
+                {brand.siteUrl.replace(/^https?:\/\//, "")}
               </a>
             </div>
           </div>
@@ -60,10 +65,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-border/20 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} FinanceFlo.ai. All rights reserved.
+            &copy; {new Date().getFullYear()} {brand.displayName}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground font-mono">
-            Powered by Sage Intacct &middot; Built with AI
+            {brand.footerTagline}
           </p>
         </div>
       </div>

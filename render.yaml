@@ -10,6 +10,8 @@ services:
     customDomains:
       - financeflo.ai
       - www.financeflo.ai
+      - flosynq.ai
+      - www.flosynq.ai
     envVars:
       - key: NODE_ENV
         value: production

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import PageHero from "@/components/sections/PageHero";
 import FeatureGrid from "@/components/sections/FeatureGrid";
 import CTASection from "@/components/sections/CTASection";
+import { getSiteBrand, isFloSynqHost } from "@/lib/siteBrand";
 
 const capabilities = [
   { icon: Brain, title: "AI-Powered Routing", description: "Intelligent data routing that learns from patterns and automatically optimises integration flows based on volume and priority." },
@@ -17,8 +18,12 @@ const capabilities = [
 ];
 
 export default function FloSynq() {
+  const brand = getSiteBrand();
+
   useEffect(() => {
-    document.title = "FloSynq iPaaS | FinanceFlo.ai";
+    document.title = isFloSynqHost()
+      ? "FloSynq.ai | AI-Powered Integration Platform"
+      : "FloSynq iPaaS | FinanceFlo.ai";
   }, []);
 
   return (
@@ -106,7 +111,7 @@ export default function FloSynq() {
         titleAccent="Your Systems?"
         description="Take our Constraint Diagnosis and we'll map your integration landscape, identify the highest-ROI connections, and show you what FloSynq can automate."
         actions={[
-          { label: "Diagnose Your Constraints", href: "/assessment" },
+          { label: brand.primaryCtaLabel, href: brand.primaryCtaHref },
           { label: "Integration Strategy", href: "/ipaas/strategy", variant: "secondary" },
         ]}
       />

@@ -27,10 +27,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { navItems } from "@/data/navigation";
+import { getSiteBrand } from "@/lib/siteBrand";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const brand = getSiteBrand();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-border/50">
@@ -41,7 +43,9 @@ export default function Navbar() {
             <span className="text-navy-dark font-bold text-lg" style={{ fontFamily: "var(--font-heading)" }}>F</span>
           </div>
           <span className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-            Finance<span className="text-teal">Flo</span>.ai
+            {brand.logo.leading}
+            <span className="text-teal">{brand.logo.accent}</span>
+            {brand.logo.suffix}
           </span>
         </Link>
 
@@ -105,9 +109,9 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <Link href="/assessment">
+          <Link href={brand.primaryCtaHref}>
             <Button className="bg-teal text-navy-dark font-semibold hover:bg-teal/90 gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-              AI Readiness Assessment
+              {brand.primaryCtaLabel}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
@@ -128,7 +132,9 @@ export default function Navbar() {
                     <span className="text-navy-dark font-bold text-sm" style={{ fontFamily: "var(--font-heading)" }}>F</span>
                   </div>
                   <span className="text-base font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-                    Finance<span className="text-teal">Flo</span>.ai
+                    {brand.logo.leading}
+                    <span className="text-teal">{brand.logo.accent}</span>
+                    {brand.logo.suffix}
                   </span>
                 </SheetTitle>
               </SheetHeader>
@@ -182,9 +188,9 @@ export default function Navbar() {
                 </Accordion>
 
                 <div className="mt-6">
-                  <Link href="/assessment" onClick={() => setMobileOpen(false)}>
+                  <Link href={brand.primaryCtaHref} onClick={() => setMobileOpen(false)}>
                     <Button className="w-full bg-teal text-navy-dark font-semibold gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-                      AI Readiness Assessment
+                      {brand.primaryCtaLabel}
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>
