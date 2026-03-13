@@ -377,6 +377,10 @@ export default function Assessment() {
         timestamp: new Date().toISOString(),
         leadId: lead.id,
         assessmentId: assessment.id,
+        assessmentReportUrl:
+          typeof assessment.reportUrl === "string"
+            ? assessment.reportUrl
+            : undefined,
       }));
 
       toast.success("Assessment saved! Generating your results...");
@@ -502,18 +506,20 @@ export default function Assessment() {
                       className={`w-full text-left p-4 rounded-lg border transition-all ${
                         isSelected
                           ? "border-teal bg-teal/10 text-foreground"
-                          : "border-border/50 bg-navy-light/30 text-muted-foreground hover:border-teal/30 hover:bg-navy-light/50"
+                          : "border-border/50 bg-navy-light/30 text-foreground hover:border-teal/40 hover:bg-navy-light/50"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                          isSelected ? "border-teal" : "border-muted-foreground/40"
+                          isSelected ? "border-teal" : "border-foreground/55"
                         }`}>
                           {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-teal" />}
                         </div>
-                        <span className="text-sm">{opt.label}</span>
+                        <span className="text-base leading-relaxed text-foreground">
+                          {opt.label}
+                        </span>
                         {opt.constraintType && (
-                          <span className="ml-auto text-xs font-mono px-2 py-0.5 rounded bg-navy-light border border-border/30 text-muted-foreground">
+                          <span className="ml-auto text-xs font-mono px-2 py-0.5 rounded bg-navy-light border border-border/30 text-foreground/80">
                             {opt.constraintType}
                           </span>
                         )}

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./context";
+import { ASSESSMENT_REPORT_ROUTE } from "@shared/assessmentReport";
 
 /**
  * Tests for FinanceFlo.ai tRPC API routes.
@@ -96,6 +97,14 @@ vi.mock("./db", () => {
       updatedAt: new Date(),
     })),
     getProposalsByLeadId: vi.fn(async () => []),
+    createGeneratedDocument: vi.fn(async (input: Record<string, unknown>) => ({
+      id: 601,
+      ...input,
+      fileSize: Buffer.isBuffer(input.fileData) ? input.fileData.length : 0,
+      sha256: "abc123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })),
     updateProposalStatus: vi.fn(async () => {}),
     updateProposalPdfUrl: vi.fn(async () => {}),
     createWorkshopRegistration: vi.fn(async (input: Record<string, unknown>) => ({
@@ -155,7 +164,11 @@ vi.mock("./proposalGenerator", () => ({
 
 // Mock the PDF generator
 vi.mock("./pdfGenerator", () => ({
-  generateAndUploadProposal: vi.fn(async () => "https://s3.example.com/proposals/test.pdf"),
+  generateAndUploadProposal: vi.fn(async () => ({
+    filename: "FinanceFlo-Proposal-Test Corp.pdf",
+    pdfBuffer: Buffer.from("%PDF-1.7\nproposal"),
+    pdfUrl: "https://s3.example.com/proposals/test.pdf",
+  })),
 }));
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
@@ -410,6 +423,7 @@ describe("assessment.submit", () => {
     expect(result.id).toBeTypeOf("number");
     expect(result.overallScore).toBe(65);
     expect(result.primaryConstraint).toBe("capacity");
+    expect(result.reportUrl).toContain(ASSESSMENT_REPORT_ROUTE);
   });
 
   it("fires GHL webhook on assessment submission", async () => {
@@ -432,6 +446,15 @@ describe("assessment.submit", () => {
     expect(sendToGHL).toHaveBeenCalledWith(
       "assessment_completed",
       expect.objectContaining({
+        assessmentReportUrl: expect.stringContaining(ASSESSMENT_REPORT_ROUTE),
+        answers: { test: "value" },
+        answerSummary: [
+          expect.objectContaining({
+            answer: "Value",
+            question: "Test",
+          }),
+        ],
+        answersText: "Test: Value",
         leadId: 101,
         overallScore: 72,
         primaryConstraint: "capacity",
@@ -555,6 +578,27 @@ describe("proposal.generatePdf", () => {
     expect(updateProposalPdfUrl).toHaveBeenCalledWith(
       301,
       "https://s3.example.com/proposals/test.pdf"
+    );
+  });
+
+  it("stores a database copy of the generated PDF against the lead", async () => {
+    const { createGeneratedDocument } = await import("./db");
+
+    const ctx = createPublicContext();
+    const caller = appRouter.createCaller(ctx);
+
+    await caller.proposal.generatePdf({ proposalId: 301 });
+
+    expect(createGeneratedDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        leadId: 101,
+        assessmentId: 201,
+        proposalId: 301,
+        type: "proposal_pdf",
+        filename: "FinanceFlo-Proposal-Test Corp.pdf",
+        mimeType: "application/pdf",
+        sourceUrl: "https://s3.example.com/proposals/test.pdf",
+      })
     );
   });
 });

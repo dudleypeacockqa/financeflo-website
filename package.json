@@ -14,7 +14,9 @@
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "db:seed-prompts": "tsx server/prompts/seed.ts",
-    "db:seed-knowledge": "tsx server/knowledge/seed.ts"
+    "db:seed-knowledge": "tsx server/knowledge/seed.ts",
+    "install:browser": "puppeteer browsers install chrome",
+    "postinstall": "puppeteer browsers install chrome"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -74,6 +76,7 @@
     "next-themes": "^0.4.6",
     "pdf-parse": "^2.4.5",
     "pg": "^8.13.0",
+    "puppeteer": "^24.39.0",
     "react": "^19.2.1",
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.2.1",

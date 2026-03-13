@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
@@ -6,6 +7,7 @@ import {
   InsertLead, leads,
   InsertAssessment, assessments,
   InsertProposal, proposals,
+  InsertGeneratedDocument, generatedDocuments,
   InsertWorkshopRegistration, workshopRegistrations,
   InsertWebhookEvent, webhookEvents,
 } from "../drizzle/schema";
@@ -238,6 +240,39 @@ export async function updateProposalPdfUrl(proposalId: number, pdfUrl: string) {
   const db = await getDb();
   if (!db) return;
   await db.update(proposals).set({ pdfUrl, updatedAt: new Date() }).where(eq(proposals.id, proposalId));
+}
+
+// ─── GENERATED DOCUMENT HELPERS ────────────────────────────────────────────
+
+export async function createGeneratedDocument(
+  document: Omit<InsertGeneratedDocument, "fileSize" | "sha256"> & {
+    fileData: Buffer;
+  }
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const rows = await db
+    .insert(generatedDocuments)
+    .values({
+      ...document,
+      fileSize: document.fileData.length,
+      sha256: createHash("sha256").update(document.fileData).digest("hex"),
+    })
+    .returning();
+
+  return rows[0];
+}
+
+export async function getGeneratedDocumentsByLeadId(leadId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(generatedDocuments)
+    .where(eq(generatedDocuments.leadId, leadId))
+    .orderBy(desc(generatedDocuments.createdAt));
 }
 
 // ─── WORKSHOP HELPERS ───────────────────────────────────────────────────────

@@ -42,6 +42,7 @@ interface AssessmentData {
   timestamp: string;
   leadId?: number;
   assessmentId?: number;
+  assessmentReportUrl?: string;
   region?: Region;
 }
 
@@ -192,9 +193,14 @@ export default function Results() {
     company: data.contact.company || undefined,
     download: true,
     email: data.contact.email || undefined,
+    leadId: data.leadId,
     name: data.contact.name || undefined,
     role: data.contact.role || undefined,
   });
+  const downloadableReportUrl = data.assessmentReportUrl || aiFinanceReportUrl;
+  const downloadableReportLabel = data.assessmentReportUrl
+    ? "Download Your Assessment Report"
+    : "Download AI in Finance Report";
 
   const totalROI = roiLevers.reduce((sum, l) => {
     const numStr = l.value.replace(/[^0-9]/g, "");
@@ -477,16 +483,20 @@ export default function Results() {
               variant="outline"
               className="border-teal/40 text-teal hover:bg-teal/10 gap-2"
             >
-              <a href={aiFinanceReportUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={downloadableReportUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Download className="w-4 h-4" />
-                Download AI in Finance Report
+                {downloadableReportLabel}
               </a>
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-6">
             {data.leadId
-              ? `Assessment saved (ID: ${data.assessmentId}). Your AI in Finance report is ready to download, and we'll use ${data.contact.email} for follow-up.`
-              : `A copy of this assessment has been saved. Your AI in Finance report is ready to download for ${data.contact.email}.`
+              ? `Assessment saved (ID: ${data.assessmentId}). Your assessment report is ready to download, and we'll use ${data.contact.email} for follow-up.`
+              : `A copy of this assessment has been saved. Your report is ready to download for ${data.contact.email}.`
             }
           </p>
         </motion.div>

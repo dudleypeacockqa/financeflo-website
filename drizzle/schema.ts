@@ -17,11 +17,28 @@ const vector = customType<{ data: number[]; dpiData: string }>({
   },
 });
 
+const bytea = customType<{ data: Buffer; driverData: Buffer | Uint8Array }>({
+  dataType() {
+    return "bytea";
+  },
+  toDriver(value: Buffer): Buffer {
+    return value;
+  },
+  fromDriver(value: Buffer | Uint8Array): Buffer {
+    return Buffer.isBuffer(value) ? value : Buffer.from(value);
+  },
+});
+
 // ─── ENUMS ────────────────────────────────────────────────────────────────
 export const userRoleEnum = pgEnum("user_role", ["user", "admin"]);
 export const leadSourceEnum = pgEnum("lead_source", ["quiz", "lead_magnet", "workshop", "contact", "referral", "linkedin"]);
 export const assessmentTierEnum = pgEnum("assessment_tier", ["audit", "quick_wins", "implementation", "retainer"]);
 export const proposalStatusEnum = pgEnum("proposal_status", ["draft", "sent", "viewed", "accepted", "declined"]);
+export const generatedDocumentTypeEnum = pgEnum("generated_document_type", [
+  "ai_finance_report",
+  "assessment_report",
+  "proposal_pdf",
+]);
 export const workshopStatusEnum = pgEnum("workshop_status", ["registered", "confirmed", "attended", "no_show", "cancelled"]);
 export const documentTypeEnum = pgEnum("document_type", ["transcript", "meeting_notes", "framework", "course_material", "prompt", "other"]);
 export const documentStatusEnum = pgEnum("document_status", ["pending", "processing", "ready", "error"]);
@@ -142,6 +159,34 @@ export const proposals = pgTable("proposals", {
 
 export type Proposal = typeof proposals.$inferSelect;
 export type InsertProposal = typeof proposals.$inferInsert;
+
+/**
+ * Generated PDF documents stored in Postgres for lead-linked retrieval and audit.
+ */
+export const generatedDocuments = pgTable("generatedDocuments", {
+  id: serial("id").primaryKey(),
+  leadId: integer("leadId").notNull(),
+  assessmentId: integer("assessmentId"),
+  proposalId: integer("proposalId"),
+  type: generatedDocumentTypeEnum("type").notNull(),
+  filename: varchar("filename", { length: 512 }).notNull(),
+  mimeType: varchar("mimeType", { length: 128 }).notNull(),
+  fileData: bytea("fileData").notNull(),
+  fileSize: integer("fileSize").notNull(),
+  sha256: varchar("sha256", { length: 64 }).notNull(),
+  recipientSnapshot: jsonb("recipientSnapshot").$type<Record<string, unknown>>(),
+  sourceUrl: varchar("sourceUrl", { length: 1024 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => [
+  index("generatedDocuments_leadId_idx").on(table.leadId),
+  index("generatedDocuments_assessmentId_idx").on(table.assessmentId),
+  index("generatedDocuments_proposalId_idx").on(table.proposalId),
+  index("generatedDocuments_type_createdAt_idx").on(table.type, table.createdAt),
+]);
+
+export type GeneratedDocument = typeof generatedDocuments.$inferSelect;
+export type InsertGeneratedDocument = typeof generatedDocuments.$inferInsert;
 
 /**
  * Workshop registrations — for AI in Action for Finance workshop series.

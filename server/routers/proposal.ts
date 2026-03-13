@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   createProposal, getProposalById, getProposalsByLeadId,
   updateProposalStatus, updateProposalPdfUrl,
+  createGeneratedDocument,
   getLeadById, getAssessmentById, markAssessmentProposalGenerated,
 } from "../db";
 import { sendToGHL } from "../ghl";
@@ -79,15 +80,34 @@ export const proposalRouter = router({
         estimatedValue: number;
       };
 
-      const pdfUrl = await generateAndUploadProposal(
+      const generatedPdf = await generateAndUploadProposal(
         lead,
         assessment || { constraintScores: {}, costOfInaction: 0, primaryConstraint: "unknown", overallScore: 0, recommendedTier: "audit" } as any,
         proposalContent
       );
 
-      await updateProposalPdfUrl(input.proposalId, pdfUrl);
+      await createGeneratedDocument({
+        leadId: lead.id,
+        assessmentId: proposal.assessmentId ?? null,
+        proposalId: proposal.id,
+        type: "proposal_pdf",
+        filename: generatedPdf.filename,
+        mimeType: "application/pdf",
+        fileData: generatedPdf.pdfBuffer,
+        recipientSnapshot: {
+          company: lead.company,
+          email: lead.email,
+          firstName: lead.firstName,
+          jobTitle: lead.jobTitle,
+          lastName: lead.lastName,
+          proposalTitle: proposal.title,
+        },
+        sourceUrl: generatedPdf.pdfUrl,
+      });
 
-      return { pdfUrl };
+      await updateProposalPdfUrl(input.proposalId, generatedPdf.pdfUrl);
+
+      return { pdfUrl: generatedPdf.pdfUrl };
     }),
 
   updateStatus: protectedProcedure

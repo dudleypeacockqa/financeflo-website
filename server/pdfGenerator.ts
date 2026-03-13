@@ -1,6 +1,6 @@
 /**
  * PDF Proposal Generator — FinanceFlo.ai
- * Generates branded HTML proposals and uploads them as PDF-ready HTML to S3.
+ * Generates branded HTML proposals, renders them to PDF, and uploads them to S3.
  * Uses the Data Cartography design system: deep navy, teal accents, amber CTAs.
  *
  * Architecture (GOTCHA):
@@ -9,6 +9,7 @@
  * - Uses proposalGenerator.ts output (context layer)
  */
 
+import { renderHtmlToPdf } from "./pdfRenderer";
 import { storagePut } from "./storage";
 import type { Lead, Assessment, Proposal } from "../drizzle/schema";
 import {
@@ -49,6 +50,12 @@ interface ProposalContent {
   currency?: string;
   currencySymbol?: string;
   pricingDisclaimer?: string;
+}
+
+export interface GeneratedProposalPdfUpload {
+  filename: string;
+  pdfBuffer: Buffer;
+  pdfUrl: string;
 }
 
 function formatCurrency(amount: number, region: Region = "UK"): string {
@@ -316,35 +323,45 @@ export function generateProposalHTML(
 }
 
 /**
- * Generate and upload the proposal HTML to S3.
- * Returns the public URL of the uploaded proposal.
+ * Generate and upload the proposal PDF to S3.
  */
 export async function generateAndUploadProposal(
   lead: Lead,
   assessment: Assessment,
   proposalContent: ProposalContent
-): Promise<string> {
+): Promise<GeneratedProposalPdfUpload> {
   const html = generateProposalHTML(lead, assessment, proposalContent);
+  const pdfBuffer = await renderHtmlToPdf(html, {
+    margin: {
+      top: "10mm",
+      right: "8mm",
+      bottom: "14mm",
+      left: "8mm",
+    },
+  });
 
-  // Generate a unique key for the proposal
   const timestamp = Date.now();
   const sanitizedCompany = (lead.company || "prospect")
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "-")
     .replace(/-+/g, "-")
     .substring(0, 30);
-  const fileKey = `proposals/${sanitizedCompany}-${timestamp}.html`;
-  const downloadFilename = `FinanceFlo-Proposal-${lead.company || "Prospect"}.html`;
+  const fileKey = `proposals/${sanitizedCompany}-${timestamp}.pdf`;
+  const downloadFilename = `FinanceFlo-Proposal-${lead.company || "Prospect"}.pdf`;
 
   try {
     const { url } = await storagePut(
       fileKey,
-      html,
-      "text/html",
+      pdfBuffer,
+      "application/pdf",
       `attachment; filename="${downloadFilename}"`
     );
     console.log(`[PDFGenerator] Proposal uploaded: ${url}`);
-    return url;
+    return {
+      filename: downloadFilename,
+      pdfBuffer,
+      pdfUrl: url,
+    };
   } catch (error) {
     console.error("[PDFGenerator] Upload failed:", error);
     throw error;

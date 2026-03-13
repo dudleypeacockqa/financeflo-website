@@ -77,6 +77,7 @@ export default function LeadMagnet() {
         company: contact.company || undefined,
         download: true,
         email: contact.email,
+        leadId: typeof data?.leadId === "number" ? data.leadId : undefined,
         name: contact.name,
         role: contact.role || undefined,
       });
@@ -99,16 +100,8 @@ export default function LeadMagnet() {
     const parts = name.trim().split(/\s+/);
     const firstName = parts[0] || name.trim();
     const lastName = parts.length > 1 ? parts.slice(1).join(" ") : "-";
-    const nextDownloadUrl = buildAiFinanceReportUrl({
-      company: company || undefined,
-      download: true,
-      email,
-      name,
-      role: role || undefined,
-    });
-
     try {
-      await createLead.mutateAsync({
+      const lead = await createLead.mutateAsync({
         firstName,
         lastName,
         email,
@@ -116,6 +109,15 @@ export default function LeadMagnet() {
         jobTitle: role || undefined,
         source: "lead_magnet",
         tags: ["ai-in-finance-report"],
+      });
+
+      const nextDownloadUrl = buildAiFinanceReportUrl({
+        company: company || undefined,
+        download: true,
+        email,
+        leadId: lead.id,
+        name,
+        role: role || undefined,
       });
 
       setDownloadUrl(nextDownloadUrl);

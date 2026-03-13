@@ -1,6 +1,6 @@
 export const AI_FINANCE_REPORT_ROUTE = "/api/reports/ai-in-finance";
 export const AI_FINANCE_REPORT_FILENAME =
-  "financeflo-ai-in-finance-report.html";
+  "financeflo-ai-in-finance-report.pdf";
 
 export const AI_FINANCE_REPORT = {
   title: "Navigating the AI Revolution",
@@ -107,6 +107,7 @@ export interface AiFinanceReportUrlOptions {
   company?: string;
   download?: boolean;
   email?: string;
+  leadId?: number;
   name?: string;
   role?: string;
 }
@@ -126,6 +127,10 @@ export function buildAiFinanceReportUrl(
 
   if (options.email) {
     params.set("email", options.email);
+  }
+
+  if (typeof options.leadId === "number" && Number.isFinite(options.leadId)) {
+    params.set("leadId", String(options.leadId));
   }
 
   if (options.company) {
